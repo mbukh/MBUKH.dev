@@ -1,0 +1,478 @@
+@import "/css/normalize.css";
+@import "/css/reset.local.css";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
+/* @import "/css/media.css"; */
+
+:root {
+    --black: #090909;
+    --gray: #808080;
+    --l-gray: #cccccc;
+    --white: #ffffff;
+
+    --screen-padding-v: 5px;
+    --screen-padding-h: 10px;
+    --global-padding: var(--screen-padding-v) var(--screen-padding-h);
+
+    --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "IBM Plex Mono", sans-serif;
+    font-size: min(max(1rem, 4vw), 22px);
+    color: #fff;
+}
+
+html, body {
+    width: 100vw;
+    min-width: 300px;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background: var(--black);
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+p {
+    --offset: 1rem;
+
+    margin: 30px 0;
+
+    transform: translateY(var(--offset));
+    animation: slide-up 2s ease forwards;
+}
+
+a {
+    color: var(--gray);
+}
+
+/* Utilities */
+
+.container {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: center;
+
+    gap: 10%;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+
+    border: 2px solid var(--white);
+    text-transform: uppercase;
+
+    color: var(--white);
+}
+
+.arrowed {
+    display: inline-block;
+    padding: 1rem 2rem 1rem 1rem;
+
+    position: relative;
+}
+
+.arrowed::after {
+    content: "→";
+
+    position: absolute;
+    transform: translate(80%, -5%);
+}
+
+.gray {
+    color: var(--gray);
+}
+
+.small {
+    font-size: 1em;
+}
+
+.bigger {
+    font-size: 1.2rem;
+}
+
+.page {
+    color: var(--gray);
+}
+
+/* Main style */
+
+#body-container {
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    opacity: 0;
+    animation: fade-in 2s ease forwards;
+    animation-delay: 0.2s;
+}
+
+#body-container>* {
+    width: 100%;
+    height: 100%;
+
+    padding: var(--global-padding);
+}
+
+#header.container {
+    align-items: flex-start;
+}
+
+#header #languages {
+    position: relative;
+}
+
+#header #languages,
+#header #languages a {
+    color: var(--white);
+}
+
+#main {
+    position: relative;
+}
+
+#main #about {
+    width: 100vw;
+
+    position: absolute;
+    z-index: auto;
+}
+
+#about p {
+    font-size: 2rem;
+    line-height: 3rem;
+}
+
+#about .see {
+    flex: 1;
+}
+
+#about .link {
+    flex: 2;
+    margin-inline-start: 15%;
+}
+
+
+
+/* ------------------- */
+/* Hamburger Main Menu */
+/* ------------------- */
+/* https://codepen.io/erikterwan/pen/EVzeRP */
+
+
+#langMenuToggle {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 1;
+
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#menuToggle input {
+    display: block;
+
+    width: 45px;
+    height: 45px;
+
+    position: absolute;
+    top: calc(var(--screen-padding-v) * -2);
+    left: calc(var(--screen-padding-h) * -1);
+
+    cursor: pointer;
+
+    /* hide this */
+    opacity: 0;
+    /* and place it over the hamburger */
+    z-index: 2;
+
+    -webkit-touch-callout: none;
+}
+
+/* Just a quick hamburger */
+#menuToggle span {
+    display: block;
+
+    width: 1.8rem;
+    height: 0.18rem;
+    margin-bottom: 5px;
+
+    top: var(--screen-padding-v);
+    left: var(--screen-padding-h);
+
+
+    position: relative;
+    z-index: 1;
+
+    background: var(--white);
+    border-radius: 3px;
+
+    transform-origin: 4px 0px;
+
+    transition: transform 0.5s var(--jump-ease),
+        opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+    transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+}
+
+/* Transform hamburger x3 into "X" */
+#menuToggle input:checked~span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: var(--l-gray);
+}
+
+/* But let's hide the middle one. */
+#menuToggle input:checked~span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/* The last one go the other direction */
+#menuToggle input:checked~span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+}
+
+/* Make this absolute positioned
+   at the top left of the screen */
+#menu {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% - var(--screen-padding-v) - 1em);
+
+    background: var(--black);
+
+    /* to stop flickering of text in safari */
+    -webkit-font-smoothing: antialiased;
+
+    opacity: 0;
+
+    transition: all 0.5s var(--jump-ease);
+}
+
+/* And let's slide it in from the left */
+#menuToggle input:checked~#menu {
+    opacity: 1;
+    transform: none;
+}
+
+#menu ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+#menu li {
+    padding: 10px 0;
+    font-size: 22px;
+}
+
+#menuToggle a {
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+
+/* ------------- */
+/* Language Menu */
+/* ------------- */
+/* https://codepen.io/erikterwan/pen/EVzeRP */
+
+#langToggle {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 1;
+
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#langToggle input {
+    display: block;
+
+    width: 45px;
+    height: 45px;
+
+    position: absolute;
+    top: calc(var(--screen-padding-v) * -2);
+    left: calc(var(--screen-padding-h) * -1);
+
+    cursor: pointer;
+
+    /* hide this */
+    opacity: 0;
+    /* and place it over the hamburger */
+    z-index: 2;
+
+    -webkit-touch-callout: none;
+}
+
+/* Just a quick hamburger */
+#langToggle span {
+    display: block;
+
+    width: 1.8rem;
+    height: 0.18rem;
+    margin-bottom: 5px;
+
+    top: var(--screen-padding-v);
+    left: var(--screen-padding-h);
+
+
+    position: relative;
+    z-index: 1;
+
+    background: var(--white);
+    border-radius: 3px;
+
+    transform-origin: 4px 0px;
+
+    transition: transform 0.5s var(--jump-ease),
+        opacity 0.55s ease;
+}
+
+#langToggle span:first-child {
+    transform-origin: 0% 0%;
+}
+
+#langToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+}
+
+/* Transform hamburger x3 into "X" */
+#langToggle input:checked~span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: var(--l-gray);
+}
+
+/* But let's hide the middle one. */
+#langToggle input:checked~span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/* The last one go the other direction */
+#langToggle input:checked~span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+}
+
+/* Make this absolute positioned
+   at the top left of the screen */
+#langMenu {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: calc(100% - var(--screen-padding-v) - 1em);
+
+    background: var(--black);
+
+    /* to stop flickering of text in safari */
+    -webkit-font-smoothing: antialiased;
+
+    opacity: 0;
+
+    transition: all 0.5s var(--jump-ease);
+}
+
+/* And let's slide it in from the left */
+#langToggle input:checked~#langMenu {
+    opacity: 1;
+    transform: none;
+}
+
+#langMenu ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+#langMenu li {
+    padding: 10px 0;
+    font-size: 22px;
+}
+
+#langToggle a {
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+/* -------------------- */
+/* Animation keyframes  */
+/* -------------------- */
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(var(--offset));
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
