@@ -1,0 +1,35 @@
+@font-face {
+    font-display: swap;
+    font-family: Gotham SSm;
+    font-style: normal;
+    font-weight: 700;
+    src: url("../Gotham-Font/GothamSSm-Bold_Web.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: Gotham SSm;
+    font-style: normal;
+    font-weight: 500;
+    src: url("../Gotham-Font/GothamSSm-Medium_Web.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: Gotham SSm;
+    font-style: normal;
+    font-weight: 400;
+    src: url("../Gotham-Font/GothamSSm-Book_Web.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: Gotham SSm;
+    font-style: normal;
+    font-weight: 300;
+    src: url("../Gotham-Font/GothamSSm-Light_Web.woff2") format("woff2");
+}
+@font-face {
+    font-display: swap;
+    font-family: Gotham SSm;
+    font-style: normal;
+    font-weight: 200;
+    src: url("../Gotham-Font/GothamSSm-XLight_Web.woff2") format("woff2");
+}
