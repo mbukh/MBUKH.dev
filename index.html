@@ -16,27 +16,6 @@
 
         <header id="header" class="container">
 
-            <!-- Hamburger menu -->
-            <!-- https://codepen.io/erikterwan/pen/EVzeRP -->
-            <nav role="navigation">
-                <div id="menuToggle">
-
-                    <input type="checkbox" />
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <div id="menu">
-                        <ul>
-                            <li><a href="#">HOME</a></li>
-                            <li><a href="#">ABOUT</a></li>
-                            <li><a href="#">INFO</a></li>
-                            <li><a href="#">CONTACT</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="page"><span>HOME</span></div>
 
             <div id="langMenuToggle" class="languages">
                 <input type="checkbox" />
@@ -48,6 +27,29 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="page"><span>HOME</span></div>
+
+            <!-- Hamburger menu -->
+            <!-- https://codepen.io/erikterwan/pen/EVzeRP -->
+            <nav role="navigation">
+                <div id="menuToggle">
+                    <input type="checkbox" />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <div id="menu">
+                        <ul>
+                            <li><a href="#">HOME</a></li>
+                            <li><a href="#">ABOUT ME</a></li>
+                            <li><a href="#">SKILLS</a></li>
+                            <li><a href="#">PROJECTS</a></li>
+                            <li><a href="#">CONTACT</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
 
         </header>
 
@@ -63,11 +65,13 @@
                     <br>
                     I'm a&nbsp;junior frontend developer from Israel.
                 </p>
-                <div class="container">
-                    <a href="#" class="btn">CONTACT ME</a>
+                <div id="about-buttons" class="container">
+                    <a href="#" class="btn" data-text="CONTACT ME">CONTACT ME</a>
                     <a href="#" class="see arrowed">SEE MY WORKS</a>
                 </div>
             </section>
+
+            <!-- <div id="tag-image"></div> -->
 
             <!-- <section id="grid-projects" class="container">
                 <div class="project">
@@ -91,12 +95,10 @@
         </main>
 
 
-        <footer id="footer">
-            <div class="container">
-                <a href="#">GITHUB</a>
-                <a href="#">LINKEDIN</a>
-                <a href="#">FB</a>
-            </div>
+        <footer id="footer" class="container">
+            <a href="#">GITHUB</a>
+            <a href="#">LINKEDIN</a>
+            <a href="#">FB</a>
         </footer>
 
     </div>

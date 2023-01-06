@@ -1,7 +1,6 @@
 @import "/css/normalize.css";
 @import "/css/reset.local.css";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
-/* @import "/css/media.css"; */
 
 :root {
     --black: #090909;
@@ -13,7 +12,7 @@
     --screen-padding-h: 10px;
     --global-padding: var(--screen-padding-v) var(--screen-padding-h);
 
-    --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1.0);
+    --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 * {
@@ -24,18 +23,24 @@
 
 html {
     font-family: "IBM Plex Mono", sans-serif;
-    font-size: min(max(1rem, 4vw), 22px);
+
+    /* Fluid typography */
+    /* https://css-tricks.com/simplified-fluid-typography/ */
+    --minFontSize: 8px;
+    --maxFontSize: 18px;
+    --scaler: 4.5vw;
+    font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
+
     color: #fff;
 }
 
-html, body {
+body {
     width: 100vw;
-    min-width: 300px;
     height: 100vh;
 
-    overflow: hidden;
-
     background: var(--black);
+
+    /* overflow-x: hidden; */
 }
 
 img {
@@ -44,9 +49,9 @@ img {
 }
 
 p {
-    --offset: 1rem;
-
     margin: 30px 0;
+
+    --offset: 1rem;
 
     transform: translateY(var(--offset));
     animation: slide-up 2s ease forwards;
@@ -59,39 +64,86 @@ a {
 /* Utilities */
 
 .container {
-    height: 100%;
+    display: block;
+
     width: 100%;
+    height: 100%;
 
     display: flex;
     justify-content: space-between;
     align-content: flex-start;
     align-items: center;
-
-    gap: 10%;
 }
 
 .btn {
-    display: inline-block;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     padding: 0.8rem 1.5rem;
 
     border: 2px solid var(--white);
+
+    background: var(--black);
+
     text-transform: uppercase;
+    color: var(--white);
+
+    overflow: hidden;
+}
+
+.btn:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.btn::before {
+    content: attr(data-text);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    background-color: var(--black);
 
     color: var(--white);
+
+    transform-origin: 35% 40%;
+    transform: none;
+
+    transition: transform 0.5s var(--jump-ease);
+}
+
+.btn:hover::before {
+    background-color: var(--white);
+
+    color: var(--black);
+
+    transform: rotate(9deg);
+    transition-delay: 0.2s;
 }
 
 .arrowed {
     display: inline-block;
-    padding: 1rem 2rem 1rem 1rem;
+    padding: 1rem 1.5rem 1rem 1rem;
 
     position: relative;
 }
 
 .arrowed::after {
     content: "→";
-
-    position: absolute;
-    transform: translate(80%, -5%);
+    position: relative;
+    left: 0.5rem;
 }
 
 .gray {
@@ -116,19 +168,26 @@ a {
     height: 100%;
     width: 100%;
 
+    margin-top: 1rem;
+
+    /* overflow-x: hidden; */
+
     display: grid;
     grid-template-rows: auto 1fr auto;
 
+    outline: 3px solid #dd0000aa;
+
     opacity: 0;
+
     animation: fade-in 2s ease forwards;
     animation-delay: 0.2s;
 }
 
-#body-container>* {
+#body-container > * {
     width: 100%;
     height: 100%;
 
-    padding: var(--global-padding);
+    outline: 1px solid #00dd00aa;
 }
 
 #header.container {
@@ -139,6 +198,11 @@ a {
 #header .languages a {
     color: var(--white);
 }
+#header .languages a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
 #main {
     position: relative;
@@ -146,9 +210,9 @@ a {
 
 #main #about {
     width: 100vw;
-
+    /* 
     position: absolute;
-    z-index: auto;
+    z-index: auto; */
 }
 
 #about p {
@@ -156,17 +220,27 @@ a {
     line-height: 3rem;
 }
 
-#about .see {
-    flex: 1;
-}
-
 #about .link {
-    flex: 2;
     margin-inline-start: 15%;
 }
 
+#about-buttons {
+    justify-content: flex-start;
+    gap: 10%;
+}
 
+#main #tag-image {
+    background: url("/img/tag-big.png") no-repeat center center / 40rem;
+    position: absolute;
+    z-index: -1;
 
+    /* background-size: contain; */
+
+    width: 100vw;
+    height: 100vh;
+
+    opacity: 0.1;
+}
 
 /* -------------------- */
 /* Animation keyframes  */
@@ -192,25 +266,17 @@ a {
     }
 }
 
-
-
-
-
-
-
-
 /* ------------------- */
 /* Hamburger Main Menu */
 /* ------------------- */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
-
 #menuToggle {
     display: block;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
 
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
 
@@ -233,7 +299,7 @@ a {
     cursor: pointer;
 
     /* hide this */
-    opacity: 0;
+    opacity: 0.5;
     /* and place it over the hamburger */
     z-index: 202;
 
@@ -244,24 +310,21 @@ a {
 #menuToggle span {
     display: block;
 
-    width: 33px;
+    width: 75%;
     height: 4px;
     margin-bottom: 5px;
 
-    top: calc(var(--screen-padding-v) * 2);
-    left: var(--screen-padding-h);
+    background: var(--white);
+    border-radius: 3px;
 
     position: relative;
     z-index: 201;
-
-    background: var(--white);
-
-    border-radius: 3px;
+    top: calc(var(--screen-padding-v) * 2);
+    left: var(--screen-padding-h);
 
     transform-origin: 4px 0;
 
-    transition: transform 0.5s var(--jump-ease),
-        opacity 0.55s ease;
+    transition: transform 0.5s var(--jump-ease), opacity 0.55s ease;
 }
 
 #menuToggle span:first-child {
@@ -273,20 +336,20 @@ a {
 }
 
 /* Transform hamburger x3 into "X" */
-#menuToggle input:checked~span {
+#menuToggle input:checked ~ span {
     opacity: 1;
     transform: rotate(45deg) translate(-2px, -1px);
     background: var(--l-gray);
 }
 
 /* But let's hide the middle one. */
-#menuToggle input:checked~span:nth-last-child(3) {
+#menuToggle input:checked ~ span:nth-last-child(3) {
     opacity: 0;
     transform: rotate(0deg) scale(0.2, 0.2);
 }
 
 /* The last one go the other direction */
-#menuToggle input:checked~span:nth-last-child(2) {
+#menuToggle input:checked ~ span:nth-last-child(2) {
     transform: rotate(-45deg) translate(0, -1px);
 }
 
@@ -295,11 +358,11 @@ a {
 #menu {
     position: absolute;
 
-    left: 0;
-    top: 0;
+    right: 0;
+    top: 100%;
 
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 100%);
 
     background: var(--black);
 
@@ -315,7 +378,7 @@ a {
 }
 
 /* And let's slide it in from the left */
-#menuToggle input:checked~#menu {
+#menuToggle input:checked ~ #menu {
     opacity: 1;
 
     transform: none;
@@ -334,9 +397,40 @@ a {
     height: 100%;
 }
 
-#menu li {
+/* create index variable for every language
+to run them on one formula */
+#menu ul > *:nth-child(1) {
+    --delay-index: 1;
+}
+#menu ul > *:nth-child(2) {
+    --delay-index: 2;
+}
+#menu ul > *:nth-child(3) {
+    --delay-index: 3;
+}
+#menu ul > *:nth-child(4) {
+    --delay-index: 4;
+}
+#menu ul > *:nth-child(5) {
+    --delay-index: 5;
+}
+
+#menu ul li {
+    display: block;
+
     padding: 10px 0;
-    font-size: 22px;
+    font-size: 1.5rem;
+
+    opacity: 0;
+
+    transition-duration: 0s;
+    transition-delay: 0s;
+    transition: opacity 0.2s linear;
+}
+
+#menuToggle input:checked ~ #menu ul li {
+    opacity: 1;
+    transition-delay: calc(0.1s + 0.1s * var(--delay-index));
 }
 
 #menuToggle a {
@@ -345,23 +439,15 @@ a {
     color: var(--white);
 }
 
-
-
-
-
-
-
-
-
-
 /* ------------- */
 /* Language Menu */
 /* ------------- */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
-
 #langMenuToggle {
     display: block;
+    width: 45px;
+    height: 45px;
 
     position: relative;
     top: 0;
@@ -386,7 +472,7 @@ a {
     cursor: pointer;
 
     /* hide this */
-    opacity: 0;
+    opacity: 0.5;
     /* and place it over the hamburger */
     z-index: 102;
 
@@ -397,8 +483,9 @@ a {
 #langMenuToggle span {
     display: block;
 
+    width: 100%;
+    height: 100%;
     position: relative;
-
     top: 0;
     right: 0;
 
@@ -412,8 +499,6 @@ a {
     left: 0;
     right: 0;
 
-    background: var(--black);
-
     /* to stop flickering of text in safari */
     -webkit-font-smoothing: antialiased;
 
@@ -423,7 +508,7 @@ a {
 }
 
 /* And let's slide it in from the left */
-#langMenuToggle input:checked~#langMenu {
+#langMenuToggle input:checked ~ #langMenu {
     opacity: 1;
 }
 
@@ -435,4 +520,99 @@ a {
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+/* create index variable for every language
+to run them on one formula */
+#langMenu ul > *:nth-child(1) {
+    --delay-index: 0;
+}
+#langMenu ul > *:nth-child(2) {
+    --delay-index: 1;
+}
+#langMenu ul > *:nth-child(3) {
+    --delay-index: 2;
+}
+#langMenu ul > *:nth-child(4) {
+    --delay-index: 3;
+}
+
+#langMenu ul li {
+    display: block;
+
+    margin-top: calc(var(--screen-padding-h) * 5);
+
+    transform: translateX(-200%);
+
+    transition-delay: calc(var(--delay-index) * 1.5s);
+    transition: transform 0.5s var(--jump-ease);
+}
+
+#langMenuToggle input:checked ~ #langMenu ul li {
+    transition-delay: calc(0.1s * var(--delay-index));
+    transform: none;
+}
+
+#langMenu ul li a {
+    padding: 0.5rem;
+}
+
+/* ------------- */
+/* MEDIA QUERIES */
+/* ------------- */
+
+/* Landscape phone & small tablets */
+@media (min-width: 10000576px) {
+    :root {
+        --screen-padding-v: 10px;
+        --screen-padding-h: 20px;
+    }
+
+    html {
+        font-size: min(max(1em, max(2vw, 2vh)), 17px);
+    }
+
+    #main {
+        padding: 1em 3em;
+        justify-content: space-around;
+    }
+
+    #main #about {
+        position: relative;
+        /* max-width: 35%; */
+        flex: 1;
+    }
+
+    #main #about p {
+        font-size: 1.7em;
+        line-height: 1.3em;
+    }
+    #main #tag-image {
+        position: relative;
+        width: 10%;
+        height: 10%;
+
+        background-size: contain;
+        opacity: 1;
+
+        flex: ;
+        /* right: 0; */
+    }
+}
+
+/* Landscape phone & small tablets */
+@media (min-width: 10001025px) {
+    html {
+        font-size: min(max(1rem, max(3vw, 3vh)), 17px);
+    }
+    #main {
+        padding: 1em 5em;
+    }
+    #main #about {
+        width: 70%;
+    }
+    #main #about p {
+        /* font-size: 0.8em;
+        line-height: 0.9em; */
+    }
 }
