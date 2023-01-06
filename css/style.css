@@ -299,7 +299,7 @@ a {
     cursor: pointer;
 
     /* hide this */
-    opacity: 0.5;
+    opacity: 0.2;
     /* and place it over the hamburger */
     z-index: 202;
 
@@ -595,7 +595,7 @@ to run them on one formula */
         background-size: contain;
         opacity: 1;
 
-        flex: ;
+        /* flex: ; */
         /* right: 0; */
     }
 }
@@ -611,8 +611,8 @@ to run them on one formula */
     #main #about {
         width: 70%;
     }
-    #main #about p {
-        /* font-size: 0.8em;
-        line-height: 0.9em; */
-    }
+    /* #main #about p {
+        font-size: 0.8em;
+        line-height: 0.9em;
+    } */
 }
