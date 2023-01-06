@@ -135,12 +135,8 @@ a {
     align-items: flex-start;
 }
 
-#header #languages {
-    position: relative;
-}
-
-#header #languages,
-#header #languages a {
+#header .languages,
+#header .languages a {
     color: var(--white);
 }
 
@@ -171,22 +167,54 @@ a {
 
 
 
+
+/* -------------------- */
+/* Animation keyframes  */
+/* -------------------- */
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(var(--offset));
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
 /* ------------------- */
 /* Hamburger Main Menu */
 /* ------------------- */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
 
-#langMenuToggle {
+#menuToggle {
     display: block;
-    width: 100vw;
-    height: 100vh;
+    width: 50px;
+    height: 50px;
 
     position: absolute;
     top: 0;
     left: 0;
 
-    z-index: 1;
+    z-index: 201;
 
     -webkit-user-select: none;
     user-select: none;
@@ -199,15 +227,15 @@ a {
     height: 45px;
 
     position: absolute;
-    top: calc(var(--screen-padding-v) * -2);
-    left: calc(var(--screen-padding-h) * -1);
+    top: 0;
+    left: 0;
 
     cursor: pointer;
 
     /* hide this */
     opacity: 0;
     /* and place it over the hamburger */
-    z-index: 2;
+    z-index: 202;
 
     -webkit-touch-callout: none;
 }
@@ -216,21 +244,21 @@ a {
 #menuToggle span {
     display: block;
 
-    width: 1.8rem;
-    height: 0.18rem;
+    width: 33px;
+    height: 4px;
     margin-bottom: 5px;
 
-    top: var(--screen-padding-v);
+    top: calc(var(--screen-padding-v) * 2);
     left: var(--screen-padding-h);
 
-
     position: relative;
-    z-index: 1;
+    z-index: 201;
 
     background: var(--white);
+
     border-radius: 3px;
 
-    transform-origin: 4px 0px;
+    transform-origin: 4px 0;
 
     transition: transform 0.5s var(--jump-ease),
         opacity 0.55s ease;
@@ -267,11 +295,11 @@ a {
 #menu {
     position: absolute;
 
-    bottom: 0;
     left: 0;
+    top: 0;
 
-    width: 100%;
-    height: calc(100% - var(--screen-padding-v) - 1em);
+    width: 100vw;
+    height: 100vh;
 
     background: var(--black);
 
@@ -280,13 +308,18 @@ a {
 
     opacity: 0;
 
-    transition: all 0.5s var(--jump-ease);
+    transform: translateX(-100vw);
+
+    transition: opacity 0.5s 0s var(--jump-ease),
+        transform 0s 0.5s var(--jump-ease);
 }
 
 /* And let's slide it in from the left */
 #menuToggle input:checked~#menu {
     opacity: 1;
+
     transform: none;
+    transition-delay: 0s, 0s;
 }
 
 #menu ul {
@@ -313,106 +346,71 @@ a {
 }
 
 
+
+
+
+
+
+
+
+
 /* ------------- */
 /* Language Menu */
 /* ------------- */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
-#langToggle {
-    display: block;
-    width: 100vw;
-    height: 100vh;
 
-    position: absolute;
+#langMenuToggle {
+    display: block;
+
+    position: relative;
     top: 0;
     left: 0;
 
-    z-index: 1;
+    z-index: 101;
 
     -webkit-user-select: none;
     user-select: none;
 }
 
-#langToggle input {
+#langMenuToggle input {
     display: block;
 
     width: 45px;
     height: 45px;
 
     position: absolute;
-    top: calc(var(--screen-padding-v) * -2);
-    left: calc(var(--screen-padding-h) * -1);
+    top: 0;
+    right: 0;
 
     cursor: pointer;
 
     /* hide this */
     opacity: 0;
     /* and place it over the hamburger */
-    z-index: 2;
+    z-index: 102;
 
     -webkit-touch-callout: none;
 }
 
 /* Just a quick hamburger */
-#langToggle span {
+#langMenuToggle span {
     display: block;
 
-    width: 1.8rem;
-    height: 0.18rem;
-    margin-bottom: 5px;
-
-    top: var(--screen-padding-v);
-    left: var(--screen-padding-h);
-
-
     position: relative;
-    z-index: 1;
 
-    background: var(--white);
-    border-radius: 3px;
+    top: 0;
+    right: 0;
 
-    transform-origin: 4px 0px;
-
-    transition: transform 0.5s var(--jump-ease),
-        opacity 0.55s ease;
-}
-
-#langToggle span:first-child {
-    transform-origin: 0% 0%;
-}
-
-#langToggle span:nth-last-child(2) {
-    transform-origin: 0% 100%;
-}
-
-/* Transform hamburger x3 into "X" */
-#langToggle input:checked~span {
-    opacity: 1;
-    transform: rotate(45deg) translate(-2px, -1px);
-    background: var(--l-gray);
-}
-
-/* But let's hide the middle one. */
-#langToggle input:checked~span:nth-last-child(3) {
-    opacity: 0;
-    transform: rotate(0deg) scale(0.2, 0.2);
-}
-
-/* The last one go the other direction */
-#langToggle input:checked~span:nth-last-child(2) {
-    transform: rotate(-45deg) translate(0, -1px);
+    z-index: 101;
 }
 
 /* Make this absolute positioned
    at the top left of the screen */
 #langMenu {
     position: absolute;
-
-    bottom: 0;
     left: 0;
-
-    width: 100%;
-    height: calc(100% - var(--screen-padding-v) - 1em);
+    right: 0;
 
     background: var(--black);
 
@@ -421,58 +419,20 @@ a {
 
     opacity: 0;
 
-    transition: all 0.5s var(--jump-ease);
+    transition: opacity 0.5s 0s var(--jump-ease);
 }
 
 /* And let's slide it in from the left */
-#langToggle input:checked~#langMenu {
+#langMenuToggle input:checked~#langMenu {
     opacity: 1;
-    transform: none;
 }
 
 #langMenu ul {
-    position: absolute;
+    position: relative;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     align-content: center;
-
-    width: 100%;
-    height: 100%;
-}
-
-#langMenu li {
-    padding: 10px 0;
-    font-size: 22px;
-}
-
-#langToggle a {
-    font-size: 2rem;
-    text-transform: uppercase;
-    color: var(--white);
-}
-
-/* -------------------- */
-/* Animation keyframes  */
-/* -------------------- */
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes slide-up {
-    0% {
-        transform: translateY(var(--offset));
-    }
-
-    100% {
-        transform: translateY(0);
-    }
 }
