@@ -8,9 +8,9 @@
     --l-gray: #cccccc;
     --white: #ffffff;
 
-    --screen-padding-v: 5px;
-    --screen-padding-h: 10px;
-    --global-padding: var(--screen-padding-v) var(--screen-padding-h);
+    --screen-padding-h: 1rem;
+    --screen-padding-w: 1rem;
+    --global-padding: var(--screen-padding-h) var(--screen-padding-w);
 
     --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
@@ -22,18 +22,20 @@
 }
 
 html {
-    font-family: "IBM Plex Mono", sans-serif;
+    font-family: "IBM Plex Mono", monospace;
 
     /* Fluid typography */
     /* https://css-tricks.com/simplified-fluid-typography/ */
     --minFontSize: 8px;
     --maxFontSize: 18px;
-    --scaler: 4.5vw;
-    font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
+    --scaler: 4.25vw;
+    /* font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize)); */
+    font-size: 16px;
 
     color: #fff;
 }
 
+html,
 body {
     width: 100vw;
     height: 100vh;
@@ -49,30 +51,37 @@ img {
 }
 
 p {
-    margin: 30px 0;
+    margin: 1.3rem 0;
 
     --offset: 1rem;
 
     transform: translateY(var(--offset));
+
     animation: slide-up 2s ease forwards;
+    animation-delay: 0.1s;
 }
 
 a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    width: 100%;
+
     color: var(--gray);
 }
 
 /* Utilities */
 
 .container {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
     display: flex;
     justify-content: space-between;
     align-content: flex-start;
     align-items: center;
+
+    width: 100%;
+    height: 100%;
 }
 
 .btn {
@@ -82,7 +91,9 @@ a {
     justify-content: center;
     align-items: center;
 
-    padding: 0.8rem 1.5rem;
+    max-height: 5rem;
+
+    padding: 0.8rem 1.8rem;
 
     border: 2px solid var(--white);
 
@@ -90,6 +101,7 @@ a {
 
     text-transform: uppercase;
     color: var(--white);
+    font-weight: 500;
 
     overflow: hidden;
 }
@@ -130,20 +142,27 @@ a {
     color: var(--black);
 
     transform: rotate(9deg);
-    transition-delay: 0.2s;
+    transition-delay: 0.1s;
 }
 
 .arrowed {
     display: inline-block;
-    padding: 1rem 1.5rem 1rem 1rem;
+    padding: 1rem 1rem 1rem 0rem;
 
     position: relative;
 }
 
 .arrowed::after {
     content: "→";
-    position: relative;
-    left: 0.5rem;
+    position: absolute;
+    right: 0rem;
+
+    transition: all 0.5s ease 0.1s;
+}
+.arrowed:hover::after {
+    color: var(--l-gray);
+
+    transform: rotate(90deg);
 }
 
 .gray {
@@ -162,32 +181,35 @@ a {
     color: var(--gray);
 }
 
+/* ---------- */
 /* Main style */
+/* ---------- */
 
 #body-container {
     height: 100%;
     width: 100%;
 
-    margin-top: 1rem;
+    padding: 1rem 0rem 2rem;
 
     /* overflow-x: hidden; */
 
     display: grid;
     grid-template-rows: auto 1fr auto;
 
-    outline: 3px solid #dd0000aa;
+    /* outline: 3px solid #dd0000aa; */
 
     opacity: 0;
 
     animation: fade-in 2s ease forwards;
-    animation-delay: 0.2s;
 }
 
 #body-container > * {
-    width: 100%;
+    width: calc(100% - var(--screen-padding-w) * 3);
     height: 100%;
 
-    outline: 1px solid #00dd00aa;
+    padding: 0 1.4rem;
+
+    /* outline: 1px solid #00dd00aa; */
 }
 
 #header.container {
@@ -197,11 +219,6 @@ a {
 #header .languages,
 #header .languages a {
     color: var(--white);
-}
-#header .languages a {
-    display: block;
-    width: 100%;
-    height: 100%;
 }
 
 #main {
@@ -215,9 +232,13 @@ a {
     z-index: auto; */
 }
 
+#about {
+    padding-bottom: 2.5rem;
+}
+
 #about p {
-    font-size: 2rem;
-    line-height: 3rem;
+    font-size: 1.7rem;
+    line-height: 2.6rem;
 }
 
 #about .link {
@@ -240,6 +261,10 @@ a {
     height: 100vh;
 
     opacity: 0.1;
+}
+
+#footer {
+    justify-content: space-around;
 }
 
 /* -------------------- */
@@ -272,9 +297,11 @@ a {
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
 #menuToggle {
+    --button-size: 1.9rem;
+
     display: block;
-    width: 45px;
-    height: 45px;
+    width: var(--button-size);
+    height: var(--button-size);
 
     position: relative;
     top: 0;
@@ -288,20 +315,21 @@ a {
 
 #menuToggle input {
     display: block;
-
-    width: 45px;
-    height: 45px;
+    width: calc(var(--button-size) * 1.5);
+    height: calc(var(--button-size) * 1.5);
 
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
+    /* and place it over the hamburger */
+    z-index: 202;
+
+    transform: translate(25%, -25%);
 
     cursor: pointer;
 
     /* hide this */
-    opacity: 0.2;
-    /* and place it over the hamburger */
-    z-index: 202;
+    opacity: 0;
 
     -webkit-touch-callout: none;
 }
@@ -310,17 +338,17 @@ a {
 #menuToggle span {
     display: block;
 
-    width: 75%;
-    height: 4px;
-    margin-bottom: 5px;
+    width: 100%;
+    height: 2px;
+    margin-bottom: 6px;
+
+    position: relative;
+    top: 0;
+    right: 0;
+    z-index: 201;
 
     background: var(--white);
     border-radius: 3px;
-
-    position: relative;
-    z-index: 201;
-    top: calc(var(--screen-padding-v) * 2);
-    left: var(--screen-padding-h);
 
     transform-origin: 4px 0;
 
@@ -445,9 +473,11 @@ to run them on one formula */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
 #langMenuToggle {
+    --button-size: 1.9rem;
+
     display: block;
-    width: 45px;
-    height: 45px;
+    width: var(--button-size);
+    height: var(--button-size);
 
     position: relative;
     top: 0;
@@ -461,20 +491,21 @@ to run them on one formula */
 
 #langMenuToggle input {
     display: block;
-
-    width: 45px;
-    height: 45px;
+    width: calc(var(--button-size) * 1.5);
+    height: calc(var(--button-size) * 1.5);
 
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
+    /* and place it over the hamburger */
+    z-index: 102;
+
+    transform: translate(-25%, -25%);
 
     cursor: pointer;
 
     /* hide this */
-    opacity: 0.5;
-    /* and place it over the hamburger */
-    z-index: 102;
+    opacity: 0;
 
     -webkit-touch-callout: none;
 }
@@ -502,18 +533,21 @@ to run them on one formula */
     /* to stop flickering of text in safari */
     -webkit-font-smoothing: antialiased;
 
-    opacity: 0;
+    transform: translateX(-200%);
 
-    transition: opacity 0.5s 0s var(--jump-ease);
+    transition-delay: 1s;
+    transition: transform 0 linear;
 }
 
 /* And let's slide it in from the left */
 #langMenuToggle input:checked ~ #langMenu {
-    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
 }
 
 #langMenu ul {
     position: relative;
+    top: -1rem;
 
     display: flex;
     flex-direction: column;
@@ -540,17 +574,23 @@ to run them on one formula */
 #langMenu ul li {
     display: block;
 
-    margin-top: calc(var(--screen-padding-h) * 5);
+    margin-top: calc(var(--screen-padding-h) * 1.5);
 
     transform: translateX(-200%);
 
-    transition-delay: calc(var(--delay-index) * 1.5s);
-    transition: transform 0.5s var(--jump-ease);
+    opacity: 0;
+
+    /* transition-delay: calc(var(--delay-index) * 1.5s); */
+    transition: transform 0.5s var(--jump-ease), opacity 0.5s var(--jump-ease);
+    transition-delay: calc(0.3s - 0.1s * var(--delay-index));
 }
 
 #langMenuToggle input:checked ~ #langMenu ul li {
-    transition-delay: calc(0.1s * var(--delay-index));
+    opacity: 1;
+
     transform: none;
+
+    transition-delay: calc(0.1s * var(--delay-index));
 }
 
 #langMenu ul li a {
@@ -564,8 +604,8 @@ to run them on one formula */
 /* Landscape phone & small tablets */
 @media (min-width: 10000576px) {
     :root {
-        --screen-padding-v: 10px;
-        --screen-padding-h: 20px;
+        --screen-padding-h: 10px;
+        --screen-padding-w: 20px;
     }
 
     html {
