@@ -10,6 +10,7 @@
 
     --screen-padding-w: 1rem;
     --screen-padding-h: 1rem;
+    --section-padding-w: 0rem;
 
     --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
@@ -41,8 +42,6 @@ body {
     height: 100vh;
 
     background: var(--black);
-
-    scroll-behavior: smooth;
 
     overflow: hidden;
 }
@@ -253,8 +252,6 @@ a {
 }
 
 #menu ul li a {
-    position: relative;
-
     transition: all 0.2s ease;
 }
 #menu ul li a:hover {
@@ -269,17 +266,17 @@ a {
 
 #main #tag-image {
     background: url("/img/tag-big.png") no-repeat center center;
-    position: absolute;
-    z-index: -1;
-
     /* background-size: contain; */
+
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
 
     width: 100vw;
     height: 100vh;
 
-    opacity: 0.3;
-
-    display: none;
+    opacity: 0.1;
 }
 
 /* Showcase */
@@ -294,7 +291,6 @@ a {
 
     /* border: 2px solid yellow; */
 
-    scroll-behavior: smooth;
     overflow: hidden;
 
     display: flex;
@@ -312,8 +308,8 @@ a {
 #showcase > section .section-container {
     width: 100vw;
 
-    margin-bottom: calc(var(--screen-padding-w) * 4);
-    padding: 0 var(--screen-padding-w);
+    margin-bottom: calc(var(--screen-padding-h) * 4);
+    padding: 0 calc(var(--screen-padding-w) + var(--section-padding-w));
 
     /* border: 1px solid purple; */
 }
@@ -675,11 +671,6 @@ to run them on one formula */
     padding: 0.5rem;
 }
 
-/* --------------- */
-/* --------------- */
-/* Pages animation */
-/* --------------- */
-
 /* ------------- */
 /* MEDIA QUERIES */
 /* ------------- */
@@ -687,8 +678,9 @@ to run them on one formula */
 /* Landscape phone & small tablets */
 @media (min-width: 576px) {
     :root {
-        --screen-padding-w: 2rem;
-        --screen-padding-h: 1rem;
+        /* --screen-padding-w: 1rem; */
+        /* --screen-padding-h: 1rem; */
+        --section-padding-w: 2rem;
     }
 
     html {
@@ -701,16 +693,16 @@ to run them on one formula */
     }
 
     #main #showcase .section-container {
-        margin-bottom: calc(var(--screen-padding-w) * 1);
-        padding: 0 var(--screen-padding-w);
+        margin-bottom: calc(var(--screen-padding-h) * 1);
     }
 }
 
 /* Small screens & Tablets */
 @media (min-width: 769px) and (min-height: 600px) {
     :root {
-        --screen-padding-w: 4rem;
-        --screen-padding-h: 1rem;
+        --screen-padding-w: 2rem;
+        /* --screen-padding-h: 1rem; */
+        --section-padding-w: 4rem;
     }
 
     html {
@@ -722,30 +714,33 @@ to run them on one formula */
         margin-bottom: 1rem;
     }
 
+    #main #showcase {
+        scroll-behavior: smooth;
+    }
+
     #main #showcase .section-container {
         margin-bottom: calc(var(--screen-padding-w) * 1);
-        padding: 0 var(--screen-padding-w);
     }
 }
 
 /* Desktop */
 @media (min-width: 1200px) and (min-height: 600px) {
     :root {
-        --screen-padding-w: 8rem;
+        --screen-padding-w: 1rem;
         --screen-padding-h: 1rem;
+        --section-padding-w: 8rem;
     }
 
     html {
         /* font-size: min(max(1em, max(2vw, 2vh)), 17px); */
-        font-size: 20px;
+        font-size: 18px;
     }
 
-    input {
-        margin-bottom: 1rem;
+    #main #showcase {
+        scroll-behavior: smooth;
     }
 
     #main #showcase .section-container {
         margin-bottom: calc(var(--screen-padding-w) * 1);
-        padding: 0 var(--screen-padding-w);
     }
 }
