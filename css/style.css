@@ -1,5 +1,5 @@
-@import "/css/normalize.css";
-@import "/css/reset.local.css";
+@import "normalize.css";
+@import "reset.local.css";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 :root {
