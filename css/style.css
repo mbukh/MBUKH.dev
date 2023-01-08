@@ -48,6 +48,12 @@ body {
 
     overflow: hidden;
 }
+body.light {
+    --black: #f6f6f6;
+    --gray: #7f7f7f;
+    --l-gray: #333333;
+    --white: #000000;
+}
 
 img {
     max-width: 100%;
