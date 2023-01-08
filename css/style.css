@@ -51,6 +51,29 @@ img {
     max-height: 100%;
 }
 
+h1 {
+    font-size: 2.1em;
+    font-weight: 500;
+    letter-spacing: 0.04rem;
+    margin-bottom: 1rem;
+}
+
+input {
+    outline: none;
+    background: none;
+
+    border-width: 0 0 2px;
+    border-color: var(--white);
+    border-style: solid;
+
+    margin-bottom: 1.8rem;
+
+    width: 100%;
+    height: 2.2rem;
+
+    position: relative;
+}
+
 p {
     margin: 1.3rem 0;
 
@@ -80,6 +103,8 @@ a {
 
 .btn {
     display: block;
+
+    min-width: 10rem;
 
     position: relative;
 
@@ -161,6 +186,10 @@ a {
     transform: rotate(90deg);
 }
 
+.arrowed.arr-bk::after {
+    transform: rotate(180deg);
+}
+
 .gray {
     color: var(--gray);
 }
@@ -224,11 +253,6 @@ a {
 
 #main {
     position: relative;
-    /* justify-content: flex-start; */
-
-    padding: 0;
-
-    /* overflow: hidden; */
 }
 
 #main #tag-image {
@@ -247,14 +271,17 @@ a {
 /* Showcase */
 
 #showcase {
-    width: 100%;
+    width: 100vw;
     height: 100%;
 
     position: absolute;
+    top: 0;
+    left: 0;
 
     /* border: 2px solid yellow; */
 
     scroll-behavior: smooth;
+    overflow: hidden;
 
     display: flex;
 }
