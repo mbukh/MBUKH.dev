@@ -35,8 +35,6 @@ html {
     /* font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize)); */
 
     font-size: 16px;
-
-    color: #fff;
 }
 
 html,
@@ -45,6 +43,8 @@ body {
     height: 100vh;
 
     background: var(--black);
+
+    color: var(--white);
 
     overflow: hidden;
 }
