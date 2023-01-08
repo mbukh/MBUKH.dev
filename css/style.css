@@ -43,6 +43,8 @@ body {
 
     background: var(--black);
 
+    scroll-behavior: smooth;
+
     overflow: hidden;
 }
 
@@ -291,7 +293,8 @@ a {
 
     /* border: 2px solid yellow; */
 
-    overflow: hidden;
+    scroll-behavior: smooth;
+    overflow: scroll;
 
     display: flex;
 }
@@ -714,10 +717,6 @@ to run them on one formula */
         margin-bottom: 1rem;
     }
 
-    #main #showcase {
-        scroll-behavior: smooth;
-    }
-
     #main #showcase .section-container {
         margin-bottom: calc(var(--screen-padding-w) * 1);
     }
@@ -734,10 +733,6 @@ to run them on one formula */
     html {
         /* font-size: min(max(1em, max(2vw, 2vh)), 17px); */
         font-size: 18px;
-    }
-
-    #main #showcase {
-        scroll-behavior: smooth;
     }
 
     #main #showcase .section-container {
