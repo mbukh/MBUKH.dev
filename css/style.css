@@ -236,7 +236,7 @@ a {
     width: 100vw;
     height: 100%;
 
-    padding: 0 1.4rem;
+    padding: 0 calc(1.4 * var(--screen-padding-w));
 
     /* outline: 1px solid #00dd00aa; */
 }
@@ -707,7 +707,29 @@ to run them on one formula */
 /* Small screens & Tablets */
 @media (min-width: 769px) and (min-height: 600px) {
     :root {
-        --screen-padding-w: 2rem;
+        --screen-padding-w: 4rem;
+        --screen-padding-h: 1rem;
+    }
+
+    html {
+        /* font-size: min(max(1em, max(2vw, 2vh)), 17px); */
+        font-size: 20px;
+    }
+
+    input {
+        margin-bottom: 1rem;
+    }
+
+    #main #showcase .section-container {
+        margin-bottom: calc(var(--screen-padding-w) * 1);
+        padding: 0 var(--screen-padding-w);
+    }
+}
+
+/* Desktop */
+@media (min-width: 1200px) and (min-height: 600px) {
+    :root {
+        --screen-padding-w: 8rem;
         --screen-padding-h: 1rem;
     }
 
