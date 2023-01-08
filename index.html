@@ -44,11 +44,11 @@
                     <span></span>
                     <div id="menu">
                         <ul>
-                            <li><a href="#">HOME</a></li>
-                            <li><a href="#">ABOUT ME</a></li>
-                            <li><a href="#">SKILLS</a></li>
-                            <li><a href="#">PROJECTS</a></li>
-                            <li><a href="#">CONTACT</a></li>
+                            <li><a href="#home">HOME</a></li>
+                            <li><a href="#about">ABOUT ME</a></li>
+                            <li><a href="#skills">SKILLS</a></li>
+                            <li><a href="#projects">PROJECTS</a></li>
+                            <li><a href="#contact">CONTACT</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,38 +61,51 @@
             <div id="showcase">
 
                 <section id="home">
-                    <div class="section-container centered-height">
+                    <div class="section-container">
                         <div class="gray bigger" class="container">
                             <span class="small">&lt;</span>HELLO WORLD<span class="small">&gt;</span>
                         </div>
-                        <p>
+                        <p class="home-p">
                             My name is Moshe Bukhman.
                             I am a junior frontend developer from Israel.
                         </p>
                         <div class="buttons-group container">
                             <a href="#contact" class="btn" data-text="CONTACT ME">CONTACT ME</a>
-                            <a href="#contact" class="arrowed arr-fw">SEE MY WORKS</a>
+                            <a href="#skills" class="arrowed arr-fw">SEE MY WORKS</a>
                         </div>
                     </div>
                 </section>
 
+
                 <section id="contact">
                     <div class="section-container">
-                        <h2 id="logo">CONTACT ME</h1>
-                            <div class="contact-form">
-                                <input type="text" name="name" id="name" placeholder="Name">
-                                <input type="text" name="phone" id="phone" placeholder="Phone">
-                                <br>
-                                <br>
-                                <input type="text" name="message" id="message" placeholder="Your message">
+                        <h2 id="logo">CONTACT ME</h2>
+                        <div class="contact-form">
+                            <input type="text" name="name" id="name" placeholder="Name">
+                            <input type="text" name="phone" id="phone" placeholder="Phone">
+                            <br>
+                            <br>
+                            <input type="text" name="message" id="message" placeholder="Your message">
 
-                                <div class="buttons-group container">
-                                    <a href="#contact" class="btn" data-text="SEND">SEND</a>
-                                    <a href="#home" class="arrowed arr-bk">BACK</a>
-                                </div>
+                            <div class="buttons-group container">
+                                <a href="#contact" class="btn" data-text="SEND">SEND</a>
+                                <a href="#home" class="arrowed arr-bk">BACK HOME</a>
                             </div>
+                        </div>
                     </div>
                 </section>
+
+
+                <section id="skills">
+                    <div class="section-container">
+                        <h2 id="logo">MY SKILLS</h2>
+                        <p>- HTML, CSS, Javascript, React</p>
+                        <p>- Git, Bash</p>
+                        <p>- Python, Node.js/npm, PHP</p>
+                        <p>- Photoshop, Lightroom</p>
+                    </div>
+                </section>
+
 
                 <!-- <div id="tag-image"></div> -->
 

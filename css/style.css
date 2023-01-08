@@ -26,9 +26,10 @@ html {
     /* Fluid typography */
     /* https://css-tricks.com/simplified-fluid-typography/ */
     --minFontSize: 8px;
-    --maxFontSize: 18px;
+    --maxFontSize: 22px;
     --scaler: 4.25vw;
     /* font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize)); */
+
     font-size: 16px;
 
     color: #fff;
@@ -299,24 +300,38 @@ a {
 
 #showcase > section {
     width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 #showcase > section .section-container {
     width: 100vw;
 
-    margin-top: calc(50% - 2.5rem);
+    margin-bottom: calc(var(--screen-padding-w) * 4);
     padding: 0 var(--screen-padding-w);
 
     /* border: 1px solid purple; */
 }
 
-#showcase > section p {
+#showcase > section p.home-p {
     font-size: 1.7rem;
     line-height: 2.6rem;
 }
 
+#showcase > section p {
+    color: var(--l-gray);
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
 #showcase > section .buttons-group {
+    display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
     gap: 1rem;
 }
 
@@ -356,7 +371,7 @@ a {
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
 #menuToggle {
-    --button-size: 1.9rem;
+    --button-size: 30px;
     --spacer-around-button: 1.2;
 
     display: block;
@@ -668,57 +683,45 @@ to run them on one formula */
 /* ------------- */
 
 /* Landscape phone & small tablets */
-@media (min-width: 10000576px) {
+@media (min-width: 576px) {
     :root {
-        --screen-padding-h: 10px;
-        --screen-padding-w: 20px;
+        --screen-padding-w: 2rem;
+        --screen-padding-h: 1rem;
     }
 
     html {
-        font-size: min(max(1em, max(2vw, 2vh)), 17px);
+        /* font-size: min(max(1em, max(2vw, 2vh)), 17px); */
+        font-size: 14px;
     }
 
-    #main {
-        padding: 1em 3em;
-        justify-content: space-around;
+    input {
+        margin-bottom: 1rem;
     }
 
-    #main #about {
-        position: relative;
-        /* max-width: 35%; */
-        flex: 1;
-    }
-
-    #main #about p {
-        font-size: 1.7em;
-        line-height: 1.3em;
-    }
-    #main #tag-image {
-        position: relative;
-        width: 10%;
-        height: 10%;
-
-        background-size: contain;
-        opacity: 1;
-
-        /* flex: ; */
-        /* right: 0; */
+    #main #showcase .section-container {
+        margin-bottom: calc(var(--screen-padding-w) * 1);
+        padding: 0 var(--screen-padding-w);
     }
 }
 
-/* Landscape phone & small tablets */
-@media (min-width: 10001025px) {
+/* Small screens & Tablets */
+@media (min-width: 769px) and (min-height: 600px) {
+    :root {
+        --screen-padding-w: 2rem;
+        --screen-padding-h: 1rem;
+    }
+
     html {
-        font-size: min(max(1rem, max(3vw, 3vh)), 17px);
+        /* font-size: min(max(1em, max(2vw, 2vh)), 17px); */
+        font-size: 20px;
     }
-    #main {
-        padding: 1em 5em;
+
+    input {
+        margin-bottom: 1rem;
     }
-    #main #about {
-        width: 70%;
+
+    #main #showcase .section-container {
+        margin-bottom: calc(var(--screen-padding-w) * 1);
+        padding: 0 var(--screen-padding-w);
     }
-    /* #main #about p {
-        font-size: 0.8em;
-        line-height: 0.9em;
-    } */
 }
