@@ -45,8 +45,6 @@ body {
     background: var(--black);
 
     color: var(--white);
-
-    overflow: hidden;
 }
 body.light {
     --black: #f6f6f6;
@@ -283,7 +281,7 @@ a {
 }
 
 #main #tag-image {
-    background: url("/img/tag-big.png") no-repeat center center;
+    background: url("/img/tag-big.png") no-repeat center center/cover;
     /* background-size: contain; */
 
     position: fixed;
@@ -311,9 +309,10 @@ a {
 
     /* padding: 0 calc(1.4 * var(--screen-padding-w)); */
 
-    scroll-behavior: smooth;
-    overflow-x: auto;
-    overflow-y: hidden;
+    /* scroll-behavior: smooth; */
+    /* overflow-x: auto; */
+    /* overflow-y: hidden; */
+    overflow: hidden;
 
     display: flex;
 }
@@ -491,6 +490,8 @@ a {
 
     width: 100vw;
     height: 100vh;
+
+    overflow: scroll;
 
     background: var(--black);
 
