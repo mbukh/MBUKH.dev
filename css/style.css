@@ -52,7 +52,11 @@ img {
 }
 
 h1 {
-    font-size: 2.1em;
+    font-size: 1rem;
+    color: var(--gray);
+}
+h2 {
+    font-size: 2.1rem;
     font-weight: 500;
     letter-spacing: 0.04rem;
     margin-bottom: 1rem;
@@ -71,7 +75,11 @@ input {
     width: 100%;
     height: 2.2rem;
 
-    position: relative;
+    color: var(--l-gray);
+}
+
+input:focus::placeholder {
+    opacity: 0.2;
 }
 
 p {
@@ -182,8 +190,6 @@ a {
 }
 .arrowed:hover::after {
     color: var(--l-gray);
-
-    transform: rotate(90deg);
 }
 
 .arrowed.arr-bk::after {
@@ -200,10 +206,6 @@ a {
 
 .bigger {
     font-size: 1.2rem;
-}
-
-.page-name {
-    color: var(--gray);
 }
 
 /* ---------- */
@@ -247,6 +249,15 @@ a {
 #header .languages,
 #header .languages a {
     color: var(--white);
+}
+
+#menu ul li a {
+    position: relative;
+
+    transition: all 0.2s ease;
+}
+#menu ul li a:hover {
+    color: var(--gray);
 }
 
 /* Main */
@@ -435,11 +446,11 @@ a {
 #menu {
     position: fixed;
 
-    top: calc(var(--screen-padding-h) * 3);
+    top: 0;
     left: 0;
 
     width: 100vw;
-    height: calc(100vh - var(--screen-padding-h) * 6);
+    height: 100vh;
 
     background: var(--black);
 
@@ -450,8 +461,8 @@ a {
 
     transform: translateX(-100vw);
 
-    transition: opacity 0.5s 0s var(--jump-ease),
-        transform 0s 0.5s var(--jump-ease);
+    transition: opacity 0.5s 0.3s var(--jump-ease),
+        transform 0s 1s var(--jump-ease);
 }
 
 /* And let's slide it in from the left */
@@ -500,14 +511,12 @@ to run them on one formula */
 
     opacity: 0;
 
-    transition-duration: 0s;
-    transition-delay: 0s;
-    transition: opacity 0.2s linear;
+    transition: all 0.2s calc(0.2s - 0.04s * var(--delay-index)) linear;
 }
 
 #menuToggle input:checked ~ #menu ul li {
     opacity: 1;
-    transition-delay: calc(0.1s + 0.1s * var(--delay-index));
+    transition-delay: calc(0.2s + 0.1s * var(--delay-index));
 }
 
 #menuToggle a {
@@ -622,12 +631,6 @@ to run them on one formula */
 #langMenu ul > *:nth-child(2) {
     --delay-index: 1;
 }
-#langMenu ul > *:nth-child(3) {
-    --delay-index: 2;
-}
-#langMenu ul > *:nth-child(4) {
-    --delay-index: 3;
-}
 
 #langMenu ul li {
     display: block;
@@ -640,7 +643,7 @@ to run them on one formula */
 
     /* transition-delay: calc(var(--delay-index) * 1.5s); */
     transition: transform 0.5s var(--jump-ease), opacity 0.5s var(--jump-ease);
-    transition-delay: calc(0.3s - 0.1s * var(--delay-index));
+    transition-delay: calc(0.2s - 0.1s * var(--delay-index));
 }
 
 #langMenuToggle input:checked ~ #langMenu ul li {
