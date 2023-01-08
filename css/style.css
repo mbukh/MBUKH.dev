@@ -9,8 +9,11 @@
     --white: #ffffff;
 
     --screen-padding-w: 1rem;
-    --screen-padding-h: 1rem;
+    --screen-padding-h: 2rem;
     --section-padding-w: 0rem;
+
+    --button-size: 1.9rem;
+    --spacer-around-button: 1.2;
 
     --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
@@ -42,8 +45,6 @@ body {
     height: 100vh;
 
     background: var(--black);
-
-    scroll-behavior: smooth;
 
     overflow: hidden;
 }
@@ -133,8 +134,9 @@ a {
 }
 
 .btn:hover {
-    background: var(--white);
     color: var(--black);
+
+    background: var(--white);
 }
 
 .btn::before {
@@ -150,7 +152,6 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
 
     background-color: var(--black);
 
@@ -224,7 +225,7 @@ a {
     overflow: hidden;
 
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
 
     /* outline: 3px solid #dd0000aa; */
 
@@ -244,7 +245,14 @@ a {
 
 /* Header */
 
-#header.container {
+#header {
+    position: fixed;
+    top: var(--screen-padding-h);
+    left: 0;
+    z-index: 1;
+
+    height: var(--button-size);
+
     align-items: flex-start;
 }
 
@@ -264,6 +272,8 @@ a {
 
 #main {
     position: relative;
+
+    padding: 0;
 }
 
 #main #tag-image {
@@ -271,7 +281,7 @@ a {
     /* background-size: contain; */
 
     position: fixed;
-    z-index: -1;
+    z-index: -100;
     top: 0;
     left: 0;
 
@@ -284,35 +294,44 @@ a {
 /* Showcase */
 
 #showcase {
-    width: 100vw;
+    /* width: 100vw; */
     height: 100%;
 
-    position: absolute;
+    /* position: absolute;
     top: 0;
-    left: 0;
+    left: 0; */
 
     /* border: 2px solid yellow; */
 
+    /* padding: 0 calc(1.4 * var(--screen-padding-w)); */
+
     scroll-behavior: smooth;
-    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     display: flex;
 }
 
 #showcase > section {
     width: 100vw;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     align-content: flex-start;
+
+    overflow: visible;
 }
 
 #showcase > section .section-container {
     width: 100vw;
 
     margin-bottom: calc(var(--screen-padding-h) * 4);
-    padding: 0 calc(var(--screen-padding-w) + var(--section-padding-w));
+    padding: var(--button-size)
+        calc(var(--screen-padding-w) + var(--section-padding-w));
+
+    overflow: auto;
 
     /* border: 1px solid purple; */
 }
@@ -373,7 +392,6 @@ a {
 
 #menuToggle {
     --button-size: 30px;
-    --spacer-around-button: 1.2;
 
     display: block;
     width: var(--button-size);
@@ -396,7 +414,7 @@ a {
 
     position: absolute;
     top: 0;
-    right: 0;
+    right: 25%;
     /* and place it over the hamburger */
     z-index: 202;
 
@@ -461,9 +479,9 @@ a {
    at the top left of the screen */
 #menu {
     position: fixed;
-
     top: 0;
     left: 0;
+    z-index: 99;
 
     width: 100vw;
     height: 100vh;
@@ -491,6 +509,7 @@ a {
 
 #menu ul {
     position: absolute;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -547,9 +566,6 @@ to run them on one formula */
 /* https://codepen.io/erikterwan/pen/EVzeRP */
 
 #langMenuToggle {
-    --button-size: 1.9rem;
-    --spacer-around-button: 1.2;
-
     display: block;
     width: var(--button-size);
     height: var(--button-size);
@@ -571,7 +587,7 @@ to run them on one formula */
 
     position: absolute;
     top: 0;
-    left: 0;
+    left: 25%;
     /* and place it over the hamburger */
     z-index: 102;
 
@@ -613,6 +629,8 @@ to run them on one formula */
     left: 0;
     right: 0;
 
+    width: auto;
+
     /* to stop flickering of text in safari */
     -webkit-font-smoothing: antialiased;
 
@@ -620,6 +638,16 @@ to run them on one formula */
 
     transition-delay: 1s;
     transition: transform 0 linear;
+}
+
+#langMenu::before {
+    position: absolute;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+
+    background: var(--white);
 }
 
 /* And let's slide it in from the left */
@@ -682,7 +710,7 @@ to run them on one formula */
 @media (min-width: 576px) {
     :root {
         /* --screen-padding-w: 1rem; */
-        /* --screen-padding-h: 1rem; */
+        --screen-padding-h: 1rem;
         --section-padding-w: 2rem;
     }
 
@@ -704,7 +732,7 @@ to run them on one formula */
 @media (min-width: 769px) and (min-height: 600px) {
     :root {
         --screen-padding-w: 2rem;
-        /* --screen-padding-h: 1rem; */
+        --screen-padding-h: 1rem;
         --section-padding-w: 4rem;
     }
 
@@ -725,7 +753,7 @@ to run them on one formula */
 /* Desktop */
 @media (min-width: 1200px) and (min-height: 600px) {
     :root {
-        --screen-padding-w: 1rem;
+        /* --screen-padding-w: 1rem; */
         --screen-padding-h: 1rem;
         --section-padding-w: 8rem;
     }
