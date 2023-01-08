@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="page"><span>HOME</span></div>
+            <div class="page-name"><span>HOME</span></div>
 
             <!-- Hamburger menu -->
             <!-- https://codepen.io/erikterwan/pen/EVzeRP -->
@@ -54,25 +54,47 @@
         </header>
 
         <main id="main" class="container">
+            <div id="showcase">
 
-            <section id="about">
-                <!-- <h1 id="logo">Moshe Bukhman</h1> -->
-                <div class="gray bigger" class="container">
-                    <span class="small">&lt;</span>HELLO WORLD<span class="small">&gt;</span>
-                </div>
-                <p>
-                    My name is Moshe Bukhman.
-                    I am a junior frontend developer from Israel.
-                </p>
-                <div id="about-buttons" class="container">
-                    <a href="#" class="btn" data-text="CONTACT ME">CONTACT ME</a>
-                    <a href="#" class="see arrowed">SEE MY WORK</a>
-                </div>
-            </section>
+                <section id="about1">
+                    <div class="section-container centered-height">
+                        <!-- <h1 id="logo">Moshe Bukhman</h1> -->
+                        <div class="gray bigger" class="container">
+                            <span class="small">&lt;</span>HELLO WORLD 1<span class="small">&gt;</span>
+                        </div>
+                        <p>
+                            My name is Moshe Bukhman.
+                            I am a junior frontend developer from Israel.
+                        </p>
+                        <div class="buttons-group container">
+                            <a href="#about2" class="btn" data-text="CONTACT ME">CONTACT ME</a>
+                            <a href="#about2" class="arrowed">SEE MY WORK</a>
+                        </div>
+                    </div>
+                </section>
 
-            <!-- <div id="tag-image"></div> -->
+                <section id="about2">
 
-            <!-- <section id="grid-projects" class="container">
+                    <div class="section-container">
+                        <!-- <h1 id="logo">Moshe Bukhman</h1> -->
+                        <div class="gray bigger" class="container">
+                            <span class="small">&lt;</span>HELLO WORLD 2<span class="small">&gt;</span>
+                        </div>
+                        <p>
+                            My name is Moshe Bukhman.
+                            I am a junior frontend developer from Israel.
+                        </p>
+                        <div class="buttons-group container">
+                            <a href="#about1" class="btn" data-text="CONTACT ME">CONTACT ME</a>
+                            <a href="#about1" class="arrowed">SEE MY WORK</a>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- <div id="tag-image"></div> -->
+
+                <!-- <section id="grid-projects" class="container">
                 <div class="project">
                     <figure>
                         <a href="/WA-01-Tesla/">
@@ -91,13 +113,14 @@
                 </div>
             </section> -->
 
+            </div>
         </main>
 
 
         <footer id="footer" class="container">
             <a href="#">GITHUB</a>
+            <!-- <span class="gray">|</span> -->
             <a href="#">LINKEDIN</a>
-            <a href="#">FB</a>
         </footer>
 
     </div>
