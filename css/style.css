@@ -543,6 +543,9 @@ to run them on one formula */
 #menu ul > *:nth-child(5) {
     --delay-index: 5;
 }
+#menu ul > *:nth-child(6) {
+    --delay-index: 6;
+}
 
 #menu ul li {
     display: block;
@@ -552,7 +555,7 @@ to run them on one formula */
 
     opacity: 0;
 
-    transition: all 0.2s calc(0.2s - 0.04s * var(--delay-index)) linear;
+    transition: all 0.2s calc(0.25s - 0.04s * var(--delay-index)) linear;
 }
 
 #menuToggle input:checked ~ #menu ul li {
