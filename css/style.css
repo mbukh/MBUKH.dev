@@ -268,7 +268,7 @@ a {
 }
 
 #main #tag-image {
-    background: url("/img/tag-big.png") no-repeat center center / 40rem;
+    background: url("/img/tag-big.png") no-repeat center center;
     position: absolute;
     z-index: -1;
 
@@ -277,7 +277,9 @@ a {
     width: 100vw;
     height: 100vh;
 
-    opacity: 0.1;
+    opacity: 0.3;
+
+    display: none;
 }
 
 /* Showcase */
