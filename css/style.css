@@ -309,7 +309,7 @@ a {
 
     /* padding: 0 calc(1.4 * var(--screen-padding-w)); */
 
-    /* scroll-behavior: smooth; */
+    scroll-behavior: smooth;
     /* overflow-x: auto; */
     /* overflow-y: hidden; */
     overflow: hidden;
