@@ -171,7 +171,7 @@ a {
 
     color: var(--black);
 
-    transform: rotate(9deg);
+    transform: rotate(-9deg) translateY(5%);
     transition-delay: 0.1s;
 }
 
