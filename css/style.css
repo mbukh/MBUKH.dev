@@ -311,8 +311,8 @@ a {
 
     scroll-behavior: smooth;
     overflow-x: auto;
-    /* overflow-y: hidden; */
-    overflow: hidden;
+    /* overflow-y: auto; */
+    /* overflow: hidden; */
 
     display: flex;
 }
