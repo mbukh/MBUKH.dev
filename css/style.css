@@ -280,7 +280,7 @@ a {
 }
 
 #main #tag-image {
-    background: url("./img/tag-big.png") no-repeat center center/cover;
+    background: url("../img/tag-big.png") no-repeat center center/cover;
     /* background-size: contain; */
 
     position: fixed;
