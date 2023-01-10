@@ -118,7 +118,6 @@ a {
 
 .btn {
     display: block;
-
     min-width: 10rem;
 
     position: relative;
@@ -327,16 +326,21 @@ a {
     align-content: flex-start;
 
     overflow: visible;
+    /* overflow-y:visible;
+    overflow-x: visible; */
 }
 
 #showcase > section .section-container {
     width: 100vw;
 
-    margin-bottom: calc(var(--screen-padding-h) * 4);
+    /* margin-bottom: calc(var(--screen-padding-h) * 2); */
     padding: var(--button-size)
         calc(var(--screen-padding-w) + var(--section-padding-w));
 
-    overflow: auto;
+    /* overflow: auto; */
+
+    overflow-y: scroll;
+    max-height: calc(100vh - var(--screen-padding-h) * 10);
 
     /* border: 1px solid purple; */
 }
@@ -347,9 +351,19 @@ a {
 }
 
 #showcase > section p {
-    color: var(--l-gray);
-    font-weight: 500;
+    /* color: var(--l-gray); */
+    /* font-weight: 500; */
     line-height: 1.5rem;
+}
+
+#showcase > section img {
+    max-width: 80%;
+    max-height: 40vh;
+    opacity: 0.8;
+    transition: opacity 0.3s linear;
+}
+#showcase > section img:hover {
+    opacity: 1;
 }
 
 #showcase > section .buttons-group {
@@ -776,4 +790,136 @@ to run them on one formula */
     #main #showcase .section-container {
         margin-bottom: calc(var(--screen-padding-w) * 1);
     }
+}
+
+/* ------------------------------------------------------------------ */
+/* Projects slide items from https://codepen.io/gregsaxton/pen/eoWGxL */
+/* ------------------------------------------------------------------ */
+.m-d.expand-list > li {
+    padding: 1rem 0;
+    border-bottom: var(--l-gray);
+    position: relative;
+    /* max-width: 80%; */
+}
+.m-d label[class^="tab"]:hover {
+    cursor: pointer;
+}
+.m-d input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.m-d input[class^="tab"] {
+    width: 100%;
+    height: 2.5rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.m-d input[class^="tab"]:hover {
+    cursor: pointer;
+}
+.m-d label[class^="tab"] {
+    font-weight: 500;
+}
+.m-d .content {
+    height: auto;
+    max-height: 0;
+    /* max-width: 80%; */
+    color: var(--l-gray);
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: all 180ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="100"] input[class^="tab"]:checked ~ .content {
+    max-height: 100px;
+    transition: all 150ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="200"] input[class^="tab"]:checked ~ .content {
+    max-height: 200px;
+    transition: all 200ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="300"] input[class^="tab"]:checked ~ .content {
+    max-height: 300px;
+    transition: all 250ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="400"] input[class^="tab"]:checked ~ .content {
+    max-height: 400px;
+    transition: all 250ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="500"] input[class^="tab"]:checked ~ .content {
+    max-height: 500px;
+    transition: all 250ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="600"] input[class^="tab"]:checked ~ .content {
+    max-height: 600px;
+    transition: all 250ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="700"] input[class^="tab"]:checked ~ .content {
+    max-height: 700px;
+    transition: all 300ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="800"] input[class^="tab"]:checked ~ .content {
+    max-height: 800px;
+    transition: all 300ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="900"] input[class^="tab"]:checked ~ .content {
+    max-height: 900px;
+    transition: all 300ms ease-in-out 0ms;
+}
+.m-d li[data-md-content="1000"] input[class^="tab"]:checked ~ .content {
+    max-height: 1000px;
+    transition: all 350ms ease-in-out 0ms;
+}
+.m-d li[data-md-content=""] input[class^="tab"]:checked ~ .content {
+    max-height: 1000px;
+    transition: all 250ms ease-in-out 0ms;
+}
+.m-d input[class^="tab"]:checked ~ .content {
+    margin-bottom: 20px;
+}
+.m-d .open-close-icon {
+    display: inline-block;
+    position: absolute;
+    right: 1rem;
+    transform: translateY(2px);
+}
+.m-d .open-close-icon i {
+    position: absolute;
+    left: 0;
+}
+.m-d .open-close-icon .fa-minus {
+    transform: rotate(-90deg);
+    transition: transform 150ms ease-in-out 0ms;
+}
+.m-d input[class^="tab"]:checked ~ .open-close-icon .fa-minus {
+    transform: rotate(0deg);
+    transition: transform 150ms ease-in-out 0ms;
+}
+.m-d .open-close-icon .fa-plus {
+    opacity: 0.7;
+    transform: rotate(-90deg);
+    transition: opacity 50ms linear 0ms, transform 150ms ease-in-out 0ms;
+}
+.m-d input[class^="tab"]:checked ~ .open-close-icon .fa-plus {
+    opacity: 0;
+    transform: rotate(0deg);
+    transition: opacity 50ms linear 0ms, transform 150ms ease-in-out 0ms;
+}
+
+/* -------- */
+/* My icons */
+/* -------- */
+
+.fa-plus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z'/%3E%3C/svg%3E");
+    width: 1rem;
+    height: 1rem;
+}
+
+.fa-minus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M0 10h24v4h-24z'/%3E%3C/svg%3E");
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.5;
 }
