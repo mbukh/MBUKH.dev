@@ -340,7 +340,7 @@ a {
     /* overflow: auto; */
 
     overflow-y: scroll;
-    max-height: calc(100vh - var(--screen-padding-h) * 10);
+    max-height: calc(100vh - var(--screen-padding-h) * 4 - var(--button-size));
 
     /* border: 1px solid purple; */
 }
@@ -827,7 +827,7 @@ to run them on one formula */
     max-height: 0;
     /* max-width: 80%; */
     color: var(--l-gray);
-    overflow: hidden;
+    overflow: auto;
     transform: translateY(20px);
     transition: all 180ms ease-in-out 0ms;
 }
