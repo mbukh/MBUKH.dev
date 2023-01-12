@@ -1,3 +1,23 @@
 body {
     font-family: "Amazon Ember", Arial, sans-serif;
 }
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    min-width: 40px;
+    min-height: 20px;
+    padding: 5px;
+}
+div,
+img {
+    outline: 1px solid chocolate;
+}
+.fl {
+    display: flex;
+    gap: 15px;
+}
+.fl1 {
+    flex: 1;
+}
