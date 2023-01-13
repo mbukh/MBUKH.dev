@@ -1,23 +1,114 @@
 body {
     font-family: "Amazon Ember", Arial, sans-serif;
+    color: #0f1111;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    min-width: 40px;
-    min-height: 20px;
-    padding: 5px;
 }
 div,
 img {
-    outline: 1px solid chocolate;
+    /* outline: 1px solid hsla(25, 75%, 47%, 0.245); */
+}
+a {
+    text-decoration: none;
+    color: #007185;
+}
+a:hover {
+    color: #c7511f;
 }
 .fl {
     display: flex;
-    gap: 15px;
 }
-.fl1 {
+.fl-1 {
     flex: 1;
+}
+.fl-full-c {
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.fl-col {
+    flex-direction: column;
+}
+.fl-hor-r {
+    justify-content: flex-end;
+}
+.sprite-main {
+    background-image: url(../img/sprite-main.png);
+}
+.sprite-lang-flag {
+    background: url(../img/sprite-langs.png);
+    display: inline-block;
+    width: 24px;
+    height: 18px;
+    scale: 0.9;
+}
+.lang-usa {
+    background-position: 0 -130px;
+}
+#navbar {
+    font-size: 12px;
+    line-height: 14px;
+    color: #fff;
+    font-weight: 400;
+}
+#navbar .btn-type {
+    cursor: pointer;
+    height: 50px;
+    padding: 0 9px;
+    margin-left: 6px;
+}
+#navbar .btn-type:hover {
+    border: 1px solid #fff;
+    border-radius: 2px;
+}
+#navbar .line-1 {
+    width: 100%;
+}
+#navbar .line-2 {
+    font-size: 14px;
+    font-weight: 700;
+}
+#navbar .deliver-to {
+    color: #ccc;
+}
+#nav-top {
+    background: #131921;
+    height: 60px;
+    padding: 0px 15px 0px;
+}
+#nav-top .amazon-logo-big {
+    background-position: -10px -51px;
+    width: 97px;
+    height: 30px;
+}
+#nav-top #nav-logo {
+    margin-left: 0;
+}
+#nav-top .geo {
+    background-position: -71px -378px;
+    width: 15px;
+    height: 18px;
+}
+#nav-top .cart-count {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f08804;
+
+    position: absolute;
+    left: 18px;
+    top: -4px;
+}
+#nav-top .cart-icon {
+    background-position: -10px -340px;
+    width: 38px;
+    height: 26px;
+
+    position: relative;
 }
