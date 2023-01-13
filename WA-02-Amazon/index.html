@@ -5,6 +5,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/reset.local.css" />
     <link rel="stylesheet" href="/css/font.css" />
     <link rel="stylesheet" href="/css/style.css" />
     <title>
@@ -31,40 +34,53 @@
                         </div>
                     </div>
                     <div id="nav-mid" class="fl-1">
-                        <form action="" class="fl fl-full-c">
-                            <div class="fake-select">All <span class="arr-dwn">▾</span></div>
-                            <select>
-                                <option>All Departments</option>
-                                <option>Arts &amp; Crafts</option>
-                                <option>Automotive</option>
-                                <option>Baby</option>
-                                <option>Beauty &amp; Personal Care</option>
-                                <option>Books</option>
-                                <option>Boys' Fashion</option>
-                                <option>Computers</option>
-                                <option>Deals</option>
-                                <option>Digital Music</option>
-                                <option>Electronics</option>
-                                <option>Girls' Fashion</option>
-                                <option>Health &amp; Household</option>
-                                <option>Home &amp; Kitchen</option>
-                                <option>Industrial &amp; Scientific</option>
-                                <option>Kindle Store</option>
-                                <option>Luggage</option>
-                                <option>Men's Fashion</option>
-                                <option>Movies &amp; TV</option>
-                                <option>Music, CDs &amp; Vinyl</option>
-                                <option>Pet Supplies</option>
-                                <option>Prime Video</option>
-                                <option>Software</option>
-                                <option>Sports &amp; Outdoors</option>
-                                <option>Tools &amp; Home Improvement</option>
-                                <option>Toys &amp; Games</option>
-                                <option>Video Games</option>
-                                <option>Women's Fashion</option>
-                            </select>
-                            <input type="text" name="" id="">
-                            <input type="submit" value="🔍">
+                        <form id="search-form" action="">
+                            <div class="search-container fl fl-full-c">
+                                <div id="search-cat" class="rel">
+                                    <div class="search-fake-select fl fl-full-c">
+                                        <div>
+                                            <span id="selected-cat-text">All</span>
+                                            <span class="arr-dwn">▾</span>
+                                        </div>
+                                    </div>
+                                    <select id="select-cat" class="op-0 abs" onchange="updateSearchCat()">
+                                        <option>All Departments</option>
+                                        <option>Arts &amp; Crafts</option>
+                                        <option>Automotive</option>
+                                        <option>Baby</option>
+                                        <option>Beauty &amp; Personal Care</option>
+                                        <option>Books</option>
+                                        <option>Boys' Fashion</option>
+                                        <option>Computers</option>
+                                        <option>Deals</option>
+                                        <option>Digital Music</option>
+                                        <option>Electronics</option>
+                                        <option>Girls' Fashion</option>
+                                        <option>Health &amp; Household</option>
+                                        <option>Home &amp; Kitchen</option>
+                                        <option>Industrial &amp; Scientific</option>
+                                        <option>Kindle Store</option>
+                                        <option>Luggage</option>
+                                        <option>Men's Fashion</option>
+                                        <option>Movies &amp; TV</option>
+                                        <option>Music, CDs &amp; Vinyl</option>
+                                        <option>Pet Supplies</option>
+                                        <option>Prime Video</option>
+                                        <option>Software</option>
+                                        <option>Sports &amp; Outdoors</option>
+                                        <option>Tools &amp; Home Improvement</option>
+                                        <option>Toys &amp; Games</option>
+                                        <option>Video Games</option>
+                                        <option>Women's Fashion</option>
+                                    </select>
+                                </div>
+                                <div class="fl-1">
+                                    <input type="text" name="" id="" class="search-text">
+                                </div>
+                                <div>
+                                    <input type="submit" value=" " class="sprite-main search-submit">
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div id="nav-right" class="fl">
@@ -184,6 +200,15 @@
 
 
     </div>
+
+    <script>
+        function updateSearchCat() {
+            const selectedCat = document.querySelector("#select-cat")
+            const newText = selectedCat.options[selectedCat.selectedIndex].text;
+            document.querySelector("#selected-cat-text").innerText = newText;
+        }
+    </script>
+
 </body>
 
 </html>
