@@ -15,6 +15,8 @@
     --button-size: 1.9rem;
     --spacer-around-button: 1.2;
 
+    --background-image-opacity: 0.15;
+
     --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
@@ -51,6 +53,7 @@ body.light {
     --gray: #7f7f7f;
     --l-gray: #333333;
     --white: #000000;
+    --background-image-opacity: 0.1;
 }
 
 img {
@@ -291,7 +294,7 @@ a {
     width: 100vw;
     height: 100vh;
 
-    opacity: 0.1;
+    opacity: --background-image-opacity;
 }
 
 /* Showcase */
