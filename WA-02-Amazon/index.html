@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/reset.local.css" />
     <link rel="stylesheet" href="/css/font.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="./js/script.js" defer></script>
     <title>
         Amazon.com: Anker Powerline+ II Lightning Cable 3-Pack (3ft, 6ft, 10ft), MFi Certified for Flawless
         Compatibility with iPhone 11/11 Pro / 11 Pro Max/Xs/XS Max/XR/X / 8/8 Plus / 7 and More (Black) : Electronics
@@ -18,22 +19,27 @@
 
 <body>
     <div id="body-container">
+
         <header>
             <div id="navbar">
                 <div id="nav-top" class="fl fl-full-c">
-                    <div id="nav-left" class="fl">
+                    <div class="nav-left fl">
                         <div id="nav-logo" class="fl fl-full-c btn-type">
-                            <div class="sprite-main amazon-logo-big"></div>
+                            <a href="#">
+                                <div class="sprite-main amazon-logo-big"></div>
+                            </a>
                         </div>
                         <div class="location fl fl-full-c btn-type">
                             <div class="sprite-main geo"></div>
                             <div>
-                                <div class="line-1 deliver-to">Deliver to</div>
-                                <div class="line-2">Georgia</div>
+                                <a href="#">
+                                    <div class="line-1 deliver-to">Deliver to</div>
+                                    <div class="line-2">Georgia</div>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div id="nav-mid" class="fl-1">
+                    <div class="nav-mid fl-1">
                         <form id="search-form" action="">
                             <div class="search-container fl fl-full-c">
                                 <div id="search-cat" class="rel">
@@ -75,7 +81,7 @@
                                     </select>
                                 </div>
                                 <div class="fl-1">
-                                    <input type="text" name="" id="" class="search-text">
+                                    <input type="text" name="search-bar" id="search-bar" class="search-bar">
                                 </div>
                                 <div>
                                     <input type="submit" value=" " class="sprite-main search-submit">
@@ -83,131 +89,224 @@
                             </div>
                         </form>
                     </div>
-                    <div id="nav-right" class="fl">
+                    <div class="nav-right fl">
                         <div class="lang btn-type fl fl-col fl-full-c">
-                            <div class="line-1">&nbsp;</div>
-                            <div class="line-2 fl fl-full-c">
-                                <span class="sprite-lang-flag lang-usa"></span>
-                                <span class="nav-accent">EN</span>
+                            <a href="#">
+                                <div class="line-1">&nbsp;</div>
+                                <div class="line-2 fl fl-full-c">
+                                    <span class="sprite-lang-flag lang-usa"></span>
+                                    <span class="nav-accent">EN</span>
+                                    <span class="arr-dwn">▾</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="account btn-type fl fl-col fl-full-c">
+                            <div class=" line-1">Hello, sign in</div>
+                            <div class="line-2">
+                                Account &amp; Lists
                                 <span class="arr-dwn">▾</span>
                             </div>
                         </div>
-                        <div class="account btn-type fl fl-col fl-full-c"">
-                            <div class=" line-1">Hello, sign in</div>
-                        <div class="line-2">
-                            Account &amp; Lists
-                            <span class="arr-dwn">▾</span>
+                        <div class="returns btn-type fl fl-col fl-full-c">
+                            <div class="line-1">Returns</div>
+                            <div class="line-2">&amp; Orders</div>
+                        </div>
+                        <div class="cart btn-type fl fl-full-c">
+                            <div class="sprite-main cart-icon">
+                                <span class="cart-count">0</span>
+                            </div>
+                            <div class="line-2"><br />Cart</div>
                         </div>
                     </div>
-                    <div class="returns btn-type fl fl-col fl-full-c"">
-                        <div class=" line-1">Returns</div>
-                    <div class="line-2">&amp; Orders</div>
                 </div>
-                <div class="cart btn-type fl fl-full-c">
-                    <div class="sprite-main cart-icon">
-                        <span class="cart-count">0</span>
+                <div id="nav-bottom" class="fl fl-full-c">
+                    <div class="nav-left">
+                        <ul>
+                            <li class="btn-type">
+                                <a class="fl">
+                                    <div class="sprite-main hamburger"></div>
+                                    <span class="fw700">All</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="line-2"><br />Cart</div>
+                    <div id="nav-mid" class="nav-mid fl-1">
+                        <ul class="fl">
+                            <li class="btn-type">Today's Deals</li>
+                            <li class="btn-type">Customer Service</li>
+                            <li class="btn-type">Registry</li>
+                            <li class="btn-type">Gift Cards</li>
+                            <li class="btn-type">Sell</li>
+                        </ul>
+                    </div>
+                    <div class="nav-right fl-hor-r">
+                        <ul>
+                            <li class="btn-type fw700">Shop deals in Electronics</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-    </div>
-    <div id="nav-bottom" class="fl">
-        <div id="nav-left"></div>
-        <div id="nav-mid" class="fl-1"></div>
-        <div id="nav-right"></div>
-    </div>
-    </div>
-    </header>
-
-    <main>
+        </header>
 
         <div id="banner-top"></div>
 
-        <div id="content-page">
-
-            <div id="breadcrumbs">
-                <span>Electronics</span>
-                ›
-                <span>Computers & Accessories</span>
-                ›
-                <span>Computer Accessories & Peripherals</span>
-                ›
-                <span>Cables & Accessories</span>
-                ›
-                <span>Cables & Interconnects</span>
-                ›
-                <span>Lightning Cables</span>
-            </div>
-
-            <div id="product">
-                <section>
-                    <div class="three-columns fl">
-
-                        <div class="p-left">
-                            <div class="sticky-image-block fl">
-
-                                <div id="image-change">
-                                    <div>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div>
-                                        <img src="" alt="">
-                                    </div>
-                                </div>
-
-                                <div class="image-display">
-                                    <div class="social-share"></div>
-                                    <div class="img-block">
-                                        <img src="" alt="">
-                                        <div class="image-display-caption">Roll over image to zoom in</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="p-mid">
-
-                        </div>
-
-                        <div class="p-right">
-                            <div class="title">
-                                <h1>Anker Powerline+ II Lightning Cable 3-Pack (3ft, 6ft, 10ft), MFi Certified for
-                                    Flawless Compatibility with iPhone 11/11 Pro / 11 Pro Max/Xs/XS Max/XR/X / 8/8
-                                    Plus / 7 and More (Black)</h1>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-            </div>
-
+        <div id="breadcrumbs">
+            <ul class="fl">
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Computers & Accessories</a></li>
+                <li><a href="#">Computer Accessories & Peripherals</a></li>
+                <li><a href="#">Keyboards, Mice & Accessories</a></li>
+                <li><a href="#">Mice</a></li>
+            </ul>
         </div>
 
+        <main>
+            <div id="product-page">
 
 
+                <div id="product">
+                    <section>
+                        <div class="three-columns fl">
 
-    </main>
+                            <div class="p-mid fl-or-2">
+                                <div class="title">
+                                    <h1>Gears Out Dill Dough Stress Reliever Putty – Stress Relief Toys for Girlfriends
+                                        Funny Pickle Gifts Stocking Stuffers for Adults Stocking Stuffers for Women Dill
+                                        Scented Stress Putty Weird</h1>
+                                </div>
+                                <div class="subtitle">
+                                    <div class="store-link">
+                                        <a href="#">Visit the Gears Out Store</a>
+                                    </div>
+                                    <div class="rating">
+                                        <div class="stars">* * * * *</div>
+                                        <div class="rating-details"> ̬</div>
+                                    </div>
+                                    <div class="amazon-choice"></div>
+                                    <div class="pledges"></div>
+                                </div>
+                                <div class="info">
+                                    <div class="price">
+                                        <span class="symbol">$</span>
+                                        <span class="whole">15</span>
+                                        <span class="delimiet">.</span>
+                                        <span class="whole">99</span>
+                                    </div>
+                                    <div class="overview">
+                                        <div>
+                                            <div class="overview-name">Brand</div>
+                                            <div class="overview-value">Gears Out</div>
+                                        </div>
+                                        <div>
+                                            <div class="overview-name">Theme</div>
+                                            <div class="overview-value">Pickle</div>
+                                        </div>
+                                        <div>
+                                            <div class="overview-name">Material</div>
+                                            <div class="overview-value">Plastic</div>
+                                        </div>
+                                        <div>
+                                            <div class="overview-name">Color</div>
+                                            <div class="overview-value">Grey, Green</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="about">
+                                    <div class="desc-div-name">About this item</div>
+                                    <div class="desc-div-content">
+                                        <ul>
+                                            <li>FEELING TENSE, DILL WITH IT – When you’re in a pickle and feeling
+                                                stressed out, reach for your Dill Dough and relieve that tension.
+                                            </li>
+                                            <li>PATENTED STRESS RELIEF PUTTY, WITH LIGHT DILL SCENT – Capture the
+                                                therapeutic bliss of squishable, squeezable stress putty, while
+                                                breathing in the delicious pickle scent that makes Dill-Dough a one of a
+                                                kind, hilarious stress relief toy for one and all.
+                                            </li>
+                                            <li>SWEETS CAN’T RELAX YOU LIKE A GOOD HANDFUL OF DILL-DOUGH – When you’re
+                                                stressed to the max, eating your feelings won’t be half as invigorating
+                                                as a relaxing session with your Dill-Dough! Squish your anxiety away
+                                                with a healthy dose of green, dill-scented stress putty!
+                                            </li>
+                                            <li>FUNNY PICKLE GIFTS FOR THE WIN – Dill Dough Stress Relief Putty is the
+                                                best stocking stuffer for women and adults, because it’s weird, dilly,
+                                                unexpected, and sure to bring a smile to even the most sour face.
+                                                There’s never been a funny pickle gift like this before!
+                                            </li>
+                                            <li>SPECIALLY DESIGNED TO SOOTHE AWAY STRESS: Release tension as you loosen
+                                                the putty by squeezing and kneading it in your hands. Tease it ‘til you
+                                                tame it, and you’ll feel so much better.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="p-left">
+                                <div class="sticky-image-block fl">
+                                    <div id="image-change">
+                                        <div>
+                                            <img src="/img/product/small/pr-img1_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img2_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img3_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img4_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img5_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img6_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img7_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img8_s.jpeg" alt="">
+                                        </div>
+                                        <div>
+                                            <img src="/img/product/small/pr-img9_s.jpeg" alt="">
+                                        </div>
+                                    </div>
+
+                                    <div class="image-display">
+                                        <div class="social-share"></div>
+                                        <div class="img-block">
+                                            <img src="/img/product/pr-img1.jpg" alt="">
+                                            <div class="image-display-caption">Roll over image to zoom in</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="p-right">
+                                <div class="price">
+                                    <span class="symbol">$</span>
+                                    <span class="whole">15</span>
+                                    <span class="delimiet">.</span>
+                                    <span class="whole">99</span>
+                                </div>
+                                <div class="delivery-est">
+                                    $9.82 delivery
+                                    <span class="fw700">January 31 - February 9.</span>
+                                    <a href="#">Details</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </main>
 
     </div>
-
-    <script>
-        function updateSearchCat() {
-            const selectedCat = document.querySelector("#select-cat")
-            const newText = selectedCat.options[selectedCat.selectedIndex].text;
-            document.querySelector("#selected-cat-text").innerText = newText;
-        }
-    </script>
 
 </body>
 
