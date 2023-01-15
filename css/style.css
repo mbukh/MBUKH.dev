@@ -294,7 +294,7 @@ a {
     width: 100vw;
     height: 100vh;
 
-    opacity: --background-image-opacity;
+    opacity: var(--background-image-opacity);
 }
 
 /* Showcase */
