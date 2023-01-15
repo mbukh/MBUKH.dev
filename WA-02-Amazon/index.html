@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/css/reset.local.css" />
     <link rel="stylesheet" href="/css/font.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <script src="./js/script.js" defer></script>
     <title>
         Amazon.com: Anker Powerline+ II Lightning Cable 3-Pack (3ft, 6ft, 10ft), MFi Certified for Flawless
@@ -148,7 +150,7 @@
             </div>
         </header>
 
-        <div id="banner-top"></div>
+        <div id="banner-top" class="fl fl-full-c"><img src="./img/banner.png" alt=""></div>
 
         <div id="breadcrumbs">
             <ul class="fl">
@@ -196,21 +198,27 @@
                                         <span class="whole">15</span>
                                         <span class="fraction">99</span>
                                     </div>
-                                    <div class="overview">
-                                        <div>
-                                            <div class="t-name">Brand</div>
+                                    <div class="banner-text">
+                                        <a href="#">
+                                            Get $50 off instantly: Pay $0.00 $15.99 upon approval for
+                                            the Amazon Rewards Visa Card. No annual fee.
+                                        </a>
+                                    </div>
+                                    <div class="overview fl fl-col">
+                                        <div class="fl">
+                                            <div class="t-name fw700">Brand</div>
                                             <div class="t-value">Gears Out</div>
                                         </div>
-                                        <div>
-                                            <div class="t-name">Theme</div>
+                                        <div class="fl">
+                                            <div class="t-name fw700">Theme</div>
                                             <div class="t-value">Pickle</div>
                                         </div>
-                                        <div>
-                                            <div class="t-name">Material</div>
+                                        <div class="fl">
+                                            <div class="t-name fw700">Material</div>
                                             <div class="t-value">Plastic</div>
                                         </div>
-                                        <div>
-                                            <div class="t-name">Color</div>
+                                        <div class="fl">
+                                            <div class="t-name fw700">Color</div>
                                             <div class="t-value">Grey, Green</div>
                                         </div>
                                     </div>
@@ -249,46 +257,78 @@
                                 </div>
                             </div>
 
-                            <div id="p-left">
-                                <div class="sticky-image-block fl fl-or-1">
-                                    <div id="image-change">
-                                        <div>
-                                            <img src="/img/product/small/pr-img1_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img2_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img3_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img4_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img5_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img6_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img7_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img8_s.jpeg" alt="">
-                                        </div>
-                                        <div>
-                                            <img src="/img/product/small/pr-img9_s.jpeg" alt="">
-                                        </div>
-                                    </div>
+                            <div id="p-left" class="fl-or-1">
 
-                                    <div class="image-display">
+                                <div id="image-zoom-overlay"></div>
+
+                                <div class="sticky-image-block fl">
+
+                                    <div id="image-display" class="fl-or-2 rel">
                                         <div class="social-share"></div>
-                                        <div class="img-block">
-                                            <img src="/img/product/pr-img1.jpg" alt="">
-                                            <div class="image-display-caption">Roll over image to zoom in</div>
+
+                                        <div id="prod-img-block">
+                                            <div id="prod-image" class="rel">
+                                                <div id="img-zoom-lens"></div>
+                                                <img src="/img/product/pr-img1.jpeg" alt="">
+                                            </div>
+                                            <div class="image-display-caption fl fl-full-c">
+                                                Roll over image to zoom in
+                                            </div>
                                         </div>
+
                                     </div>
 
+                                    <div id="image-switch" class="fl-or-1">
+                                        <ul>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img1.jpeg">
+                                                    <img src="/img/product/small/pr-img1_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img2.jpeg">
+                                                    <img src="/img/product/small/pr-img2_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img3.jpeg">
+                                                    <img src="/img/product/small/pr-img3_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img4.jpeg">
+                                                    <img src="/img/product/small/pr-img4_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img5.jpeg">
+                                                    <img src="/img/product/small/pr-img5_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img6.jpeg">
+                                                    <img src="/img/product/small/pr-img6_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img7.jpeg">
+                                                    <img src="/img/product/small/pr-img7_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img8.jpeg">
+                                                    <img src="/img/product/small/pr-img8_s.jpeg">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-main-img="/img/product/pr-img9.jpeg">
+                                                    <div>
+                                                        <img src="/img/product/small/pr-img9_s.jpeg">
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
 
@@ -300,17 +340,18 @@
                                         <span class="fraction">99</span>
                                     </div>
                                     <div class="delivery-est">
-                                        $9.82 delivery
-                                        <span class="fw700">January 31 - February 9</span>
-                                        .
+                                        $4.16 delivery
+                                        <span class="fw700">January 24 - 26</span>.
                                         <a href="#">Details</a>
                                     </div>
-                                    <div class="delivery-dest">Deliver to Georgia</div>
+                                    <div class="delivery-dest"><a href="#" class="a-no-hover">Deliver to Georgia</a>
+                                    </div>
                                     <div class="stock-available">In Stock.</div>
                                     <div class="quantity">
                                         <div class="select-add-shadow">
-                                            <div id="order-quantity" class="rel">
-                                                <select name="" class="" op-0 abs">
+                                            <div class="order-quantity rel fl fl-full-c">
+                                                <select id="select-quantity" class="op-0 abs"
+                                                    onchange="updateOrderQuantity()">
                                                     <option>1</option>
                                                     <option>2</option>
                                                     <option>3</option>
@@ -342,54 +383,699 @@
                                                     <option>29</option>
                                                     <option>30</option>
                                                 </select>
-                                                <span>Qty: 1</span>
+                                                <span>Qty:</span>
+                                                <span id="selected-quantity-text">1</span>
                                                 <span class="sprite-utils arr-select-down"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="act-purchase">
-                                        <button>Add to Cart</button>
-                                        <button>Buy Now</button>
-                                        <div class="secure-trans">Secure transaction</div>
+                                        <a class="add a-no-hover">Add to Cart</a>
+                                        <a class="buy a-no-hover">Buy Now</a>
+                                    </div>
+                                    <div class="secure-trans">
+                                        <img src="./img/secure.png" alt="">
+                                        <a href="#" class="a-no-hover">Secure transaction</a>
                                     </div>
                                     <div class="shipment">
-                                        <div>
-                                            <div class="t-name">Ships-from</div>
-                                            <div class="t-value">GearsOut</div>
+                                        <div class="fl">
+                                            <div class="t-name fl-1">Ships-from</div>
+                                            <div class="t-value fl-1">GearsOut</div>
                                         </div>
-                                        <div>
-                                            <div class="t-name">Brand</div>
-                                            <div class="t-value"><a href="#">GearsOut</a></div>
+                                        <div class="fl">
+                                            <div class="t-name fl-1">Brand</div>
+                                            <div class="t-value fl-1"><a href="#">GearsOut</a></div>
                                         </div>
                                     </div>
-                                    <div class="return-polity">
+                                    <div class="return-policy">
                                         Return policy:
-                                        <a href="#">
+                                        <a href="#" class="a-no-hover">
                                             Eligible for Return, Refund or Replacement within 30 days of receipt
-                                            <div class="arr-details-down"></div>
+                                            <div class="sprite-utils arr-details-down"></div>
                                         </a>
                                     </div>
 
                                     <hr>
 
                                     <div class="wishlist">
-                                        <button class="wishlist-add"></button>
+                                        <a class="wishlist-add a-no-hover">Add to List</a>
                                     </div>
                                 </div>
-                                <div class="sell-block">
-                                    Have one to sell?
-                                    <button class="sell-button">Sell on Amazon</button>
+                                <div class="sell-block fl fl-col fl-full-c">
+                                    <div class="question">Have one to sell?</div>
+                                    <div class="add-shadow"><a class="sell-button a-no-hover">Sell on Amazon</a></div>
                                 </div>
 
                             </div>
 
                         </div>
                     </section>
+
+                    <hr>
+
+                    <section>
+
+                        <div id="carousel-block">
+                            <h2>Popular products based on this item</h2>
+
+                            <div class="carousel">
+                                <ul class="c-gallery js-flickity"
+                                    data-flickity='{ "setGallerySize": false, "initialIndex": 0, "groupCells": true }'>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/1.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Kicko Noise Putty Slimes - 12 Gas Sound Slimes - Small Containers 1.5
+                                                Inches
+                                                Assorted Colors - Toy for Kids, Boys, Girls, Party Favors, Gift Bags...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">903</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">13.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>FREE Shipping on orders over</div>
+                                            <div>$25 shipped by Amazon</div>
+                                            <div>Only 11 left in stock - order soon.</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/2.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Dill Dough™ Deluxe Glow-in-The-Dark Stress Reliever Putty – Stress
+                                                Relief
+                                                Toys
+                                                for
+                                                Girlfriends Pickle Gifts...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">15.85</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$3.99 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/3.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Massive Package Dill Dough Putty - Christmas Gag Gift Dill Dough Stress
+                                                Putty
+                                                for
+                                                Women - Stress Reliever Toy for Adults - Made Scented...
+                                            </a>
+                                        </div>
+                                        <!-- <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div> -->
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$4.36 shipping</div>
+                                            <div>Only 9 left in stock - order</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/4.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicorn Dreams Magical Fidget Putty – Stress Relief Unicorn Gifts Fun
+                                                Gag
+                                                Gifts
+                                                for
+                                                Friends BFF Gifts Stocking Stuffers...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">61</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.95</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Tuesday, Jan 24</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/5.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicoslm Butter Slime Rainbow Premade Scented Sludge, Stress Relief Toy,
+                                                Birthday,
+                                                School, Education, Cla...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">6.98</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Wednesday, Jan 25</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/6.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Slime Kit DIY Toy Stocking Stuffer Fidget Gift for Kids Girls Boys Ages
+                                                5-12,
+                                                Dyeing
+                                                Machine Slime Making Kit
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">45.00</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <Tuesday, class="fw700">Feb 6 - 28</span></div>
+                                            <div>$26.00 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/5.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicoslm Butter Slime Rainbow Premade Scented Sludge, Stress Relief Toy,
+                                                Birthday,
+                                                School, Education, Cla...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">6.98</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Wednesday, Jan 25</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/4.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicorn Dreams Magical Fidget Putty – Stress Relief Unicorn Gifts Fun
+                                                Gag
+                                                Gifts
+                                                for
+                                                Friends BFF Gifts Stocking Stuffers...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">61</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.95</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Tuesday, Jan 24</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/3.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Massive Package Dill Dough Putty - Christmas Gag Gift Dill Dough Stress
+                                                Putty
+                                                for
+                                                Women - Stress Reliever Toy for Adults - Made Scented...
+                                            </a>
+                                        </div>
+                                        <!-- <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div> -->
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$4.36 shipping</div>
+                                            <div>Only 9 left in stock - order</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/2.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Dill Dough™ Deluxe Glow-in-The-Dark Stress Reliever Putty – Stress
+                                                Relief
+                                                Toys
+                                                for
+                                                Girlfriends Pickle Gifts...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">15.85</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$3.99 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/1.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Kicko Noise Putty Slimes - 12 Gas Sound Slimes - Small Containers 1.5
+                                                Inches
+                                                Assorted Colors - Toy for Kids, Boys, Girls, Party Favors, Gift Bags...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">903</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">13.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>FREE Shipping on orders over</div>
+                                            <div>$25 shipped by Amazon</div>
+                                            <div>Only 11 left in stock - order soon.</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/2.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Dill Dough™ Deluxe Glow-in-The-Dark Stress Reliever Putty – Stress
+                                                Relief
+                                                Toys
+                                                for
+                                                Girlfriends Pickle Gifts...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">15.85</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$3.99 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/3.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Massive Package Dill Dough Putty - Christmas Gag Gift Dill Dough Stress
+                                                Putty
+                                                for
+                                                Women - Stress Reliever Toy for Adults - Made Scented...
+                                            </a>
+                                        </div>
+                                        <!-- <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div> -->
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$4.36 shipping</div>
+                                            <div>Only 9 left in stock - order</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/4.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicorn Dreams Magical Fidget Putty – Stress Relief Unicorn Gifts Fun
+                                                Gag
+                                                Gifts
+                                                for
+                                                Friends BFF Gifts Stocking Stuffers...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">61</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.95</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Tuesday, Jan 24</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/5.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicoslm Butter Slime Rainbow Premade Scented Sludge, Stress Relief Toy,
+                                                Birthday,
+                                                School, Education, Cla...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">6.98</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Wednesday, Jan 25</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/6.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Slime Kit DIY Toy Stocking Stuffer Fidget Gift for Kids Girls Boys Ages
+                                                5-12,
+                                                Dyeing
+                                                Machine Slime Making Kit
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">45.00</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <Tuesday, class="fw700">Feb 6 - 28</span></div>
+                                            <div>$26.00 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/5.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicoslm Butter Slime Rainbow Premade Scented Sludge, Stress Relief Toy,
+                                                Birthday,
+                                                School, Education, Cla...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">6.98</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Wednesday, Jan 25</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/4.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicorn Dreams Magical Fidget Putty – Stress Relief Unicorn Gifts Fun
+                                                Gag
+                                                Gifts
+                                                for
+                                                Friends BFF Gifts Stocking Stuffers...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">61</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.95</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Tuesday, Jan 24</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/3.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Massive Package Dill Dough Putty - Christmas Gag Gift Dill Dough Stress
+                                                Putty
+                                                for
+                                                Women - Stress Reliever Toy for Adults - Made Scented...
+                                            </a>
+                                        </div>
+                                        <!-- <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div> -->
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$4.36 shipping</div>
+                                            <div>Only 9 left in stock - order</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/2.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Dill Dough™ Deluxe Glow-in-The-Dark Stress Reliever Putty – Stress
+                                                Relief
+                                                Toys
+                                                for
+                                                Girlfriends Pickle Gifts...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">15.85</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$3.99 shipping</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/1.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Kicko Noise Putty Slimes - 12 Gas Sound Slimes - Small Containers 1.5
+                                                Inches
+                                                Assorted Colors - Toy for Kids, Boys, Girls, Party Favors, Gift Bags...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">903</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">13.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>FREE Shipping on orders over</div>
+                                            <div>$25 shipped by Amazon</div>
+                                            <div>Only 11 left in stock - order soon.</div>
+                                        </div>
+                                    </li>
+
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/3.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Massive Package Dill Dough Putty - Christmas Gag Gift Dill Dough Stress
+                                                Putty
+                                                for
+                                                Women - Stress Reliever Toy for Adults - Made Scented...
+                                            </a>
+                                        </div>
+                                        <!-- <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">86</a></div>
+                                        </div> -->
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.99</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <span class="fw700">Jan 24 - 26</span></div>
+                                            <div>$4.36 shipping</div>
+                                            <div>Only 9 left in stock - order</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/4.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicorn Dreams Magical Fidget Putty – Stress Relief Unicorn Gifts Fun
+                                                Gag
+                                                Gifts
+                                                for
+                                                Friends BFF Gifts Stocking Stuffers...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">61</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">7.95</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Tuesday, Jan 24</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/5.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Unicoslm Butter Slime Rainbow Premade Scented Sludge, Stress Relief Toy,
+                                                Birthday,
+                                                School, Education, Cla...
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">6.98</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it as soon as <Tuesday, class="fw700">Wednesday, Jan 25</span>
+                                            </div>
+                                            <div>FREE Shipping on orders over $25 shipped by Amazon</div>
+                                        </div>
+                                    </li>
+
+                                    <li class="c-item">
+                                        <img src="./img/carousel/6.jpg" alt="">
+                                        <div class="title-link">
+                                            <a href="#">
+                                                Slime Kit DIY Toy Stocking Stuffer Fidget Gift for Kids Girls Boys Ages
+                                                5-12,
+                                                Dyeing
+                                                Machine Slime Making Kit
+                                            </a>
+                                        </div>
+                                        <div class="rating fl">
+                                            <div class="sprite-ratings-utils rating-stars-3-5"></div>
+                                            <div class="rating-count"><a href="#">170</a></div>
+                                        </div>
+                                        <div class="price">
+                                            <span class="symbol">$</span>
+                                            <span class="whole">45.00</span>
+                                        </div>
+                                        <div class="info">
+                                            <div>Get it <Tuesday, class="fw700">Feb 6 - 28</span></div>
+                                            <div>$26.00 shipping</div>
+                                        </div>
+                                    </li>
+
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </section>
+
                 </div>
 
-                <hr>
-
             </div>
+
+            <hr>
+
         </main>
 
     </div>
