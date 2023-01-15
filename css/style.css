@@ -16,6 +16,7 @@
     --spacer-around-button: 1.2;
 
     --background-image-opacity: 0.15;
+    --filter-invert: invert(100%);
 
     --jump-ease: cubic-bezier(0.77, 0.2, 0.05, 1);
 }
@@ -54,6 +55,7 @@ body.light {
     --l-gray: #333333;
     --white: #000000;
     --background-image-opacity: 0.1;
+    --filter-invert: none;
 }
 
 img {
@@ -800,7 +802,7 @@ to run them on one formula */
 /* ------------------------------------------------------------------ */
 .m-d.expand-list > li {
     padding: 1rem 0;
-    border: none;
+    border: transparent;
     border-bottom: var(--l-gray);
     position: relative;
     /* max-width: 80%; */
@@ -893,10 +895,12 @@ to run them on one formula */
     left: 0;
 }
 .m-d .open-close-icon .fa-minus {
+    opacity: 0;
     transform: rotate(-90deg);
     transition: transform 150ms ease-in-out 0ms;
 }
 .m-d input[class^="tab"]:checked ~ .open-close-icon .fa-minus {
+    opacity: 1;
     transform: rotate(0deg);
     transition: transform 150ms ease-in-out 0ms;
 }
@@ -917,12 +921,14 @@ to run them on one formula */
 
 .fa-plus {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z'/%3E%3C/svg%3E");
+    filter: var(--filter-invert);
     width: 1rem;
     height: 1rem;
 }
 
 .fa-minus {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M0 10h24v4h-24z'/%3E%3C/svg%3E");
+    filter: var(--filter-invert);
     width: 1rem;
     height: 1rem;
     opacity: 0.5;
