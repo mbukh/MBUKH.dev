@@ -462,8 +462,6 @@ a.a-no-hover:hover {
 #product-main #p-right .act-purchase a.buy:active {
     border: 1px solid #008296;
 }
-#product-main #p-right .act-purchase a.buy {
-}
 #product-main #p-right .secure-trans img {
     height: 15px;
     margin-right: 10px;
@@ -608,7 +606,7 @@ a.a-no-hover:hover {
 }
 
 #carousel-block .carousel ul.c-gallery {
-    padding: 20px 80px 0;
+    padding: 20px 60px 0;
     height: 446px;
 }
 #carousel-block .carousel ul li.c-item {
@@ -631,6 +629,7 @@ a.a-no-hover:hover {
 #carousel-block .carousel .c-item .rating-count {
     font-size: 12px;
     margin-left: 4px;
+    margin-top: -2px;
 }
 #carousel-block .carousel .c-item .price {
     margin: 2px 0;
@@ -664,6 +663,9 @@ a.a-no-hover:hover {
 #carousel-block .carousel .flickity-prev-next-button .arrow {
     fill: #565959;
 }
+#carousel-block .carousel .flickity-prev-next-button.no-svg {
+    color: #565959;
+}
 #carousel-block .carousel .flickity-prev-next-button:hover {
     background-color: #f7fafa;
     border-color: #d5d9d9;
@@ -673,13 +675,6 @@ a.a-no-hover:hover {
     background-color: #edfdff;
     box-shadow: 0 0 0 3px #c8f3fa, inset 0 0 0 2px #fff;
     border-color: #008296;
-}
-/* arrow color */
-.#carousel-block .carousel .flickity-prev-next-button .arrow {
-    fill: #000;
-}
-#carousel-block .carousel .flickity-prev-next-button.no-svg {
-    color: #000;
 }
 
 /* ------------- */
