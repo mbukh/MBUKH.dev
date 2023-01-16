@@ -550,11 +550,11 @@ a.a-no-hover:hover {
 }
 #product-main #p-left #image-zoom-overlay {
     position: absolute;
-    top: 200px;
-    left: 46%;
+    top: 0;
+    left: 45%;
     z-index: 999;
-    width: calc(100% - 47%);
-    height: calc(100% - 220px);
+    width: calc(100% - 45% - 244px - 5px);
+    height: min(calc(100vh - 205px), 100%);
     background: #fff;
     background-repeat: no-repeat;
     box-shadow: rgb(0 0 0 / 25%) 0px 6px 8px 2px;
@@ -584,12 +584,9 @@ a.a-no-hover:hover {
     position: absolute;
     background-image: url(../img/zoom-lens-overlay.gif);
     cursor: pointer;
-    width: calc(100% / 2);
-    height: calc(100% / 2);
-    opacity: 0;
-}
-#product-main #p-left #image-display #prod-img-block:hover #img-zoom-lens {
-    opacity: 1;
+    width: 50px;
+    height: 50px;
+    visibility: hidden;
 }
 
 #product-main #p-left #image-display #prod-img-block #prod-image {

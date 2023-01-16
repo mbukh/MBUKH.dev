@@ -24,27 +24,33 @@ const updateOrderQuantity = () =>
     );
 })();
 
-(function imageZoom(imgID, resultID, lensID) {
-    let img, lens, result, cx, cy, aspect;
+(function imageZoom(imgID, zoomID, lensID) {
+    let img, lens, zoom, cx, cy;
     img = document.querySelector(imgID);
-    result = document.querySelector(resultID);
+    zoom = document.querySelector(zoomID);
     lens = document.querySelector(lensID);
-    /* Calculate the ratio between result DIV and lens: */
-    [cx, cy] = proportionalScale(lens, result);
     /* Execute a function when someone moves the cursor over the image, or the lens: */
+    img.addEventListener("mouseenter", activateZoom);
+    lens.addEventListener("mouseenter", activateZoom);
+    lens.addEventListener("touchstart", activateZoom);
+    img.addEventListener("touchstart", activateZoom);
+    // Update on move
     lens.addEventListener("mousemove", moveLens);
     img.addEventListener("mousemove", moveLens);
-    /* And also for touch screens: */
     lens.addEventListener("touchmove", moveLens);
     img.addEventListener("touchmove", moveLens);
     // Close image
     img.addEventListener("mouseleave", closeZoom);
     lens.addEventListener("mouseleave", closeZoom);
+    lens.addEventListener("touchend", closeZoom);
+    img.addEventListener("touchend", closeZoom);
+    lens.addEventListener("touchcancel", closeZoom);
+    img.addEventListener("touchcancel", closeZoom);
     function moveLens(e) {
         let pos, x, y;
-        updateImage();
         /* Prevent any other actions that may occur when moving over the image */
         e.preventDefault();
+        e.stopImmediatePropagation();
         /* Get the cursor's x and y positions: */
         pos = getCursorPos(e);
         /* Calculate the position of the lens: */
@@ -67,7 +73,7 @@ const updateOrderQuantity = () =>
         lens.style.left = x + "px";
         lens.style.top = y + "px";
         /* Display what the lens "sees": */
-        result.style.backgroundPosition = "-" + x * cx + "px -" + y * cy + "px";
+        zoom.style.backgroundPosition = "-" + x * cx + "px -" + y * cy + "px";
     }
     function getCursorPos(e) {
         let a,
@@ -77,43 +83,52 @@ const updateOrderQuantity = () =>
         /* Get the x and y positions of the image: */
         a = img.getBoundingClientRect();
         /* Calculate the cursor's x and y coordinates, relative to the image: */
-        x = e.pageX - a.left;
-        y = e.pageY - a.top;
+        x = (e.pageX || e.touches[0].clientX) - a.left;
+        y = (e.pageY || e.touches[0].clientY) - a.top;
         /* Consider any page scrolling: */
         x = x - window.pageXOffset;
         y = y - window.pageYOffset;
         return { x: x, y: y };
     }
+    function activateZoom() {
+        updateZoomScale();
+        resizeLens();
+        updateImage();
+        moveLens();
+    }
+    function updateZoomScale() {
+        cx = zoom.offsetWidth / lens.offsetWidth;
+        cy = zoom.offsetHeight / lens.offsetHeight;
+    }
     function updateImage() {
-        result.style.zIndex = "999";
-        result.style.visibility = "visible";
-        result.style.backgroundImage = "url('" + img.src + "')";
-        result.style.backgroundSize =
+        lens.style.visibility = "visible";
+        zoom.style.zIndex = "999";
+        zoom.style.visibility = "visible";
+        zoom.style.backgroundImage = "url('" + img.src + "')";
+        zoom.style.backgroundSize =
             img.width * cx + "px " + img.height * cy + "px";
     }
-
-    function closeZoom() {
-        result.style.backgroundImage = null;
-        result.style.backgroundSize = null;
-        result.style.backgroundPosition = null;
-        result.style.zIndex = "-999";
-        result.style.visibility = "hidden";
-    }
-
-    // Returns array with new width and height
-    function proportionalScale(original, dest) {
-        const originalSize = [original.offsetWidth, original.offsetHeight];
-        const newSize = [dest.offsetWidth, dest.offsetHeight];
-        const cx = newSize[0] / originalSize[0];
-        const cy = newSize[1] / originalSize[1];
-        const aspect = cx / cy;
-        if (cx > cy) {
-            // horizontal scaling
-            return [cx, cy, aspect];
+    function resizeLens() {
+        const scaleFactor = img.naturalWidth / img.offsetWidth;
+        const aspect = zoom.offsetWidth / zoom.offsetHeight;
+        let lensWidth = img.offsetWidth / scaleFactor;
+        let lensHeight = img.offsetHeight / scaleFactor;
+        // Aspect scale down: aspect > 1 ? horizontal : vertical
+        if (aspect > 1) {
+            lens.style.width = lensWidth + "px";
+            lens.style.height = lensWidth / aspect + "px";
         } else {
-            // vertical scaling
-            return [cx, cy * aspect];
+            lens.style.width = lensHeight * aspect + "px";
+            lens.style.height = lensHeight + "px";
         }
+    }
+    function closeZoom() {
+        lens.style.visibility = "hidden";
+        zoom.style.backgroundImage = null;
+        zoom.style.backgroundSize = null;
+        zoom.style.backgroundPosition = null;
+        zoom.style.zIndex = "-999";
+        zoom.style.visibility = "hidden";
     }
 })(
     "#prod-img-block #prod-image img",
