@@ -12,50 +12,60 @@ const updateOrderQuantity = () =>
 
 (function imageSwitchEventer() {
     const mainImage = document.querySelector("#prod-img-block #prod-image img");
-    const imageSwitchers = document.querySelectorAll("#image-switch>ul>li>a");
-    imageSwitchers.forEach((el) =>
-        el.addEventListener("mouseover", () => {
-            mainImage.src = el.dataset.mainImg;
-            imageSwitchers.forEach((el) =>
-                el.parentNode.classList.remove("active")
-            );
-            el.parentNode.classList.add("active");
-        })
+    const imageSwitchers = document.querySelectorAll(
+        "#image-switch>ul>li>a>img"
     );
+    const events = ["click", "mouseover", "touchstart"];
+    events.forEach((eName) => {
+        imageSwitchers.forEach((el) => {
+            el.addEventListener(eName, eventHandler, false);
+        });
+    });
+    function eventHandler(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        mainImage.src = event.target.parentNode.dataset.mainImg;
+        mainImage.parentNode.style.height = mainImage.offsetHeight;
+        imageSwitchers.forEach((el) => {
+            el.parentNode.parentNode.classList.remove("active");
+        });
+        event.target.parentNode.parentNode.classList.add("active");
+    }
 })();
 
 (function imageZoom(imgID, zoomID, lensID) {
-    let img, lens, zoom, cx, cy;
+    let img, lens, zoom, cx, cy, disableZoom;
     img = document.querySelector(imgID);
     zoom = document.querySelector(zoomID);
     lens = document.querySelector(lensID);
     /* Execute a function when someone moves the cursor over the image, or the lens: */
-    img.addEventListener("mouseenter", activateZoom);
-    lens.addEventListener("mouseenter", activateZoom);
-    lens.addEventListener("touchstart", activateZoom);
-    img.addEventListener("touchstart", activateZoom);
+    img.addEventListener("mouseenter", activateZoom, false);
+    lens.addEventListener("mouseenter", activateZoom, false);
+    lens.addEventListener("touchstart", activateZoom, false);
+    img.addEventListener("touchstart", activateZoom, false);
     // Update on move
-    lens.addEventListener("mousemove", moveLens);
-    img.addEventListener("mousemove", moveLens);
-    lens.addEventListener("touchmove", moveLens);
-    img.addEventListener("touchmove", moveLens);
+    lens.addEventListener("mousemove", moveLens, false);
+    img.addEventListener("mousemove", moveLens, false);
+    lens.addEventListener("touchmove", moveLens, false);
+    img.addEventListener("touchmove", moveLens, false);
     // Close image
-    img.addEventListener("mouseleave", closeZoom);
-    lens.addEventListener("mouseleave", closeZoom);
-    lens.addEventListener("touchend", closeZoom);
-    img.addEventListener("touchend", closeZoom);
-    lens.addEventListener("touchcancel", closeZoom);
-    img.addEventListener("touchcancel", closeZoom);
+    img.addEventListener("mouseleave", closeZoom, false);
+    lens.addEventListener("mouseleave", closeZoom, false);
+    lens.addEventListener("touchend", closeZoom, false);
+    img.addEventListener("touchend", closeZoom, false);
+    lens.addEventListener("touchcancel", closeZoom, false);
+    img.addEventListener("touchcancel", closeZoom, false);
     function moveLens(e) {
         let pos, x, y;
+        if (disableZoom) return;
         /* Prevent any other actions that may occur when moving over the image */
         e.preventDefault();
         e.stopImmediatePropagation();
         /* Get the cursor's x and y positions: */
         pos = getCursorPos(e);
         /* Calculate the position of the lens: */
-        x = pos.x - lens.offsetWidth / 2;
-        y = pos.y - lens.offsetHeight / 2;
+        x = pos.x - lens.offsetWidth / 2 + window.scrollX;
+        y = pos.y - lens.offsetHeight / 2 + window.scrollY;
         /* Prevent the lens from being positioned outside the image: */
         if (x > img.width - lens.offsetWidth) {
             x = img.width - lens.offsetWidth;
@@ -91,6 +101,13 @@ const updateOrderQuantity = () =>
         return { x: x, y: y };
     }
     function activateZoom() {
+        if (document.body.clientWidth <= 768) {
+            disableZoom = true;
+            return;
+        } else {
+            disableZoom = false;
+        }
+        updateZoomPosition();
         updateZoomScale();
         resizeLens();
         updateImage();
@@ -109,7 +126,10 @@ const updateOrderQuantity = () =>
             img.width * cx + "px " + img.height * cy + "px";
     }
     function resizeLens() {
-        const scaleFactor = img.naturalWidth / img.offsetWidth;
+        // original size vs image box
+        // const scaleFactor = img.naturalWidth / img.offsetWidth;
+        // simple 2x scale
+        const scaleFactor = 2;
         const aspect = zoom.offsetWidth / zoom.offsetHeight;
         let lensWidth = img.offsetWidth / scaleFactor;
         let lensHeight = img.offsetHeight / scaleFactor;
@@ -120,6 +140,20 @@ const updateOrderQuantity = () =>
         } else {
             lens.style.width = lensHeight * aspect + "px";
             lens.style.height = lensHeight + "px";
+        }
+    }
+    function updateZoomPosition() {
+        const bodyRect = document.body.getBoundingClientRect();
+        const imgBlockRect = img.parentNode.getBoundingClientRect();
+        const startScroll = imgBlockRect.top - bodyRect.top - window.scrollY;
+        // None to miminum scroll position
+        zoom.style.height = window.innerHeight - 205 + window.scrollY + "px";
+        zoom.style.position = "absolute";
+        // When sticky block starts to go down
+        if (startScroll < 10) {
+            zoom.style.position = "fixed";
+            zoom.style.top = imgBlockRect.top + "px";
+            zoom.style.height = window.innerHeight - 10 + "px";
         }
     }
     function closeZoom() {

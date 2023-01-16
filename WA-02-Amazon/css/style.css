@@ -3,7 +3,7 @@ body {
     color: #0f1111;
     font-size: 14px;
     line-height: 20px;
-    min-width: 800px;
+    min-width: 370px;
 }
 a {
     text-decoration: none;
@@ -87,6 +87,12 @@ a.a-no-hover:hover {
     background-size: 512px 512px;
     display: inline-block;
 }
+.hamburger {
+    width: 17px;
+    height: 14px;
+    background-position: -172px -255px;
+    margin-right: 5px;
+}
 .lang-usa {
     background-position: 0 -130px;
 }
@@ -146,6 +152,9 @@ a.a-no-hover:hover {
 #nav-top .line-2 {
     font-size: 14px;
     font-weight: 700;
+}
+#nav-top .hamburger {
+    display: none;
 }
 #nav-top .deliver-to {
     color: #ccc;
@@ -262,12 +271,6 @@ a.a-no-hover:hover {
     height: 40px;
     padding: 5px 8px 8px;
 }
-#nav-bottom .hamburger {
-    width: 17px;
-    height: 14px;
-    background-position: -172px -255px;
-    margin-right: 5px;
-}
 #nav-bottom ul {
     font-size: 14px;
 }
@@ -313,6 +316,7 @@ a.a-no-hover:hover {
 }
 #product-main .three-columns {
     gap: 20px;
+    justify-content: space-between;
 }
 
 #product-main #p-left {
@@ -322,7 +326,9 @@ a.a-no-hover:hover {
 #product-main #p-mid {
     width: calc(100% - 45% - 270px);
 }
-
+#product-main #p-left .mobile-title {
+    display: none;
+}
 #product-main #p-mid .about .desc-div-name {
     font-size: 16px;
     font-weight: 700;
@@ -536,6 +542,12 @@ a.a-no-hover:hover {
     margin-bottom: 8px;
     border: 1px solid #a2a6ac;
     box-shadow: 0 0 3px 2px transparent;
+    overflow: hidden;
+}
+#product-main #p-left .sticky-image-block #image-switch ul li a {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 #product-main #p-left #image-switch ul li:hover,
 #product-main #p-left #image-switch ul li.active {
@@ -582,6 +594,8 @@ a.a-no-hover:hover {
 
 #product-main #p-left #image-display #img-zoom-lens {
     position: absolute;
+    top: 0;
+    left: 0;
     background-image: url(../img/zoom-lens-overlay.gif);
     cursor: pointer;
     width: 50px;
@@ -589,9 +603,17 @@ a.a-no-hover:hover {
     visibility: hidden;
 }
 
-#product-main #p-left #image-display #prod-img-block #prod-image {
+#product-main #p-left #image-display #prod-img-block {
     width: 100%;
-    height: calc(100vw / 2.5);
+    height: auto;
+    aspect-ratio: 1/1;
+    justify-content: space-between;
+}
+#product-main #p-left #image-display #prod-img-block #prod-image {
+    width: auto;
+    height: auto;
+    margin: auto;
+    max-height: 100%;
 }
 #product-main #p-left #image-display #prod-img-block #prod-image img {
     max-height: 100%;
@@ -682,20 +704,132 @@ a.a-no-hover:hover {
 /* ------------- */
 /* ------------- */
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     /* hide cart word */
     .cart .line-2 {
         display: none;
     }
-}
-
-@media (max-width: 1100px) {
-    #nav-top {
-        padding-left: 0px;
-        padding-right: 0px;
+    #product-main #p-left {
+        width: 35%;
     }
-    #nav-bottom {
-        padding-left: 0px;
-        padding-right: 0px;
+    #product-main #p-left #image-zoom-overlay {
+        left: 35%;
+        width: calc(100% - 36% - 245px);
+    }
+    #product-main #p-left .sticky-image-block {
+        flex-flow: column;
+    }
+    #product-main #p-left .sticky-image-block #image-switch {
+        margin: 0;
+        margin-top: 10px;
+        order: 2;
+    }
+    #product-main #p-left .sticky-image-block #image-switch ul {
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #product-main #p-left .sticky-image-block #image-switch ul li {
+        width: calc(100% / 4 - 10px);
+        height: auto;
+        aspect-ratio: 1/1;
+        margin-right: 10px;
+    }
+}
+@media (max-width: 992px) {
+    #nav-top .amazon-logo-big {
+        background-position: -10px -87px;
+        width: 78px;
+        height: 33px;
+    }
+    #navbar #nav-top .returns {
+        display: none;
+    }
+    #product-main #p-left {
+        width: 30%;
+    }
+    #product-main #p-left #image-zoom-overlay {
+        left: 31%;
+        width: calc(100% - 32% - 210px);
+    }
+    #product-main #p-left .sticky-image-block #image-switch ul li {
+        width: calc(100% / 3 - 10px);
+        height: auto;
+        aspect-ratio: 1/1;
+        margin-right: 10px;
+    }
+    #product-main #p-right {
+        width: 210px;
+    }
+}
+@media (max-width: 768px) {
+    #nav-top .location,
+    #nav-top .lang,
+    #nav-bottom,
+    #breadcrumbs,
+    #banner-top,
+    #search-form {
+        display: none;
+    }
+    #nav-top .nav-left {
+        flex: 1;
+        align-content: center;
+        align-self: center;
+    }
+    #nav-top .hamburger {
+        display: block;
+        margin-top: -10px;
+    }
+    #nav-top .nav-left #nav-logo {
+        width: 100%;
+        justify-self: space-between;
+    }
+    #nav-top .nav-left #nav-logo:hover {
+        border: transparent;
+    }
+    #nav-top .nav-left #nav-logo a:has(.amazon-logo-big) {
+        flex: 1;
+        text-align: center;
+        padding-left: 100px;
+    }
+    #nav-top .nav-mid {
+        flex: none;
+    }
+    #product-page #product-main .three-columns {
+        flex-direction: column;
+    }
+    #product-page #product-main .three-columns > * {
+        width: 100%;
+    }
+    #product-page #product-main .three-columns #p-left {
+        order: 1;
+    }
+    #product-page #product-main .three-columns #p-right {
+        order: 2;
+    }
+    #product-page #product-main .three-columns #p-mid {
+        order: 3;
+    }
+    #product-main #p-left .mobile-title {
+        display: block;
+    }
+    #product-main #p-left #image-display #prod-img-block {
+        margin: auto;
+        width: 60%;
+    }
+    #product-main #p-left .sticky-image-block #image-switch ul li {
+        width: calc(100% / 6 - 10px);
+    }
+}
+@media (max-width: 576px) {
+    #nav-top .nav-left #nav-logo a:has(.amazon-logo-big) {
+        padding-left: 50px;
+    }
+    #product-main #p-left #image-display #prod-img-block #prod-image {
+        margin: auto;
+        width: 80%;
+    }
+    #product-main #p-left .sticky-image-block #image-switch ul li {
+        width: calc(100% / 5 - 10px);
     }
 }
