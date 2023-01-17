@@ -825,7 +825,7 @@ a.a-no-hover:hover {
     #nav-top .nav-left #nav-logo a:has(.amazon-logo-big) {
         padding-left: 50px;
     }
-    #product-main #p-left #image-display #prod-img-block #prod-image {
+    #product-main #p-left #image-display #prod-img-block {
         margin: auto;
         width: 80%;
     }

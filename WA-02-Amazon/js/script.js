@@ -35,6 +35,8 @@ const updateOrderQuantity = () =>
 
 (function imageZoom(imgID, zoomID, lensID) {
     let img, lens, zoom, cx, cy, disableZoom;
+    // Touchscreen detect, cross-browser solution:
+    const isTouch = "ontouchstart" in window || navigator.msMaxTouchPoints;
     img = document.querySelector(imgID);
     zoom = document.querySelector(zoomID);
     lens = document.querySelector(lensID);
@@ -64,8 +66,8 @@ const updateOrderQuantity = () =>
         /* Get the cursor's x and y positions: */
         pos = getCursorPos(e);
         /* Calculate the position of the lens: */
-        x = pos.x - lens.offsetWidth / 2 + window.scrollX;
-        y = pos.y - lens.offsetHeight / 2 + window.scrollY;
+        x = pos.x - lens.offsetWidth / 2;
+        y = pos.y - lens.offsetHeight / 2 + (isTouch ? window.scrollY : 0);
         /* Prevent the lens from being positioned outside the image: */
         if (x > img.width - lens.offsetWidth) {
             x = img.width - lens.offsetWidth;
