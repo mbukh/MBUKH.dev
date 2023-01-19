@@ -148,7 +148,7 @@ const updateOrderQuantity = () =>
         const bodyRect = document.body.getBoundingClientRect();
         const imgBlockRect = img.parentNode.getBoundingClientRect();
         const startScroll = imgBlockRect.top - bodyRect.top - window.scrollY;
-        // None to miminum scroll position
+        // None to minimum scroll position
         zoom.style.height = window.innerHeight - 205 + window.scrollY + "px";
         zoom.style.position = "absolute";
         // When sticky block starts to go down
