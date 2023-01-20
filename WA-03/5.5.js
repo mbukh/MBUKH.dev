@@ -12,7 +12,7 @@ const abbreviateName = (name) =>
         .split(" ")
         .map((part) => part[0].toUpperCase() + ".")
         .join("")
-        .slice(0, -1);
+        .slice(0, -1); // remove the last dot
 
 // Tests
 let res;
