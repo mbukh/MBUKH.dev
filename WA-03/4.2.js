@@ -19,6 +19,7 @@
 // if n == 0, then return an empty array (except in C return NULL)
 // and be ready for anything else which is not clearly specified ;)
 
+// dynamic creation approach
 function getTribonacciHereNow(signatureArr, n) {
     if (!Number.isInteger(n) || n < 0) return "number n is incorrect";
     if (
@@ -28,7 +29,6 @@ function getTribonacciHereNow(signatureArr, n) {
         return "signature is wrong";
     // return original signature if n <= it's size
     if (n <= 3) return signatureArr.slice(0, n);
-
     const res = [...signatureArr];
     for (let i = 3; i < n; i++) res[i] = res[i - 1] + res[i - 2] + res[i - 3];
     return res;
@@ -36,6 +36,10 @@ function getTribonacciHereNow(signatureArr, n) {
 
 // Tests
 let res;
+res = getTribonacciHereNow([1, 0], 5); //=
+console.log(res);
+res = getTribonacciHereNow([1, 0, 0], 0); //=
+console.log(res);
 res = getTribonacciHereNow([1, 0, "0"], 5); //=
 console.log(res);
 res = getTribonacciHereNow([1, 0, 0], -1); //=
