@@ -1,4 +1,5 @@
 const accum = (str) =>
+    str &&
     /^[a-zA-Z]+$/.test(str) &&
     str
         .split("")
@@ -6,6 +7,8 @@ const accum = (str) =>
         .join("-");
 
 let res;
+res = accum(); //=
+console.log(res);
 res = accum("abcd"); //=
 console.log(res);
 res = accum("RqaEzty"); //=
