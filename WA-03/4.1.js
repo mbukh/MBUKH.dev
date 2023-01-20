@@ -12,16 +12,14 @@
 // or this:
 // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
 
+// no memorization implemented.
 const getFibonacciRecursive = (n) => {
-    if (n === 0 || !Number.isInteger(n)) {
-        return 0;
-    } else if (n === 1) {
-        return 1;
-    } else {
-        return getFibonacciRecursive(n - 1) + getFibonacciRecursive(n - 2);
-    }
+    if (n === 0 || !Number.isInteger(n) || n === 1) return 0;
+    else if (n === 1) return 1;
+    else return getFibonacciRecursive(n - 1) + getFibonacciRecursive(n - 2);
 };
 
+// super fast method
 const getFibonacciByFormula = (n) => {
     if (!Number.isInteger(n)) return 0;
     // This formula is attributed to Binet in 1843, though known by Euler before him.
