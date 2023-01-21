@@ -23,3 +23,5 @@ res = longest("cba", "cbfed"); //=
 console.log(res);
 res = longest("ЕдГ", "вбА"); //=
 console.log(res);
+res = longest("אאאמת", "שקררררר"); //=
+console.log(res);
