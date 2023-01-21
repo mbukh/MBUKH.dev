@@ -1,5 +1,8 @@
 arr = [0, 1, 2, 3, 4, 5, 6, 7, 105];
 
+// use of ... spread operator is determined by the task,
+// quote: "without other js methods"
+
 Array.prototype.Filter = function (func) {
     let res = [];
     for (el of this) if (func(el)) res = [...res, el];
