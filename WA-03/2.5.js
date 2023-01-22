@@ -5,7 +5,7 @@
 
 //assuming the number will always be a positive integer greater than 0
 const summation = (num) =>
-    [...Array(num).keys()].reduce((sum, n) => sum + n, 0); // keys() for arrays are just integers, spread them to an array
+    [...Array(num + 1).keys()].reduce((sum, n) => sum + n, 0); // keys() for arrays are just integers, spread them to an array
 
 // tests
 let res;

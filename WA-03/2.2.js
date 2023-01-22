@@ -13,7 +13,7 @@
 
 const binaryArrayToInt = (binaryArr) => {
     if (!binaryArr.length) return null;
-    if (binaryArr.some((n) => Number(n) !== 0 && Number(n) !== 1)) return null;
+    if (binaryArr.some((n) => Number(n) !== 0 && Number(n) !== 1)) return 'error';
     return parseInt(binaryArr.join(""), 2); // base = 2 means binary, converts ot decimal
 };
 
