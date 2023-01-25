@@ -113,7 +113,7 @@ function handleMouseOver(e) {
 function handleMouseOut(e) {
     e.target.style.background = "#030303";
     // e.target.style.color = "transparent";
-    e.target.style.transition = "all 3.5s linear";
+    e.target.style.transition = "all 1.5s linear";
 }
 function getCellContent(textArr = "", cellCountWidth, cellCountHeight, i, j) {
     const perHeight = ((i + 0.5) / cellCountHeight) * 100;
