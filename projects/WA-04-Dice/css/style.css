@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.body-container {
+    width: 100%;
+    height: 100%;
+    background: #da4453; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #89216b,
+        #da4453
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #89216b,
+        #da4453
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* ================== */
+/* SVG path generator */
+/* https://stackoverflow.com/questions/68512066/creating-random-svg-curves-in-javascript-while-avoiding-sharp-turns */
+/* ================== */
+
+svg {
+    border-radius: 1rem;
+    background-color: rgba(95%, 95%, 95%, 0.5);
+    filter: blur(1rem);
+
+    animation-name: blur;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 0.25rem;
+    fill: none;
+}
+
+@keyframes blur {
+    100% {
+        filter: blur(0rem);
+    }
+}
+
+path {
+    /* animation-name: grow; */
+    /* animation-duration: 500s; */
+    /* animation-timing-function: cubic-bezier(0.75, 0.25, 0.25, 1); */
+    /* stroke-dasharray: 1000000; */
+    /* stroke-dashoffset: 1000000; */
+    stroke: rgba(0%, 100%, 75%, 0.75);
+}
+
+@keyframes grow {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
