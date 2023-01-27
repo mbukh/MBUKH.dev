@@ -1,11 +1,13 @@
 # Task:
 
 #### Start
+
 -   input field where players can set the winning
     score to change the predefined score of 100
 -   players can create a new game whenever they want to
 
 #### Loop
+
 -   2 players
 -   each turn, a player rolls 2 dice as many times as he wishes
     -   double six all his round's score gets lost
@@ -14,6 +16,7 @@
 -   the first player to reach 100 points wins
 
 #### Extra:
+
 1. Add how many times the player has won the game
 2. Add local storage so our data will be persistent.
 3. Add an AI to compete against
@@ -22,6 +25,7 @@
    Can be a funny gif or anything you can think of.
 5. Add background music and sound effects.
 6. Any other additions are welcome. Go crazy!
+7. Every thrown number shows statistics of Ukrainian war
 
 ````
 
@@ -41,6 +45,7 @@ endGame(); // option to start again
 ````
 
 ## 2. HTML + CSS: Design
+
 ```js
 
 ```

@@ -6,16 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./game.js" defer></script>
-    <title>Document</title>
+    <script src="./js/game.js" defer></script>
+    <script src="./js/roller-coaster.js" defer></script>
+    <title>Dice & Roll</title>
 </head>
 
 <body>
+    <div class="body-container">
+        <div id="roller-coaster">
+            <svg>
+                <defs>
+                    <pattern id="vertical-stripe" width="15" height="20" patternUnits="userSpaceOnUse">
+                        <polygon points="0,0 0,40 2,40 2,0" />
+                    </pattern>
+                </defs>
+                <path id="pattern" d="" />
+                <path id="line" d="" />
+            </svg>
 
-    <svg fill="none" stroke="black">
-        <path d="" />
-    </svg>
+            <img class="motion-demo" id="#motion-demo" src="./assets/front.svg">
+            <img class="motion-demo delayed1" src="./assets/back.svg">
+            <img class="motion-demo delayed2" src="./assets/back.svg">
+        </div>
 
+
+
+    </div>
 </body>
 
 </html>

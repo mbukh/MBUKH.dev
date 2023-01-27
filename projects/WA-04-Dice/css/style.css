@@ -7,11 +7,10 @@ html,
 body {
     width: 100vw;
     height: 100vh;
-}
-body {
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    /* overflow: hidden; */
 }
 .body-container {
     width: 100%;
@@ -30,11 +29,24 @@ body {
 }
 
 /* ================== */
+/* ================== */
 /* SVG path generator */
 /* https://stackoverflow.com/questions/68512066/creating-random-svg-curves-in-javascript-while-avoiding-sharp-turns */
 /* ================== */
 
-svg {
+#roller-coaster {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#roller-coaster svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    stroke:rgba(102, 102, 102, 0.181);
+
     border-radius: 1rem;
     background-color: rgba(95%, 95%, 95%, 0.5);
     filter: blur(1rem);
@@ -49,24 +61,70 @@ svg {
     stroke-width: 0.25rem;
     fill: none;
 }
-
 @keyframes blur {
     100% {
         filter: blur(0rem);
     }
 }
-
-path {
-    /* animation-name: grow; */
-    /* animation-duration: 500s; */
-    /* animation-timing-function: cubic-bezier(0.75, 0.25, 0.25, 1); */
-    /* stroke-dasharray: 1000000; */
-    /* stroke-dashoffset: 1000000; */
+#roller-coaster svg path#pattern {
+    fill: url("#vertical-stripe");
+    stroke: none;
+}
+#roller-coaster svg path#line {
+    fill: none;
+    animation-name: grow;
+    animation-duration: 500s;
+    animation-timing-function: cubic-bezier(0.75, 0.25, 0.25, 1);
+    stroke-dasharray: 1000000;
+    stroke-dashoffset: 1000000;
     stroke: rgba(0%, 100%, 75%, 0.75);
 }
-
 @keyframes grow {
     100% {
         stroke-dashoffset: 0;
+    }
+}
+
+/* ============ */
+/* ============ */
+/* Moving parts */
+/* ============ */
+
+.motion-demo {
+    --size: 25px;
+    --gap: 15px;
+    --length: calc(3 * (var(--size) + var(--gap)));
+    --place: 0;
+    --offset: calc(var(--place) * (var(--size) + var(--gap)));
+    --old-progress: 0; /* changes inline by JS */
+    --progress: 0; /* changes inline by JS */
+
+    --animate-from: calc(var(--old-progress) - var(--offset));
+    --animate-to: calc(var(--progress) - var(--offset));
+    position: absolute;
+    /* left: 0;
+    top: 0; */
+    transform: translate(-50%, -50%);
+    offset-path: path(var(--offset-path)); /* inline variable by JS; */
+    offset-distance: calc(var(--old-progress) - var(--offset));
+    /* https://cubic-bezier.com/#.6,0,.5,1.09 */
+    animation: move 5000ms forwards cubic-bezier(0.9, 0, 0.5, 1.1);
+    width: var(--size);
+    height: auto;
+}
+.delayed1 {
+    animation-delay: 0.25s;
+    --place: 1;
+}
+.delayed2 {
+    animation-delay: 0.5s;
+    --place: 2;
+}
+@keyframes move {
+    from {
+        offset-distance: var(--animate-from);
+    }
+    to {
+        offset-distance: var(--animate-to);
     }
 }
