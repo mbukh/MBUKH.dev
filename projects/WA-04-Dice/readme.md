@@ -14,6 +14,12 @@
 -   [x] HOLD: result will get added to his round's score
 -   [x] next player's turn
 -   [x] the first player to reach 100 points wins
+-   [ ] When over 100 in current score - a red line grows from the other side. if it touches the
+-   [ ] Fun level of coasters. If small steps or hold without move. Level goes down.
+-   [ ] Level of fun brings money
+-   [ ] You can buy MAX_TURNS for even more fun but this leads to coasters maintenance
+-   [ ] buy more coasters on one line / for now - win = coasters count
+-   [ ] coasters means more people, means more money but have to build longer track
 
 #### Extra:
 
@@ -27,22 +33,13 @@
 6. Any other additions are welcome. Go crazy!
 7. Every thrown number shows statistics of Ukrainian war
 
-````
+## Ideas:
 
-## 1. JS: Engine
-```js
-player1 = { name: "1", score: 0 };
-player2 = { name: "2", score: 0 };
-generateRandomNumber(1, 6);
-gameOver = false;
-i = 0;
-while (!gameOver) {
-    player[i].score += playerThrowDice(player);
-    i = nextTurn();
-    gameOver = checkWinLose(); // score === 100 => win
-}
-endGame(); // option to start again
-````
+crazy 3d dice throw
+https://github.com/Matteas-Eden/dice-roller
+
+nice flat dice roll
+https://github.com/bkis/dice-or-die
 
 ## 2. HTML + CSS: Design
 
@@ -57,3 +54,7 @@ animateThrowDice() {
     // style
 }
 ```
+
+## Problems
+
+fill pattern doesnt work

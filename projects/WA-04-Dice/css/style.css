@@ -1,3 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+:root {
+    /* https://lospec.com/palette-list/alexnompes-dragon-45 */
+    --color1: #fffdf7;
+    --color2: #fff6db;
+    --color3: #f7e3ba;
+    --color4: #e8b884;
+    --color5: #e39562;
+    --color6: #d67149;
+    --color7: #c75038;
+    --color8: #ba2929;
+    --color9: #a10d32;
+    --color10: #870034;
+    --color11: #540332;
+    --color12: #33002b;
+    --color13: #5e003c;
+    --color14: #700c6a;
+    --color15: #6b188c;
+    --color16: #642abd;
+    --color17: #493fcc;
+    --color18: #527fd9;
+    --color19: #5faae3;
+    --color20: #85dcf2;
+    --color21: #c2fcfb;
+    --color22: #f4fae0;
+    --color23: #f5eca9;
+    --color24: #e8e882;
+    --color25: #cbd964;
+    --color26: #a3c449;
+    --color27: #599419;
+    --color28: #34700a;
+    --color29: #215903;
+    --color30: #113300;
+    --color31: #0d4726;
+    --color32: #195938;
+    --color33: #227843;
+    --color34: #299e4c;
+    --color35: #4bbd79;
+    --color36: #6fd6a3;
+    --color37: #a1f0d1;
+    --color38: #ffffff;
+    --color39: #d4d4d4;
+    --color40: #a0a0a0;
+    --color41: #6c6c6c;
+    --color42: #383838;
+    --color43: #272727;
+    --color44: #161616;
+    --color45: #090909;
+}
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,22 +56,91 @@
 html,
 body {
     width: 100%;
-    height: 70%;
+    height: 100%;
+    font-family: "Press Start 2P", cursive;
+    color: var(--color2);
+    font-size: 16px;
 }
 .body-container {
     width: 100%;
     height: 100%;
-    background: #da4453; /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-        to right,
-        #89216b,
-        #da4453
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(
-        to right,
-        #89216b,
-        #da4453
-    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: var(--color45);
+    display: flex;
+}
+
+/* ================= */
+/* ================= */
+/*     DICE GAME     */
+/* ================= */
+
+#dice-game {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+#dice-game #players-container {
+    width: 100%;
+    display: flex;
+}
+#dice-game #players-container .player {
+    --player-color: var(--color07);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#dice-game #players-container .roller-coaster {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    flex: 2;
+}
+
+#dice-game #players-container .player-control {
+    font-size: min(min(5vw, 5vh), 2em);
+    flex: 1;
+    padding-block: 0.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    /* gap: 0.5em; */
+}
+
+#dice-game #players-container .player-control > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+/* ================== */
+/* ================== */
+/*       Player       */
+/* ================== */
+
+.player.inactive {
+    opacity: 0.3;
+}
+
+.player-control .name {
+    font-size: 80%;
+    flex: 1;
+}
+.player-control .current-score {
+    flex: 1;
+    padding-block: 0.5em;
+}
+.player-control .score {
+    font-size: 80%;
+    flex: 1;
+}
+.player-control .wins {
+    font-size: 60%;
+    flex: 1;
 }
 
 /* ================== */
@@ -30,13 +149,7 @@ body {
 /* https://stackoverflow.com/questions/68512066/creating-random-svg-curves-in-javascript-while-avoiding-sharp-turns */
 /* ================== */
 
-#roller-coaster {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-#roller-coaster svg {
+.roller-coaster svg {
     position: absolute;
     top: 0;
     left: 0;
@@ -44,8 +157,8 @@ body {
     stroke: rgba(102, 102, 102, 0.181);
 
     border-radius: 1rem;
-    background-color: rgba(95%, 95%, 95%, 0.5);
-    /* filter: blur(1rem); */
+    background-color: var(--player-color);
+    filter: blur(1rem);
 
     animation-name: blur;
     animation-duration: 1s;
@@ -57,28 +170,41 @@ body {
     stroke-width: 0.25rem;
     fill: none;
 }
+.roller-coaster img {
+    filter: drop-shadow(0px 0px 1px white) drop-shadow(0px 0px 1px white)
+        drop-shadow(0px 0px 1px white) drop-shadow(0px 0px 1px white);
+}
+.roller-coaster img.green {
+    filter: invert(48%) sepia(79%) saturate(2400%) hue-rotate(16deg)
+        brightness(118%) contrast(119%) drop-shadow(0px 0px 1px white)
+        drop-shadow(0px 0px 1px white) drop-shadow(0px 0px 1px white)
+        drop-shadow(0px 0px 1px white);
+}
 @keyframes blur {
     100% {
         filter: blur(0rem);
     }
 }
-#roller-coaster svg path {
+.roller-coaster svg path {
     --dash-start: 20000000;
     --dash-end: 0;
     --stroke: none;
+    filter: drop-shadow(3px 3px 2px rgb(0 0 0 / 0.4));
     stroke: var(--stroke);
     fill: none;
     animation: grow 5000s cubic-bezier(0.75, 0.25, 0.25, 1) forwards;
     stroke-dasharray: var(--dash-start);
     stroke-dashoffset: var(--dash-start);
 }
-#roller-coaster svg path#pattern {
-    fill: url("#vertical-stripe");
+.roller-coaster svg path.pattern {
+    /* https://philiprogers.com/svgpatterns/#verticalstripes */
+    /* http://iros.github.io/patternfills/sample_svg.html */
+    fill: url("#fill-stripes");
 }
-#roller-coaster svg path#line {
+.roller-coaster svg path.line {
     --stroke: #00ffbfbf;
 }
-#roller-coaster svg path#finish {
+.roller-coaster svg path.finish {
     --stroke: #ff4800bf;
     --dash-start: 0;
     animation: blinker 0.6s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
@@ -104,7 +230,7 @@ body {
 /* Moving parts */
 /* ============ */
 
-.motion-demo {
+.coaster {
     --size: 25px;
     --gap: 15px;
     --length: calc(3 * (var(--size) + var(--gap)));
@@ -123,16 +249,27 @@ body {
     offset-distance: calc(var(--old-progress) - var(--offset));
     /* https://cubic-bezier.com/#.6,0,.5,1.09 */
     animation: move 5000ms forwards cubic-bezier(0.9, 0, 0.5, 1.1);
+    animation-delay: calc(var(--place) * 0.25s);
     width: var(--size);
     height: auto;
 }
 .delayed1 {
-    animation-delay: 0.25s;
     --place: 1;
 }
 .delayed2 {
-    animation-delay: 0.5s;
     --place: 2;
+}
+.delayed3 {
+    --place: 3;
+}
+.delayed4 {
+    --place: 4;
+}
+.delayed5 {
+    --place: 5;
+}
+.delayed6 {
+    --place: 6;
 }
 @keyframes move {
     from {
@@ -140,5 +277,18 @@ body {
     }
     to {
         offset-distance: var(--animate-to);
+    }
+}
+.coaster.free-fall {
+    animation: free-fall 2.5s cubic-bezier(0.4, 0, 1, 1) 1;
+    animation-fill-mode: forwards;
+    offset-path: none;
+    transform: rotate(0deg);
+    animation-delay: calc(var(--place) * 0.1s);
+}
+@keyframes free-fall {
+    to {
+        top: 110%;
+        transform: rotate(360deg);
     }
 }

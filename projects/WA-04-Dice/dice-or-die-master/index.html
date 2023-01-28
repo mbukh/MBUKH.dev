@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>dice or die!</title>
+        <meta name="description" content="dice or die">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="favicon.ico">
+        <script src="lib/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="https://www.mozilla.org/firefox/new/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- STOCK: AVAILABLE DICE -->
+        <div id="stock">
+            <div class="die-stock" data-type="4"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="6"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="8"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="10"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="12"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="20"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+            <div class="die-stock" data-type="100"><img src="img/icon-add.png" class="icon-add" alt="+"/></div>
+
+            <div id="sound-toggle"></div>
+            <div id="help-button"></div>
+        </div>
+
+        <!-- RESULT DISPLAY: result of single or multi die rolls -->
+        <div id="total">
+            <div class="rotatable" title="Click to select all dice!">
+                <div id="total-value">?</div>
+            </div>
+            <div class="die-buttons">
+                <div class="btn-roll-selected" title="Roll all (or all selected) dice!"></div>
+                <div class="btn-remove-selected" title="Remove all (or all selected) dice from table!"></div>
+            </div>
+        </div>
+
+        <!-- TABLE: DICE SELECTED FOR GAME -->
+        <div id="table"></div>
+
+        <!-- TEMPLATES -->
+        <div id="templates">
+
+            <div class="die">
+                <div class="rotatable" title="Click to select/deselect!">
+                    <div class="die-image"></div>
+                    <div class="die-value"></div>
+                </div>
+                <div class="die-buttons">
+                    <div class="btn-roll" title="Roll this die! (If this die is selected: Roll all selected dice!)"></div>
+                    <div class="btn-remove" title="Remove this die from table!"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- HELP MODAL -->
+        <div id="help">
+            <div>
+                <img src="img/d20.png" alt=""/>
+                <br/>
+                <p><strong>dice-or-die: </strong>Well, it's a dice rolling simulation.
+                Add dice to the "table" by clicking the type of die you need
+                at the top of the page. Roll a single die by hovering over it
+                and clicking the "roll" button (circular arrow symbol). Roll
+                multiple dice by selecting all the dice you want to roll
+                (<i>click on them!</i>), then roll one of them - this will roll all
+                selected dice. See the total value in the circle above your dice.</p>
+                <br/>
+                <p>
+                    Visit at Github:
+                    <a href="https://github.com/bkis/dice-or-die"
+                    title="visit bkis/dice-or-die on GitHub"
+                    target="_blank" rel="noopener noreferrer">
+                        bkis/dice-or-die
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- GH-LINK -->
+        <a id="gh-link" href="https://github.com/bkis/dice-or-die"
+        title="visit bkis/dice-or-die on GitHub"
+        target="_blank" rel="noopener noreferrer">
+            <img src="img/icon-gh.png" alt="visit bkis/dice-or-die on GitHub"/>
+        </a>
+
+        <!-- LOAD JS -->
+        <script src="index.js" async defer></script>
+
+    </body>
+</html>

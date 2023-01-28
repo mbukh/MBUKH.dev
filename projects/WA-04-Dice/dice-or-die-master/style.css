@@ -1,0 +1,323 @@
+/* FONTS */
+
+@font-face { font-family: 'Catamaran'; 
+    src: url('fonts/Catamaran-Regular.ttf');
+}
+
+/* GENERAL */
+
+* {
+    margin: 0;
+    padding: 0;
+
+    /* prevent selection highlighting */
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+       -khtml-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+}
+
+body {
+    font-family: 'Catamaran', sans-serif;
+    color: #000;
+}
+
+/* STOCK */
+
+#stock {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.die-stock {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 1rem;
+    cursor: pointer;
+    font-size: 22px;
+    opacity: 0.2;
+    filter: blur(.5px);
+    transition: .1s;
+
+    text-shadow:
+		-2px -2px 0 #fff,
+		2px -2px 0 #fff,
+		-2px 2px 0 #fff,
+		2px 2px 0 #fff;
+}
+
+.die-stock:hover {
+    opacity: 0.8;
+    filter: blur(0);
+    font-weight: bolder;
+    font-size: 28px;
+}
+
+.die-stock > .icon-add {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: #fff;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+    box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+}
+
+/* SOUND TOGGLE & HELP BUTTON */
+
+#sound-toggle, #help-button {
+    width: 32px;
+    height: 32px;
+    margin: 1rem;
+    cursor: pointer;
+    opacity: 0.2;
+    filter: blur(.5px);
+    transition: .1s;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#sound-toggle:hover, #help-button:hover {
+    opacity: 0.8;
+    filter: blur(0);
+}
+
+#sound-toggle {
+    background-image: url('img/icon-sound-off.png');
+}
+
+#help-button {
+    background-image: url('img/icon-help.png');
+}
+
+/* TOTAL */
+
+ #total {
+    display: none;
+    position: relative;
+    text-align: center;
+    width: 128px;
+    height: 128px;
+    font-size: 44px;
+    text-align: center;
+    transition: .2s;
+    cursor: pointer;
+
+    border-radius: 50%;
+    border: 4px dashed rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+
+    /*
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+    */
+ }
+
+/* TABLE */
+
+#table {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem;
+    padding-top: 1rem;
+}
+
+/* DICE */
+
+.die {
+    position: relative;
+    text-align: center;
+    width: 128px;
+    height: 128px;
+    margin: .6rem;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 4px solid #fff;
+    font-size: 44px;
+    text-align: center;
+    opacity: 0.5;
+    transition: .2s;
+    cursor: pointer;
+}
+
+.die:hover {
+    opacity: 0.8;
+    font-weight: bolder;
+    font-size: 48px;
+}
+
+.die.active {
+    opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 4px dashed rgba(0, 0, 0, 0.3);
+}
+
+.rotatable {
+    width: 100%;
+    height: 100%;
+}
+
+.rotatable > .die-value,
+.rotatable > #total-value {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    text-shadow:
+		-3px -2px 0 #fff,
+		3px -2px 0 #fff,
+		-3px 2px 0 #fff,
+		3px 2px 0 #fff;
+}
+
+.rotatable > .die-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center;
+}
+
+.die-buttons > div {
+    position: absolute;
+    bottom: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 30%;
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: .1s;
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center;
+    z-index: 9999;
+
+    -webkit-box-shadow: 0px 0px 2px 2px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 2px 2px rgba(255,255,255,1);
+    box-shadow: 0px 0px 2px 2px rgba(255,255,255,1);
+}
+
+.die-buttons > div:hover {
+    width: 32%;
+    height: 32%;
+    bottom: 0%;
+
+    -webkit-box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+    box-shadow: 0px 0px 3px 3px rgba(255,255,255,1);
+}
+
+.die-buttons > div.btn-roll,
+.die-buttons > div.btn-roll-selected {
+    filter: grayscale(100%) brightness(125%);
+    left: 10px;
+    background-image: url('img/icon-roll.png');
+}
+
+.die-buttons > div.btn-roll:hover,
+.die-buttons > div.btn-roll-selected:hover {
+    filter: grayscale(0%) brightness(100%);
+    left: 9px;
+}
+
+.die-buttons > div.btn-remove,
+.die-buttons > div.btn-remove-selected {
+    filter: grayscale(100%) brightness(175%);
+    right: 10px;
+    background-image: url('img/icon-remove.png');
+}
+
+.die-buttons > div.btn-remove:hover,
+.die-buttons > div.btn-remove-selected:hover {
+    filter: grayscale(0%) brightness(100%);
+    right: 9px;
+}
+
+#templates {
+    display: none;
+}
+
+#gh-link {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    opacity: 0.25;
+    transition: .2s;
+}
+
+#gh-link:hover {
+    opacity: 0.8;
+}
+
+/* HELP MODAL */
+
+#help {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    width: 100vw;
+    height: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: .2s;
+}
+
+#help > div {
+    width: 512px;
+    max-width: 95%;
+    padding: 2rem;
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#help > div > img {
+    width: 32px;
+}
+
+/* MOBILE */
+
+@media only screen and (max-width: 768px) {
+
+    .die-stock {
+        width: 48px;
+        height: 48px;
+    }
+
+    .die {
+        width: 96px;
+        height: 96px;
+        margin: .3rem;
+    }
+
+}

@@ -13,26 +13,49 @@
 
 <body>
     <div class="body-container">
-        <div id="roller-coaster">
-            <svg>
-                <defs>
-                    <pattern id="vertical-stripe" width="15" height="20" patternUnits="userSpaceOnUse">
-                        <polygon points="0,0 0,40 2,40 2,0" />
-                    </pattern>
-                </defs>
-                <path id="pattern" d="" />
-                <path id="line" d="" />
-                <path id="finish" d="" />
-            </svg>
 
-            <img class="motion-demo" id="#motion-demo" src="./assets/front.svg">
-            <img class="motion-demo delayed1" src="./assets/back.svg">
-            <img class="motion-demo delayed2" src="./assets/back.svg">
+        <div id="dice-game">
+            <dialog>Rules of the game</dialog>
+            <dialog>Maxpoints</dialog>
+            <dialog>Change Name</dialog>
+
+            <div class="dice">
+                <p id="placeholder"></p>
+                <button id="button">Roll Dice</button>
+                <script src="./js/dice.js"></script>
+            </div>
+
+            <div id="players-container">
+
+                <div id="player" class="player inactive" style="display:none;">
+                    <div class="roller-coaster">
+                        <svg>
+                            <path class="pattern" d="" />
+                            <path class="line" d="" />
+                            <path class="finish" d="" />
+                        </svg>
+                        <img class="coaster green" src="./assets/front.svg">
+                        <img class="coaster delayed1" src="./assets/back.svg">
+                    </div>
+                    <div class="player-control">
+                        <div class="name">Player</div>
+                        <div class="current-score"><span>Current:</span><span>0</span></div>
+                        <div class="score"><span>Total:</span><span>0</span></div>
+                        <div class="wins"><span>Wins:</span><span>0</span></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-
-
     </div>
+
+    <svg id="patterns" style="display: none;">
+        <defs>
+            <pattern id="fill-stripes" width="15" height="20" patternUnits="userSpaceOnUse">
+                <polygon points="0,0 0,40 2,40 2,0" />
+            </pattern>
+        </defs>
+    </svg>
 </body>
 
 </html>
