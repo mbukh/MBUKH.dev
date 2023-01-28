@@ -7,14 +7,17 @@
 // ==================
 
 let lastTwoPoints = [];
+let allPoints = [];
 const svg = document.querySelector("svg");
-const svgPath = svg.querySelector("path#line");
 const svgPattern = svg.querySelector("path#pattern");
+const svgPath = svg.querySelector("path#line");
+const svgFinish = svg.querySelector("path#finish");
 const [W, H] = [svg.parentElement.offsetWidth, svg.parentElement.offsetHeight];
-const MIN_ANGLE = 90;
-const MIN_DISTANCE = Math.min(W, H) / 30;
-const MAX_DISTANCE = Math.min(W, H) / 2;
-const MAX_TURNS = getRandomNumber(2, 4);
+const MIN_ANGLE = 70;
+const MIN_DISTANCE = Math.min(W, H) / 15;
+const MAX_DISTANCE = Math.min(W, H) / 3;
+const MAX_TURNS = getRandomNumber(5, 10);
+const MAX_RECURSIVE_COUNT = 30;
 
 let pointsLeft = (MAX_TURNS + 1) * 2; // compensate the first and the last stop
 let countFailedToGetPointTries = 0;
@@ -33,27 +36,29 @@ function createPath() {
         "d",
         `${path_string} L ${W} ${H / 2} L ${W} ${H} L 0 ${H} L 0 ${H / 2} z`
     );
+    svgFinish.setAttribute("d", `${path_string}`);
 }
 function pointString() {
     let point = getPoint();
     return `${point[0]} ${point[1]}`;
 }
 function getPoint() {
-    let x = getRandomNumber(W * 0.2, W * 0.6);
-    let y = getRandomNumber(H * 0.2, H * 0.6);
+    let x = getRandomNumber(W * 0.2, W * 0.8);
+    let y = getRandomNumber(H * 0.2, H * 0.8);
     let point = [Math.floor(x), Math.floor(y)];
 
     if (lastTwoPoints.length < 2) {
         // first point
-        point = [0, Math.floor(H / 2)];
+        point = [0, H / 2];
         lastTwoPoints.push(point);
     } else if (pointsLeft < 1) {
         // last point
-        point = [W, Math.floor(H / 2)];
-        lastTwoPoints.push([W, point]);
+        point = [W, getRandomNumber(H / 4, (H * 3) / 4)];
+        lastTwoPoints.push(point);
+        allPoints.push(point);
     } else {
         if (
-            countFailedToGetPointTries < 100 &&
+            countFailedToGetPointTries < MAX_RECURSIVE_COUNT &&
             isNotProperPoint(lastTwoPoints, point)
         ) {
             countFailedToGetPointTries += 1;
@@ -63,6 +68,7 @@ function getPoint() {
             countFailedToGetPointTries = 0;
             lastTwoPoints.shift();
             lastTwoPoints.push(point);
+            allPoints.push(point);
         }
     }
     pointsLeft -= 1;
@@ -98,9 +104,15 @@ function getRandomNumber(min, max) {
 // Set the path to follow
 // ======================
 const motionDemo = document.querySelectorAll(".motion-demo");
-motionDemo.forEach((el) =>
-    el.style.setProperty("--offset-path", "'" + svgPath.getAttribute("d") + "'")
-);
+setMotionPath();
+function setMotionPath() {
+    motionDemo.forEach((el) =>
+        el.style.setProperty(
+            "--offset-path",
+            "'" + svgPath.getAttribute("d") + "'"
+        )
+    );
+}
 let progress = +getComputedStyle(motionDemo[0]).getPropertyValue("--progress");
 
 // ========================
@@ -108,28 +120,66 @@ let progress = +getComputedStyle(motionDemo[0]).getPropertyValue("--progress");
 // Move along the path by %
 // ========================
 
-setInterval(() => {
-    progressAlongPath(progress);
-    progress += 20;
-}, 6000);
+progressAlongPath(20);
 
-function progressAlongPath(percent) {
+function progressAlongPath(percent, immediate = false) {
     let nextProgress = percent;
     console.log(nextProgress);
     if (nextProgress === 0) nextProgress = 2;
     if (nextProgress >= 100) nextProgress = 99;
+    if (immediate) {
+        document.querySelectorAll(".motion-demo").forEach((el) => {
+            el.style.setProperty("--old-progress", percent + "%");
+            el.style.setProperty("--progress", nextProgress + "%");
+        });
+        return;
+    }
     document.querySelectorAll(".motion-demo").forEach((el) => {
         el.style.setProperty(
             "--old-progress",
             el.style.getPropertyValue("--progress")
         );
         el.style.setProperty("--progress", nextProgress + "%");
-        el.classList.remove("motion-demo");
+        el.style.animation = "none";
         // minimum pause to let DOM reset itself
         // setTimeout(() => element.classList.add("motion-demo"), 0);
         // another way to do it is to get a property from DOM such as:
         // https://stackoverflow.com/questions/60686489/what-purpose-does-void-element-offsetwidth-serve
         void el.offsetWidth;
-        el.classList.add("motion-demo");
+        el.style.animation = ""; // removes inline, inherits css
     });
 }
+
+// ===========
+// ===========
+//    RESET
+// ===========
+
+function reset() {
+    lastTwoPoints = [];
+    allPoints = [];
+    pointsLeft = (MAX_TURNS + 1) * 2;
+    countFailedToGetPointTries = 0;
+    progressAlongPath(0, "immediate");
+    createPath();
+    setMotionPath();
+    restartAnimations(svg);
+    restartAnimations(svgPath);
+    restartAnimations(...motionDemo);
+}
+
+function restartAnimations(...elements) {
+    elements.forEach((el) =>
+        el.getAnimations().forEach((anim) => {
+            anim.cancel();
+            anim.play();
+        })
+    );
+}
+
+// OK {
+// svgFinish.style.animationPlayState= 'paused';
+// }
+// badThing {
+// svgFinish.style.animationPlayState= 'running';
+// }
