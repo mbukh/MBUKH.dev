@@ -2,22 +2,22 @@
 
 #### Start
 
--   input field where players can set the winning
-    score to change the predefined score of 100
--   players can create a new game whenever they want to
+-   [x] input field where players can set the winning
+        score to change the predefined score of 100
+-   [x] players can create a new game whenever they want to
 
 #### Loop
 
--   2 players
--   each turn, a player rolls 2 dice as many times as he wishes
-    -   double six all his round's score gets lost
--   HOLD: result will get added to his round's score
--   next player's turn
--   the first player to reach 100 points wins
+-   [x] 2 players
+-   [x] each turn, a player rolls 2 dice as many times as he wishes
+-   [x] double six all his round's score gets lost
+-   [x] HOLD: result will get added to his round's score
+-   [x] next player's turn
+-   [x] the first player to reach 100 points wins
 
 #### Extra:
 
-1. Add how many times the player has won the game
+1. [x] Add how many times the player has won the game
 2. Add local storage so our data will be persistent.
 3. Add an AI to compete against
 4. if you get 6 and 6 hold your event listeners for 1
