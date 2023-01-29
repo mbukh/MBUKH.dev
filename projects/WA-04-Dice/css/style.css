@@ -68,10 +68,10 @@ body {
     display: flex;
 }
 
-/* ================= */
-/* ================= */
-/*     DICE GAME     */
-/* ================= */
+/* ============== */
+/* ============== */
+/*      GAME      */
+/* ============== */
 
 #dice-game {
     width: 100%;
@@ -117,13 +117,82 @@ body {
     gap: 0.5em;
 }
 
+/* ================ */
+/* ================ */
+/*       Dice       */
+/* ================ */
+#dice {
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    background-color: #f4fae077;
+    box-shadow: 0px 0px 10px var(--color42);
+    border-radius: 1em;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0.3;
+    transition: opacity 0.1s ease-in-out;
+}
+#dice:hover {
+    opacity: 1;
+}
+#dice .numbers {
+    padding: 40px 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    gap: 30px;
+}
+#dice .diceNumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100px;
+    width: 100px;
+    padding: 8px 0 0 8px;
+    border: 1px solid var(--color44);
+    border-radius: 10px;
+    font-size: 80px;
+    text-shadow: 1px 1px 5px var(--color43);
+}
+#dice button {
+    background-color: var(--color38);
+    border-radius: 6px;
+    border: none;
+    color: var(--color43);
+    font-weight: 600;
+    padding: 10px;
+    text-transform: uppercase;
+    width: 100%;
+    cursor: pointer;
+    opacity: 1;
+}
+#dice button:hover {
+    opacity: 0.6;
+}
+#dice button.inactive {
+    opacity: 0.8;
+}
+#dice button.inactive:hover {
+    opacity: 0.4;
+}
+#dice #roll {
+    border-radius: 6px 6px 0 0;
+}
+#dice #hold {
+    border-radius: 0 0 6px 6px;
+}
+
 /* ================== */
 /* ================== */
 /*       Player       */
 /* ================== */
 
 .player.inactive {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .player-control .name {
