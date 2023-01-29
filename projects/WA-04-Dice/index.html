@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/game.js" defer></script>
     <script src="./js/gameUI.js" defer></script>
+    <script src="./js/game.js" defer></script>
     <title>Dice & Roll</title>
 </head>
 
@@ -21,11 +21,11 @@
                 <!-- <div id="name">Change Name</div> -->
                 <div>
                     How many player?
-                    <input type="number" id="players-number" value="2">
+                    <input type="number" id="players-number" min="1" value="2">
                 </div>
                 <div>
                     Score to reach
-                    <input type="number" id="max-score" value="30">
+                    <input type="number" id="max-score" min="1" value="30">
                 </div>
                 <div><button id="start">start</button></div>
             </div>

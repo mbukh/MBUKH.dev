@@ -60,7 +60,7 @@ body {
     font-family: "Press Start 2P", cursive;
     color: var(--color2);
     font-size: 16px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .body-container {
     width: 100%;
@@ -274,6 +274,14 @@ body {
 #dice button.wait,
 #dice button.wait:hover {
     opacity: 0.1;
+}
+#dice #restart {
+    font-size: 80%;
+    color: var(--color41);
+}
+#dice #restart:hover {
+    color: var(--color2);
+    background: var(--color7);
 }
 #dice #roll {
     border-radius: 6px 6px 0 0;

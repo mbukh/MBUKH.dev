@@ -1,25 +1,5 @@
 "use strict";
 
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-//                          UI
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-// ========================================================
-
 // ==============
 // ==============
 //  Game UI Init
@@ -40,6 +20,25 @@ function initGameUI() {
     playersUI[0].playerDiv.classList.remove("inactive");
     initEventListeners(playersUI, diceUI);
     return { playersUI, diceUI };
+}
+
+function modalWelcomeScreen() {
+    // Better modal https://web.dev/is-it-modal/
+    const modal = document.querySelector("#modal");
+    const playersNumber = document.querySelector("#modal #players-number");
+    const maxScoreNumber = document.querySelector("#modal #max-score");
+    const submit = document.querySelector("#modal #start");
+
+    modal.style.display = "block";
+    submit.addEventListener("click", (e) => {
+        COUNT_PLAYERS = Number.parseInt(playersNumber.value);
+        MAX_SCORE = Number.parseInt(maxScoreNumber.value);
+        if (COUNT_PLAYERS > 0 && MAX_SCORE > 0) {
+            gameUI = initGameUI() || undefined;
+            gameData = initGame();
+        }
+        modal.style.display = "";
+    });
 }
 
 // ==============
@@ -323,8 +322,10 @@ function DiceUI(MAX_SCORE) {
     this.dice = document.querySelector("#dice");
     this.diceMaxScore = document.querySelector("#dice .max-score .n");
     this.diceNumbers = document.querySelectorAll("#dice .diceNumber");
+    this.restartButton = document.querySelector("#dice #restart");
     this.rollButton = document.querySelector("#dice #roll");
     this.holdButton = document.querySelector("#dice #hold");
+    this.diceMaxScore.textContent = MAX_SCORE;
     this.renderDice = (diceNumbers) => {
         this.diceNumbers.forEach((dN, i) => (dN.textContent = diceNumbers[i]));
         this.rollButton.classList.add("wait");
@@ -341,7 +342,6 @@ function DiceUI(MAX_SCORE) {
     this.clear = () => {
         this.diceNumbers.forEach((dN, i) => (dN.textContent = ""));
     };
-    this.diceMaxScore.textContent = MAX_SCORE;
 }
 
 // =================
@@ -355,5 +355,8 @@ function initEventListeners(playersUI, diceUI) {
     );
     diceUI.holdButton.addEventListener("click", () =>
         gameData.gameController.nextStep("hold")
+    );
+    diceUI.restartButton.addEventListener("click", () =>
+        gameData.gameController.nextStep("fullReset")
     );
 }

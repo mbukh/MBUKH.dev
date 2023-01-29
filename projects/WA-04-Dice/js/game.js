@@ -5,22 +5,7 @@ let MAX_SCORE;
 let gameUI;
 let gameData;
 
-// Better modal https://web.dev/is-it-modal/
-const modal = document.querySelector("#modal");
-const playersNumber = document.querySelector("#modal #players-number");
-const maxScoreNumber = document.querySelector("#modal #max-score");
-const submit = document.querySelector("#modal #start");
-
-modal.style.display = "block";
-submit.addEventListener("click", (e) => {
-    COUNT_PLAYERS = Number.parseInt(playersNumber.value);
-    MAX_SCORE = Number.parseInt(maxScoreNumber.value);
-    if (COUNT_PLAYERS && MAX_SCORE) {
-        gameUI = initGameUI() || undefined;
-        gameData = initGame();
-    }
-    modal.style.display = "";
-});
+modalWelcomeScreen();
 
 // ==================
 // ==================
@@ -72,22 +57,17 @@ function gameLoop({ game, players, gameController }) {
 
 function GameController(game) {
     this.nextStep = (forceTask) => {
-        const options = ["restart", "roll", "hold", "renameuser"];
+        const options = ["fullReset", "roll", "hold", "renameuser"];
         const task = forceTask;
         // || prompt("Next step (" + options.join(", ") + "): ");
         switch (task) {
             case options[0]:
-                // restart
+                // full reset
                 console.log(task);
                 // Modal if a user decides to lose
-                if (game.players[game.turn].currentScore > 0) {
-                    // UI ask user to lose?
-                    if (confirm("You will lose this round.") === false) break;
-                }
-                // MODAL UI SET MAX SCORE
-                game.setMaxScore();
-                game.newGame();
-                // UPDATE STATS
+                // UI ask user to lose?
+                if (confirm("You will lose this round.") === false) break;
+                game.fullReset();
                 break;
             case options[1]:
                 // roll
@@ -253,6 +233,12 @@ function Game(players) {
     };
     this.renameUser = () => {
         players[this.turn].setNewName();
+    };
+    this.fullReset = () => {
+        gameData = null;
+        gameUI.playersUI.forEach((el) => el.playerDiv.remove());
+        gameUI = null;
+        modalWelcomeScreen();
     };
 }
 
