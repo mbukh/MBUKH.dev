@@ -210,7 +210,7 @@ body {
     left: 50%;
     background-color: #f4fae077;
     box-shadow: 0px 0px 10px var(--color42);
-    border-radius: 1em;
+    border-radius: 0.5em;
     transform: translate(-50%, -50%);
     text-align: center;
     opacity: 0.3;
@@ -225,8 +225,14 @@ body {
 #dice:hover {
     opacity: 1;
 }
+#dice .max-score {
+    color: var(--color42);
+    font-size: 80%;
+    padding: 20px;
+}
 #dice .numbers {
-    padding: 40px 30px;
+    color: var(--color2);
+    padding: 40px 30px 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -251,7 +257,7 @@ body {
 }
 #dice button {
     background-color: var(--color38);
-    border-radius: 6px;
+    border-radius: 0.5em;
     border: none;
     color: var(--color43);
     font-weight: 600;
@@ -419,7 +425,7 @@ body {
     }
 }
 .coaster.free-fall {
-    animation: free-fall 2.5s cubic-bezier(0.4, 0, 1, 1);
+    animation: free-fall 2s cubic-bezier(0.4, 0, 1, 1);
     animation-fill-mode: both;
     offset-path: none;
     transform: rotate(0deg);
@@ -427,7 +433,7 @@ body {
 }
 @keyframes free-fall {
     to {
-        top: 110%;
+        top: 150%;
         transform: rotate(360deg);
     }
 }
