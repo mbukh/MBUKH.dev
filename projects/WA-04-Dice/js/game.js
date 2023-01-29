@@ -1,7 +1,7 @@
 "use strict";
 
 const COUNT_PLAYERS = 2;
-const playersUI = initGameUI() || undefined;
+const gameUI = initGameUI() || undefined;
 const gameData = initGame();
 
 // ==================
@@ -9,10 +9,16 @@ const gameData = initGame();
 //  Game Engine Init
 // ==================
 
-if (!playersUI) gameLoop(gameData);
+// Disable text version if UI is available
+if (!gameUI.playersUI) gameLoop(gameData);
 
 function initGame() {
-    const players = [new Player(), new Player("Cool generic username")];
+    const players = [];
+    for (let id = 1; id <= COUNT_PLAYERS; id++) {
+        players.push(new Player(pickFunnyUsername()));
+        if (gameUI)
+            gameUI.playersUI[id - 1].updateUserName(players[id - 1].name);
+    }
     const game = new Game(players);
     const gameController = new GameController(game);
     return { players, game, gameController };
@@ -22,12 +28,12 @@ function gameLoop({ game, players, gameController }) {
     const letsPlay = true;
     while (letsPlay) {
         // NEXT GAME ROUTINE
-        gameController.getNextStep("restart");
+        gameController.nextStep("restart");
         console.table(players);
         console.table(game);
         while (!game.endGame) {
             // ONE GAME ROUTINE
-            gameController.getNextStep();
+            gameController.nextStep();
             console.table(players);
             console.table(game);
             game.looser = players.find((pl) => pl.score > game.maxScore);
@@ -46,7 +52,7 @@ function gameLoop({ game, players, gameController }) {
 // =================
 
 function GameController(game) {
-    this.getNextStep = (forceTask) => {
+    this.nextStep = (forceTask) => {
         const options = ["restart", "roll", "hold", "renameuser"];
         const task = forceTask;
         // || prompt("Next step (" + options.join(", ") + "): ");
@@ -68,13 +74,6 @@ function GameController(game) {
                 // roll
                 console.log(task);
                 game.rollDice();
-                // UI ROLL DICE
-                if (game.dice[0] === 6 && game.dice.lastIndexOf(6) !== 0) {
-                    // AT LEAST TWO SIX DICE
-                    console.log("Wow! Wow! Wow! Wow! Wow! Wow! Wow! Wow! ");
-                    // UI DISABLE INPUT 1s + MESSAGE
-                    game.clearCurrentScore();
-                }
                 break;
             case options[2]:
                 // hold
@@ -102,21 +101,22 @@ function Player(name) {
     this.name = name || "Ask user for name";
     this.score = 0;
     this.currentScore = 0;
-    this.countGamesWon = 0;
+    this.wins = 0;
     this.setNewName = () =>
         (this.name = escapeHTMLChars(prompt("Please enter name: ")));
     this.newGame = () => {
         this.currentScore = 0;
         this.score = 0;
     };
-    this.setDice = (dice) =>
-        (this.currentScore += dice.reduce((acc, e) => acc + e));
+    this.addDice = (dice) => {
+        this.currentScore += dice.reduce((acc, e) => acc + e);
+    };
     this.clearCurrentScore = () => (this.currentScore = 0);
     this.holdScore = () => {
         this.score += this.currentScore;
         this.currentScore = 0;
     };
-    this.updateGamesWon = () => (this.countGamesWon += 1);
+    this.updateGamesWon = () => (this.wins += 1);
 }
 
 function Game(players) {
@@ -124,38 +124,92 @@ function Game(players) {
     this.winner = undefined;
     this.looser = undefined;
     this.diceSides = 6;
-    this.maxScore = 100;
+    this.maxScore = 20;
     this.turn = 0;
     this.dice = [0, 0];
+    this.canRollDice = true;
+    this.canHold = true;
     this.endGame = false;
     this.setMaxScore = (maxScore) => (this.maxScore = maxScore);
     // this.setDiceSides = () =>
     //     (this.diceSides = prompt("Choose dice (d6, d20): D"));
     this.rollDice = () => {
+        if (!this.canRollDice || !this.canHold) return;
+        this.canRollDice = false;
         this.dice = [
             getRandomNumber(1, this.diceSides),
             getRandomNumber(1, this.diceSides),
         ];
-        players[this.turn].setDice(this.dice);
+        if (this.dice[0] === 6 && this.dice.lastIndexOf(6) !== 0) {
+            // AT LEAST TWO SIX DICE
+            this.clearCurrentScore();
+            console.log("Wow! Wow! Wow! Wow! Wow! Wow! Wow! Wow! ");
+            gameUI.playersUI[
+                this.turn
+            ].currentScore.parentElement.classList.add("clear");
+            setTimeout(
+                () =>
+                    gameUI.playersUI[
+                        this.turn
+                    ].currentScore.parentElement.classList.remove("clear"),
+                2000
+            );
+        } else {
+            players[this.turn].addDice(this.dice);
+        }
+        console.log(this.dice);
+        gameUI.diceUI.renderDice(this.dice);
+        gameUI.playersUI[this.turn].updateCurrentScore(
+            players[this.turn].currentScore
+        );
+        setTimeout(() => (this.canRollDice = true), 1000);
     };
     this.clearCurrentScore = () => {
         players[this.turn].clearCurrentScore();
     };
     this.holdScore = () => {
+        if (!this.canRollDice || !this.canHold) return;
+        this.canHold = false;
         players[this.turn].holdScore();
-        this.nextTurn();
+        console.log(players[this.turn].score);
+        // WIN - LOSE conditions
+        this.looser = players.find((pl) => pl.score > this.maxScore);
+        this.winner = players.find((pl) => pl.score === this.maxScore);
+        this.endGame = this.looser || this.winner;
+        if (this.looser) this.updateRoundViaLooser();
+        else if (this.winner) this.updateRoundViaWinner();
+        // UI
+        gameUI.diceUI.hide();
+        gameUI.diceUI.clear();
+        gameUI.playersUI[this.turn].updateCurrentScore(
+            players[this.turn].currentScore
+        );
+        gameUI.playersUI[this.turn].updateScore(players[this.turn].score);
+        if (!this.endGame) {
+            // normal gameplay
+            gameUI.playersUI[this.turn].progressAlongPath(
+                (players[this.turn].score * 100) / (this.maxScore + 0.01)
+            );
+        } else {
+            // loose
+            if (this.looser) {
+                gameUI.playersUI[this.turn].loseGame();
+            } else if (this.winner) {
+            }
+        }
+        setTimeout(() => {
+            gameUI.playersUI[this.turn].playerDiv.classList.toggle("inactive");
+            this.nextTurn();
+            gameUI.playersUI[this.turn].playerDiv.classList.toggle("inactive");
+            this.canHold = true;
+        }, 4000);
     };
     this.nextTurn = () => (this.turn = (this.turn + 1) % players.length);
     this.newGame = () => {
-        // If a game started punish the resetter
-        if (players[this.turn].currentScore > 0) {
-            this.looser = players[this.turn];
-            this.updateRoundViaLooser();
-        }
         players.forEach((pl) => pl.newGame());
         this.winner = undefined;
         this.looser = undefined;
-        this.turn = 0;
+        this.turn += 1;
         this.endGame = false;
     };
     this.updateRoundViaLooser = () => {
@@ -182,24 +236,43 @@ function escapeHTMLChars(str) {
     return str.replace(/[&<>]/g, (tag) => tagsToReplace[tag] || tag);
 }
 // Random including min and max
-function getRandomNumber(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+// function getRandomNumber(min, max) {
+//     min = Math.ceil(min);
+//     max = Math.floor(max);
+//     return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
+
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+//                          UI
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
 
 // ==============
 // ==============
 //  Game UI Init
 // ==============
 
-const playersUI = initGameUI();
-
 function initGameUI() {
     const playersUI = [];
+    const diceUI = new DiceUI();
     for (let id = 1; id <= COUNT_PLAYERS; id++) {
         let playerElement = addPlayerSpace(id);
-        playersUI.push(new UIPlayer(id, playerElement));
+        playersUI.push(new PlayerUI(id, playerElement));
     }
     playersUI.forEach((player) => {
         player.createPath();
@@ -207,13 +280,9 @@ function initGameUI() {
         player.progressAlongPath(0);
     });
     playersUI[0].playerDiv.classList.remove("inactive");
-    return { playersUI };
+    initEventListeners(playersUI, diceUI);
+    return { playersUI, diceUI };
 }
-
-// coasterFreeFall(coasters);
-// pathPlayerLoose(player);
-// pathPlayerReset(player);
-// resetGraphics();
 
 // ==============
 // ==============
@@ -236,7 +305,7 @@ function addPlayerSpace(uId) {
     return newPlayerDiv;
 }
 
-function UIPlayer(uId, playerElement) {
+function PlayerUI(uId, playerElement) {
     this.uId = uId;
     this.playerDiv = playerElement; //document.querySelector(`#player${this.uId}`);
     this.svg = this.playerDiv.querySelector("svg");
@@ -244,6 +313,11 @@ function UIPlayer(uId, playerElement) {
     this.svgPath = this.svg.querySelector("path.line");
     this.svgFinish = this.svg.querySelector("path.finish");
     this.coasters = this.playerDiv.querySelectorAll(".coaster");
+    this.name = this.playerDiv.querySelector(".player-control .name");
+    this.currentScore = this.playerDiv.querySelector(
+        ".player-control .current-score .n"
+    );
+    this.score = this.playerDiv.querySelector(".player-control .score .n");
     this.W = Number.parseFloat(this.playerDiv.style.width);
     this.H = this.svg.parentElement.offsetHeight;
     this.MIN_ANGLE = 70;
@@ -265,6 +339,17 @@ function UIPlayer(uId, playerElement) {
     this.progressAlongPath = (percent, immediate) =>
         progressAlongPath(this, percent, immediate);
     this.addCoaster = () => addCoaster(this);
+    this.updateCurrentScore = (n) => (this.currentScore.textContent = n);
+    this.updateScore = (n) => (this.score.textContent = n);
+    this.updateUserName = (s) => (this.name.textContent = s);
+    this.loseGame = () => {
+        coasterFreeFall(this.coasters);
+        pathPlayerLoose(this.svgFinish);
+        setTimeout(() => {
+            pathPlayerReset(this.svgFinish);
+            resetGraphics(this);
+        }, 4000);
+    };
 }
 
 // ==================
@@ -418,14 +503,14 @@ function addCoaster(player) {
     player.coasters = player.playerDiv.querySelectorAll(".coaster");
 }
 
-function pathPlayerLoose(player) {
-    player.svgFinish.style.animation = "";
-    player.svgFinish.style.animationPlayState = "running";
+function pathPlayerLoose(svgFinish) {
+    svgFinish.style.animation = "";
+    svgFinish.style.animationPlayState = "running";
 }
 
-function pathPlayerReset(player) {
-    player.svgFinish.style.animationPlayState = "paused";
-    player.svgFinish.style.animation = "none";
+function pathPlayerReset(svgFinish) {
+    svgFinish.style.animationPlayState = "paused";
+    svgFinish.style.animation = "none";
 }
 
 function resetGraphics(player) {
@@ -452,22 +537,43 @@ function restartAnimations(...elements) {
 //   Dice
 // https://codepen.io/Pyremell/pen/eZGGXX/
 // =========
-const diceButton = document.querySelector("#dice #roll");
-const diceNumbers = document.querySelectorAll("#dice .diceNumber");
-const dice = {
-    sides: 6,
-    roll() {
-        return Math.floor(Math.random() * this.sides) + 1;
-    },
-};
-//Prints dice roll to the page
-function renderRandomDice(e) {
-    if (e.target.classList.contains("inactive")) return;
-    diceNumbers.forEach((dN) => (dN.textContent = dice.roll()));
-    e.target.classList.add("inactive");
-    setTimeout(() => e.target.classList.remove("inactive"), 1000);
+
+function DiceUI() {
+    this.dice = document.querySelector("#dice");
+    this.diceNumbers = document.querySelectorAll("#dice .diceNumber");
+    this.rollButton = document.querySelector("#dice #roll");
+    this.holdButton = document.querySelector("#dice #hold");
+    this.renderDice = (diceNumbers) => {
+        this.diceNumbers.forEach((dN, i) => (dN.textContent = diceNumbers[i]));
+        this.rollButton.classList.add("wait");
+        this.holdButton.classList.add("wait");
+        setTimeout(() => {
+            this.rollButton.classList.remove("wait");
+            this.holdButton.classList.remove("wait");
+        }, 1000);
+    };
+    this.hide = () => {
+        this.dice.classList.add("hide");
+        setTimeout(() => this.dice.classList.remove("hide"), 4500);
+    };
+    this.clear = () => {
+        this.diceNumbers.forEach((dN, i) => (dN.textContent = ""));
+    };
 }
-diceButton.addEventListener("click", renderRandomDice);
+
+// =================
+// =================
+//  Event Listeners
+// =================
+
+function initEventListeners(playersUI, diceUI) {
+    diceUI.rollButton.addEventListener("click", () =>
+        gameData.gameController.nextStep("roll")
+    );
+    diceUI.holdButton.addEventListener("click", () =>
+        gameData.gameController.nextStep("hold")
+    );
+}
 
 // =========
 // =========
@@ -477,4 +583,41 @@ function getRandomNumber(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pickFunnyUsername() {
+    const names = [
+        "Generic",
+        "Player",
+        "Notimer",
+        "BadKarma",
+        "casanova",
+        "OP rah",
+        "Something",
+        "Everybody",
+        "IYELLALOT",
+        "heyyou",
+        "Babushka",
+        "kim chi",
+        "iNeed2p",
+        "fatBatman",
+        "FreeHugz",
+        "ima robot",
+        "ChopSuey",
+        "B Juice",
+        "SweetP",
+        "PNUT",
+        "Snax",
+        "Nuggetz",
+        "Schmoople",
+        "Unic0rns",
+        "peap0ds",
+        "BabyBluez",
+        "MangoGoGo",
+        "DirtBag",
+        "FurReal",
+        "WakeAwake",
+        "kokonuts",
+    ];
+    return "@" + names[getRandomNumber(0, names.length - 1)];
 }
