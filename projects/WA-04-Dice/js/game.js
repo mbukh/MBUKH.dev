@@ -237,6 +237,7 @@ function Game(players) {
     this.fullReset = () => {
         gameData = null;
         gameUI.playersUI.forEach((el) => el.playerDiv.remove());
+        gameUI.playersUI.length = 0;
         gameUI = null;
         modalWelcomeScreen();
     };

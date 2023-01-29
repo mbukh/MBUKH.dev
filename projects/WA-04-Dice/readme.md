@@ -44,6 +44,9 @@ https://github.com/bkis/dice-or-die
 sprite animation
 https://medium.com/dailyjs/how-to-build-a-simple-sprite-animation-in-javascript-b764644244aa
 
+super cool comics text animation and fonts effect
+https://codepen.io/team/css-tricks/pen/OJRVXXG
+
 ## 2. HTML + CSS: Design
 
 ```js
