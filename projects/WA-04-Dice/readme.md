@@ -41,6 +41,9 @@ https://github.com/Matteas-Eden/dice-roller
 nice flat dice roll
 https://github.com/bkis/dice-or-die
 
+sprite animation
+https://medium.com/dailyjs/how-to-build-a-simple-sprite-animation-in-javascript-b764644244aa
+
 ## 2. HTML + CSS: Design
 
 ```js

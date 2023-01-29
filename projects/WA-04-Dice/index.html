@@ -13,15 +13,30 @@
 <body>
     <div class="body-container">
 
+        <div id="modal">
+            <div class="container">
+                <!-- <div id="rules">Rules of the game</div> -->
+                <!-- <div id="maxpoints">Maxpoints</div> -->
+                <!-- <div id="name">Change Name</div> -->
+                <div>
+                    How many player?
+                    <input type="number" id="players-number" value="2">
+                </div>
+                <div>
+                    Score to reach
+                    <input type="number" id="max-score" value="30">
+                </div>
+                <div><button id="start">start</button></div>
+            </div>
+        </div>
+
         <div id="dice-game">
-            <dialog>Rules of the game</dialog>
-            <dialog>Maxpoints</dialog>
-            <dialog>Change Name</dialog>
 
             <div id="dice">
                 <!-- https://codepen.io/Pyremell/pen/eZGGXX/ -->
                 <div class="numbers">
-                    <div class="diceNumber"></div>+
+                    <div class="diceNumber"></div>
+                    <span>+</span>
                     <div class="diceNumber"></div>
                 </div>
                 <button id="roll">Roll Dice</button>

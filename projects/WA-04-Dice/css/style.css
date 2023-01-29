@@ -55,17 +55,60 @@
 }
 html,
 body {
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     font-family: "Press Start 2P", cursive;
     color: var(--color2);
     font-size: 16px;
+    overflow: hidden;
 }
 .body-container {
     width: 100%;
     height: 100%;
     background: var(--color45);
     display: flex;
+}
+
+/* ============= */
+/* ============= */
+/*     MODAL     */
+/* ============= */
+
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    background: var(--color44);
+}
+#modal .container {
+    margin: auto;
+    width: max(400px, 50%);
+    height: max(300px, 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 50px;
+}
+#modal input,
+#modal button {
+    font-family: inherit;
+    font-size: 2em;
+    text-align: center;
+    outline: none;
+    border: none;
+    background-color: var(--color43);
+    color: var(--color1);
+    width: 120px;
+    height: 80px;
+    cursor: pointer;
+}
+#modal button {
+    padding: 10px;
+    width: fit-content;
 }
 
 /* ============== */
@@ -127,9 +170,14 @@ body {
 /* ================== */
 
 .player-control .name {
+    color: var(--color18);
     font-size: 80%;
     flex: 1;
 }
+#dice-game #players-container .player.inactive .player-control .name {
+    color: var(--color1);
+}
+
 .player-control .current-score {
     flex: 1;
     padding-block: 0.5em;
@@ -145,6 +193,10 @@ body {
 .player-control .wins {
     font-size: 60%;
     flex: 1;
+}
+.player-control .wins.update {
+    opacity: 0;
+    animation: blinker 0.25s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }
 
 /* ================ */
@@ -180,6 +232,9 @@ body {
     align-items: center;
     align-content: center;
     gap: 30px;
+}
+#dice .numbers span {
+    text-shadow: 1px 1px 5px var(--color43);
 }
 #dice .diceNumber {
     display: flex;
@@ -229,20 +284,14 @@ body {
 
 .roller-coaster svg {
     position: absolute;
-    top: 0;
-    left: 0;
-
-    stroke: rgba(102, 102, 102, 0.181);
-
+    stroke: rgba(102, 102, 102, 0.2);
     border-radius: 1rem;
     background-color: var(--player-color);
     filter: blur(1rem);
-
     animation-name: blur;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
-
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 0.25rem;
@@ -277,7 +326,7 @@ body {
 .roller-coaster svg path.pattern {
     /* https://philiprogers.com/svgpatterns/#verticalstripes */
     /* http://iros.github.io/patternfills/sample_svg.html */
-    fill: url("#fill-stripes");
+    fill: url("#patterns #fill-stripes");
 }
 .roller-coaster svg path.line {
     --stroke: #00ffbfbf;
@@ -326,7 +375,7 @@ body {
     offset-path: path(var(--offset-path)); /* inline variable by JS; */
     offset-distance: calc(var(--old-progress) - var(--offset));
     /* https://cubic-bezier.com/#.6,0,.5,1.09 */
-    animation: move 3500ms forwards cubic-bezier(0.9, 0, 0.5, 1.1);
+    animation: move 2500ms forwards cubic-bezier(0.9, 0, 0.5, 1.1);
     animation-delay: calc(var(--place) * 0.25s);
     width: var(--size);
     height: auto;
@@ -370,8 +419,8 @@ body {
     }
 }
 .coaster.free-fall {
-    animation: free-fall 2.5s cubic-bezier(0.4, 0, 1, 1) 1;
-    animation-fill-mode: forwards;
+    animation: free-fall 2.5s cubic-bezier(0.4, 0, 1, 1);
+    animation-fill-mode: both;
     offset-path: none;
     transform: rotate(0deg);
     animation-delay: calc(var(--place) * 0.1s);

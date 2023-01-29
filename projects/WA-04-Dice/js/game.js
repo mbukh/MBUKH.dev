@@ -1,8 +1,24 @@
 "use strict";
 
-const COUNT_PLAYERS = 2;
-const gameUI = initGameUI() || undefined;
-const gameData = initGame();
+let COUNT_PLAYERS;
+let MAX_SCORE;
+let gameUI;
+let gameData;
+
+// Better modal https://web.dev/is-it-modal/
+const modal = document.querySelector("#modal");
+const playersNumber = document.querySelector("#modal #players-number");
+const maxScoreNumber = document.querySelector("#modal #max-score");
+const submit = document.querySelector("#modal #start");
+
+modal.style.display = "block";
+submit.addEventListener("click", (e) => {
+    COUNT_PLAYERS = Number.parseInt(playersNumber.value);
+    MAX_SCORE = Number.parseInt(maxScoreNumber.value);
+    gameUI = initGameUI() || undefined;
+    gameData = initGame();
+    modal.style.display = "";
+});
 
 // ==================
 // ==================
@@ -10,7 +26,7 @@ const gameData = initGame();
 // ==================
 
 // Disable text version if UI is available
-if (!gameUI.playersUI) gameLoop(gameData);
+// if (!gameUI.playersUI) gameLoop(gameData);
 
 function initGame() {
     const players = [];
@@ -25,6 +41,7 @@ function initGame() {
 }
 
 function gameLoop({ game, players, gameController }) {
+    // Text version game loop
     const letsPlay = true;
     while (letsPlay) {
         // NEXT GAME ROUTINE
@@ -124,7 +141,7 @@ function Game(players) {
     this.winner = undefined;
     this.looser = undefined;
     this.diceSides = 6;
-    this.maxScore = 20;
+    this.maxScore = MAX_SCORE;
     this.turn = 0;
     this.dice = [0, 0];
     this.canRollDice = true;
@@ -144,16 +161,7 @@ function Game(players) {
             // AT LEAST TWO SIX DICE
             this.clearCurrentScore();
             console.log("Wow! Wow! Wow! Wow! Wow! Wow! Wow! Wow! ");
-            gameUI.playersUI[
-                this.turn
-            ].currentScore.parentElement.classList.add("clear");
-            setTimeout(
-                () =>
-                    gameUI.playersUI[
-                        this.turn
-                    ].currentScore.parentElement.classList.remove("clear"),
-                2000
-            );
+            gameUI.playersUI[this.turn].clearCurrentScore();
         } else {
             players[this.turn].addDice(this.dice);
         }
@@ -162,7 +170,7 @@ function Game(players) {
         gameUI.playersUI[this.turn].updateCurrentScore(
             players[this.turn].currentScore
         );
-        setTimeout(() => (this.canRollDice = true), 1000);
+        setTimeout(() => (this.canRollDice = true), 500);
     };
     this.clearCurrentScore = () => {
         players[this.turn].clearCurrentScore();
@@ -178,13 +186,7 @@ function Game(players) {
         this.endGame = this.looser || this.winner;
         if (this.looser) this.updateRoundViaLooser();
         else if (this.winner) this.updateRoundViaWinner();
-        // UI
-        gameUI.diceUI.hide();
-        gameUI.diceUI.clear();
-        gameUI.playersUI[this.turn].updateCurrentScore(
-            players[this.turn].currentScore
-        );
-        gameUI.playersUI[this.turn].updateScore(players[this.turn].score);
+        // UI Update Users
         if (!this.endGame) {
             // normal gameplay
             gameUI.playersUI[this.turn].progressAlongPath(
@@ -193,32 +195,63 @@ function Game(players) {
         } else {
             // loose
             if (this.looser) {
+                console.table(this.looser);
                 gameUI.playersUI[this.turn].loseGame();
+                players.forEach((pl, i) => {
+                    if (pl !== this.looser) {
+                        gameUI.playersUI[i].MAX_TURNS += 1;
+                        gameUI.playersUI[i].winGame();
+                        gameUI.playersUI[i].addCoaster();
+                        gameUI.playersUI[i].updateWins(players[i].wins);
+                    }
+                });
             } else if (this.winner) {
+                gameUI.playersUI[this.turn].MAX_TURNS += 1;
+                gameUI.playersUI[this.turn].addCoaster();
+                gameUI.playersUI[this.turn].winGame();
+                gameUI.playersUI[this.turn].updateWins(players[this.turn].wins);
             }
+            this.newGame();
         }
+        // UI Update score
+        gameUI.playersUI[this.turn].updateCurrentScore(
+            players[this.turn].currentScore
+        );
+        gameUI.playersUI[this.turn].updateScore(players[this.turn].score);
+        gameUI.diceUI.hide();
+        gameUI.diceUI.clear();
+        // UI Switch user
         setTimeout(() => {
             gameUI.playersUI[this.turn].playerDiv.classList.toggle("inactive");
             this.nextTurn();
             gameUI.playersUI[this.turn].playerDiv.classList.toggle("inactive");
             this.canHold = true;
-        }, 4000);
+        }, 2500);
     };
     this.nextTurn = () => (this.turn = (this.turn + 1) % players.length);
+    this.playersZeroScore = () => players.forEach((pl) => pl.newGame());
     this.newGame = () => {
-        players.forEach((pl) => pl.newGame());
         this.winner = undefined;
         this.looser = undefined;
-        this.turn += 1;
         this.endGame = false;
     };
     this.updateRoundViaLooser = () => {
-        players.forEach((pl) => {
-            if (pl !== this.looser) pl.updateGamesWon();
+        // i would change this behavior
+        // when one looses other continue their ways
+        players.forEach((pl, i) => {
+            if (pl !== this.looser) {
+                pl.updateGamesWon();
+            }
         });
+        this.playersZeroScore();
     };
-    this.updateRoundViaWinner = () => this.winner.updateGamesWon();
-    this.renameUser = () => players[this.turn].setNewName();
+    this.updateRoundViaWinner = () => {
+        this.winner.updateGamesWon();
+        this.playersZeroScore();
+    };
+    this.renameUser = () => {
+        players[this.turn].setNewName();
+    };
 }
 
 // =========
@@ -318,13 +351,13 @@ function PlayerUI(uId, playerElement) {
         ".player-control .current-score .n"
     );
     this.score = this.playerDiv.querySelector(".player-control .score .n");
+    this.wins = this.playerDiv.querySelector(".player-control .wins .n");
     this.W = Number.parseFloat(this.playerDiv.style.width);
     this.H = this.svg.parentElement.offsetHeight;
     this.MIN_ANGLE = 70;
     this.MIN_DISTANCE = Math.min(this.W, this.H) / 15;
     this.MAX_DISTANCE = Math.min(this.W, this.H) / 3;
-    this.wins = 0;
-    this.MAX_TURNS = (this.wins || 0) + 1;
+    this.MAX_TURNS = 1;
     this.MAX_RECURSIVE_COUNT = 30;
     this.pointsLeft = (this.MAX_TURNS + 1) * 2; // compensate the first and the last stop
     this.countFailedToGetPointTries = 0;
@@ -341,14 +374,35 @@ function PlayerUI(uId, playerElement) {
     this.addCoaster = () => addCoaster(this);
     this.updateCurrentScore = (n) => (this.currentScore.textContent = n);
     this.updateScore = (n) => (this.score.textContent = n);
+    this.updateWins = (n) => (this.wins.textContent = n);
     this.updateUserName = (s) => (this.name.textContent = s);
+    this.clearCurrentScore = () => {
+        this.currentScore.parentElement.classList.add("clear");
+        setTimeout(
+            () => this.currentScore.parentElement.classList.remove("clear"),
+            2000
+        );
+    };
     this.loseGame = () => {
         coasterFreeFall(this.coasters);
         pathPlayerLoose(this.svgFinish);
         setTimeout(() => {
-            pathPlayerReset(this.svgFinish);
             resetGraphics(this);
         }, 4000);
+    };
+    this.winGame = () => {
+        this.progressAlongPath(0);
+        this.wins.parentElement.classList.add("update");
+        setTimeout(() => {
+            this.wins.parentElement.classList.remove("update");
+            resetGraphics(this);
+        }, 2000);
+    };
+    this.restartAnimations = () => {
+        restartAnimations(this.svg);
+        restartAnimations(this.svgFinish);
+        restartAnimations(this.svgPath);
+        // restartAnimations(...this.coasters);
     };
 }
 
@@ -450,7 +504,6 @@ function setMotionPath(player) {
 }
 
 function progressAlongPath(player, percent, immediate = false) {
-    const pathLength = player.svgPath.getTotalLength();
     let nextProgress = percent;
     if (nextProgress === 0) {
         nextProgress = (player.coasters.length * 5) / player.MAX_TURNS;
@@ -464,22 +517,21 @@ function progressAlongPath(player, percent, immediate = false) {
         if (immediate) return;
 
         c.style.setProperty("--progress", nextProgress + "%");
-        c.style.animation = "none";
-        // minimum pause to let DOM reset itself
+        // restart animation. add a minimum pause to let DOM reset itself
         // setTimeout(() => element.classList.add("coaster"), 0);
         // another way to do it is to get a property from DOM such as:
         // https://stackoverflow.com/questions/60686489/what-purpose-does-void-element-offsetwidth-serve
+        c.style.animation = "none";
         void c.offsetWidth;
         c.style.animation = ""; // removes inline, inherits css
     });
 }
 
-function coasterFreeFall(player) {
-    player.coasters.forEach((el) => {
-        [elLeft, elTop] = getAbsolutePosition(el);
+function coasterFreeFall(coasters) {
+    coasters.forEach((el) => {
+        const [elLeft, elTop] = getAbsolutePosition(el);
         el.classList.add("free-fall");
-        el.getAnimations().forEach((anim) => (anim.currentTime = 0));
-        el.style.position = "fixed";
+        // el.getAnimations().forEach((anim) => (anim.currentTime = 0));
         [el.style.left, el.style.top] = [elLeft + "px", elTop + "px"];
         el.getAnimations().forEach((anim) => anim.play());
     });
@@ -498,6 +550,7 @@ function getAbsolutePosition(el) {
 function addCoaster(player) {
     const newCoaster =
         player.coasters[player.coasters.length - 1].cloneNode(true);
+    newCoaster.classList.remove(`delayed${player.coasters.length - 1}`);
     newCoaster.classList.add(`delayed${player.coasters.length}`);
     player.coasters[0].parentElement.appendChild(newCoaster);
     player.coasters = player.playerDiv.querySelectorAll(".coaster");
@@ -516,15 +569,23 @@ function pathPlayerReset(svgFinish) {
 function resetGraphics(player) {
     player.lastTwoPoints = [];
     player.allPoints = [];
-    player.pointsLeft = (MAX_TURNS + 1) * 2;
+    player.pointsLeft = (player.MAX_TURNS + 1) * 2;
     player.countFailedToGetPointTries = 0;
-    progressAlongPath(player.coasters, 0, "immediate");
-    createPath(player);
-    setMotionPath(player.coasters);
-    restartAnimations(player.svg);
-    restartAnimations(player.svgPath);
-    restartAnimations(...player.coaster);
-    pathPlayerReset(player);
+    player.coasters.forEach((c) => {
+        // c.getAnimations().forEach((anim) => {
+        //     // anim.style.animationPlayState = "pause";
+        //     anim.currentTime = 0;
+        // });
+        c.style.top = "0";
+        c.style.left = "0";
+        // c.style.animation = "none";
+        c.classList.remove("free-fall");
+    });
+    player.progressAlongPath(0, "immediate");
+    player.createPath();
+    player.setMotionPath();
+    pathPlayerReset(player.svgFinish);
+    player.progressAlongPath(0);
 }
 function restartAnimations(...elements) {
     elements.forEach((el) =>
@@ -550,7 +611,7 @@ function DiceUI() {
         setTimeout(() => {
             this.rollButton.classList.remove("wait");
             this.holdButton.classList.remove("wait");
-        }, 1000);
+        }, 500);
     };
     this.hide = () => {
         this.dice.classList.add("hide");
