@@ -60,8 +60,8 @@ body {
     height: 100vh;
     font-family: "Press Start 2P", cursive;
     color: var(--color2);
-    font-size: 16px;
-    /* overflow: hidden; */
+    font-size: min(16px, 3vw);
+    overflow: hidden;
 }
 .body-container {
     width: 100%;
@@ -239,8 +239,8 @@ body {
     justify-content: center;
     align-items: center;
     align-content: center;
-    height: 100px;
-    width: 100px;
+    height: min(100px, 15vw);
+    width: min(100px, 15vw);
     padding: 8px 0 0 8px;
     border: 1px solid var(--color44);
     border-radius: 10px;

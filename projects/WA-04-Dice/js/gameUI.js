@@ -129,7 +129,7 @@ function PlayerUI(uId, playerElement) {
         setTimeout(() => {
             this.wins.parentElement.classList.remove("update");
             resetGraphics(this);
-        }, LONG_WAIT_MILLISECONDS);
+        }, LONGER_WAIT_MILLISECONDS);
     };
     this.restartAnimations = () => {
         restartAnimations(this.svg);

@@ -1,6 +1,6 @@
 "use strict";
 
-const LONGER_WAIT_MILLISECONDS = 4500;
+const LONGER_WAIT_MILLISECONDS = 3500;
 const LONG_WAIT_MILLISECONDS = 2500;
 const SHORT_WAIT_MILLISECONDS = 300;
 
@@ -186,14 +186,16 @@ function Game(players) {
         let timeout = LONG_WAIT_MILLISECONDS;
         if (!this.canHold) return;
         players[this.turn].holdScore();
-        if (players[this.turn].score === 0) timeout = LONGER_WAIT_MILLISECONDS;
-        console.log(players[this.turn].score);
         // WIN - LOSE conditions
         this.looser = players.find((pl) => pl.score > this.maxScore);
         this.winner = players.find((pl) => pl.score === this.maxScore);
         this.endGame = this.looser || this.winner;
-        if (this.looser) this.updateRoundViaLooser();
-        else if (this.winner) this.updateRoundViaWinner();
+        if (this.endGame) this.allPlayersResetScore();
+        if (this.looser) {
+            this.updateRoundViaLooser();
+            timeout = LONGER_WAIT_MILLISECONDS;
+            console.log("==here==");
+        } else if (this.winner) this.updateRoundViaWinner();
         // UI Update Users
         if (!this.endGame) {
             // normal gameplay
@@ -229,6 +231,7 @@ function Game(players) {
         gameUI.diceUI.hide();
         gameUI.diceUI.updatePlayerTurn(nextPlayerName);
         gameUI.diceUI.clear();
+        console.log(`wait for ${timeout}`);
         // Timeout Switch user: UI & GAME
         setTimeout(() => {
             gameUI.playersUI[this.turn].makeInactive();
@@ -244,7 +247,7 @@ function Game(players) {
         console.log(`turn by player #${this.turn}`);
     };
     this.whoseNextTurn = () => (this.turn + 1) % players.length;
-    this.playersZeroScore = () => players.forEach((pl) => pl.newGame());
+    this.allPlayersResetScore = () => players.forEach((pl) => pl.newGame());
     this.newGame = () => {
         this.winner = null;
         this.looser = null;
@@ -254,15 +257,13 @@ function Game(players) {
         // i would change this behavior
         // when one looses other continue their ways
         players.forEach((pl, i) => {
-            if (pl !== this.looser) {
-                pl.updateGamesWon();
-            }
+            if (pl !== this.looser) pl.updateGamesWon();
         });
-        this.playersZeroScore();
+        console.log("Looser");
     };
     this.updateRoundViaWinner = () => {
         this.winner.updateGamesWon();
-        this.playersZeroScore();
+        console.log("Looser");
     };
     this.renameUser = () => {
         players[this.turn].setNewName();
@@ -274,9 +275,9 @@ function Game(players) {
         });
         gameUI = null;
         // remove event listeners from Dice
-        const dice = document.querySelector("#dice");
-        const newDice = dice.cloneNode(true);
-        dice.replaceWith(newDice);
+        // const dice = document.querySelector("#dice");
+        // const newDice = dice.cloneNode(true);
+        // dice.replaceWith(newDice);
 
         modalWelcomeScreen();
     };
