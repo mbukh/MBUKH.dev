@@ -33,9 +33,16 @@ function initGameUI() {
     const playersUI = [];
     const diceUI = new DiceUI(MAX_SCORE, DICE_ROLL_COUNT);
     for (let id = 1; id <= COUNT_PLAYERS; id++) {
-        let playerElement = createPlayerHTMLElement(id);
-        playersUI.push(new PlayerUI(id, playerElement));
+        let playerHTMLElement = createPlayerHTMLElement(id);
+        playersUI.push(new PlayerUI(id, playerHTMLElement));
     }
+
+    // AI
+    if (playersUI.length === 1) {
+        let playerHTMLElement = createPlayerHTMLElement(COUNT_PLAYERS + 1);
+        playersUI.push(new PlayerUI(COUNT_PLAYERS + 1, playerHTMLElement));
+    }
+
     playersUI.forEach((player) => {
         player.createPath();
         player.setMotionPath();
@@ -56,7 +63,9 @@ function createPlayerHTMLElement(uId) {
     newPlayerDiv.setAttribute("id", `player${uId}`);
     templateDiv.parentNode.appendChild(newPlayerDiv);
     newPlayerDiv.style.width =
-        newPlayerDiv.parentElement.offsetWidth / COUNT_PLAYERS + "px";
+        newPlayerDiv.parentElement.offsetWidth /
+            (COUNT_PLAYERS + AI_PLAYERS_COUNT) +
+        "px";
     // newPlayerDiv.style.height =
     //     newPlayerDiv.parentElement.offsetHeight / COUNT_PLAYERS + "px";
     newPlayerDiv.style.setProperty(
