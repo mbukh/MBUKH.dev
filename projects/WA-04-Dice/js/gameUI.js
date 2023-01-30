@@ -27,7 +27,7 @@ function modalWelcomeScreen() {
         prepareGameData({
             playersNumber: Number(playersNumber.value),
             playersAINumber: Number(playersAINumber.value),
-            maxScore: maxScore.value,
+            maxScore: Number(maxScore.value),
         });
     }
     function checkPlayersCount(e) {
@@ -53,18 +53,15 @@ function initGameUI({ maxScore, diceRollCount, countPlayers }) {
     console.log("initGameUI");
     const playersUI = [];
     const diceUI = new DiceUI({
-        maxScore: maxScore,
-        diceRollCount: diceRollCount,
+        maxScore,
+        diceRollCount,
     });
     for (let id = 1; id <= countPlayers; id++) {
         let playerHTMLElement = createPlayerHTMLElement({
             uId: id,
-            countPlayers: countPlayers,
+            countPlayers,
         });
-        console.log(id);
-        playersUI.push(
-            new PlayerUI({ uId: id, playerElement: playerHTMLElement })
-        );
+        playersUI.push(new PlayerUI({ uId: id, playerHTMLElement }));
     }
     playersUI.forEach((player) => {
         player.createPath();
@@ -98,65 +95,65 @@ function createPlayerHTMLElement({ uId, countPlayers }) {
     return newPlayerDiv;
 }
 
-function PlayerUI({ uId, playerElement }) {
-    this.uId = uId;
-    this.playerDiv = playerElement; //document.querySelector(`#player${this.uId}`);
-    this.svg = this.playerDiv.querySelector("svg");
-    this.svgPattern = this.svg.querySelector("path.pattern");
-    this.svgPath = this.svg.querySelector("path.line");
-    this.svgFinish = this.svg.querySelector("path.finish");
-    this.coasters = this.playerDiv.querySelectorAll(".coaster");
-    this.name = this.playerDiv.querySelector(".player-stats .name .s");
-    this.description = this.playerDiv.querySelector(
-        ".player-stats .description"
-    );
-    this.currentScore = this.playerDiv.querySelector(
-        ".player-stats .current-score .n"
-    );
-    this.score = this.playerDiv.querySelector(".player-stats .score .n");
-    this.wins = this.playerDiv.querySelector(".player-stats .wins .n");
-    this.W = Number.parseFloat(this.playerDiv.style.width);
-    this.H = this.svg.parentElement.offsetHeight;
-    this.minAngle = 70;
-    this.minDistance = Math.min(this.W, this.H) / 15;
-    this.maxDistance = Math.min(this.W, this.H) / 3;
-    this.maxTurns = 1;
-    this.maxRecursiveCount = 30;
-    this.pointsLeft = (this.maxTurns + 1) * 2; // compensate the first and the last stop
-    this.countFailedToGetPointTries = 0;
-    this.lastTwoPoints = [];
-    this.allPoints = [];
-
-    this.svg.style.width = this.W + "px";
-    this.svg.style.height = this.H + "px";
-
-    this.makeActive = () => this.playerDiv.classList.remove("inactive");
-    this.makeInactive = () => this.playerDiv.classList.add("inactive");
-    this.createPath = () => createPath(this);
-    this.setMotionPath = () => setMotionPath(this);
-    this.progressAlongPath = (percent, immediate) =>
+class PlayerUI {
+    constructor({ uId, playerHTMLElement }) {
+        this.uId = uId;
+        this.playerDiv = playerHTMLElement;
+        this.svg = this.playerDiv.querySelector("svg");
+        this.svgPattern = this.svg.querySelector("path.pattern");
+        this.svgPath = this.svg.querySelector("path.line");
+        this.svgFinish = this.svg.querySelector("path.finish");
+        this.coasters = this.playerDiv.querySelectorAll(".coaster");
+        this.name = this.playerDiv.querySelector(".player-stats .name .s");
+        this.description = this.playerDiv.querySelector(
+            ".player-stats .description .s"
+        );
+        this.currentScore = this.playerDiv.querySelector(
+            ".player-stats .current-score .n"
+        );
+        this.score = this.playerDiv.querySelector(".player-stats .score .n");
+        this.wins = this.playerDiv.querySelector(".player-stats .wins .n");
+        this.W = Number.parseFloat(this.playerDiv.style.width);
+        this.H = this.svg.parentElement.offsetHeight;
+        this.minAngle = 70;
+        this.minDistance = Math.min(this.W, this.H) / 15;
+        this.maxDistance = Math.min(this.W, this.H) / 3;
+        this.maxTurns = 1;
+        this.maxRecursiveCount = 30;
+        this.pointsLeft = (this.maxTurns + 1) * 2; // compensate the first and the last stop
+        this.countFailedToGetPointTries = 0;
+        this.lastTwoPoints = [];
+        this.allPoints = [];
+        this.svg.style.width = this.W + "px";
+        this.svg.style.height = this.H + "px";
+    }
+    makeActive = () => this.playerDiv.classList.remove("inactive");
+    makeInactive = () => this.playerDiv.classList.add("inactive");
+    createPath = () => createPath(this);
+    setMotionPath = () => setMotionPath(this);
+    progressAlongPath = (percent, immediate) =>
         progressAlongPath(this, percent, immediate);
-    this.addCoaster = () => addCoaster(this);
-    this.updateCurrentScore = (n) => (this.currentScore.textContent = n);
-    this.updateScore = (n) => (this.score.textContent = n);
-    this.updateWins = (n) => (this.wins.textContent = n);
-    this.updateUserName = (s) => (this.name.textContent = s);
-    this.updateUserDescription = (s) => (this.description.textContent = s);
-    this.clearCurrentScore = () => {
+    addCoaster = () => addCoaster(this);
+    setCurrentScore = (n) => (this.currentScore.textContent = n);
+    setScore = (n) => (this.score.textContent = n);
+    updateWins = (n) => (this.wins.textContent = n);
+    setName = (s) => (this.name.textContent = s);
+    setDescription = (s) => (this.description.textContent = s);
+    clearCurrentScore = () => {
         this.currentScore.parentElement.classList.add("clear");
         setTimeout(
             () => this.currentScore.parentElement.classList.remove("clear"),
             LONG_WAIT_MILLISECONDS
         );
     };
-    this.loseGame = () => {
+    loseGame = () => {
         coasterFreeFall(this.coasters);
         pathPlayerLoose(this.svgFinish);
         setTimeout(() => {
             resetGraphics(this);
         }, LONG_WAIT_MILLISECONDS);
     };
-    this.winGame = () => {
+    winGame = () => {
         this.progressAlongPath(0);
         this.wins.parentElement.classList.add("update");
         setTimeout(() => {
@@ -164,7 +161,7 @@ function PlayerUI({ uId, playerElement }) {
             resetGraphics(this);
         }, LONGER_WAIT_MILLISECONDS);
     };
-    this.restartAnimations = () => {
+    restartAnimations = () => {
         restartAnimations(this.svg);
         restartAnimations(this.svgFinish);
         restartAnimations(this.svgPath);
@@ -290,9 +287,6 @@ function progressAlongPath(player, percent, immediate = false) {
         void c.offsetWidth;
         c.style.animation = ""; // removes inline, inherits css
     });
-    console.log(player);
-    console.log(percent);
-    console.log("========");
 }
 
 function coasterFreeFall(coasters) {
@@ -362,32 +356,36 @@ function restartAnimations(...elements) {
 // https://codepen.io/Pyremell/pen/eZGGXX/
 // =========
 
-function DiceUI({ maxScore }) {
-    this.dice = document.querySelector("#dice");
-    this.playerTurn = document.querySelector("#dice .player-turn .s");
-    this.diceMaxScore = document.querySelector("#dice .max-score .n");
-    this.diceNumbers = document.querySelectorAll("#dice .diceNumber");
-    this.restartButton = document.querySelector("#dice #restart");
-    this.restartConfirmButton = document.querySelector("#dice #confirm");
-    this.restartConfirmSpan = document.querySelector("#dice #confirm span");
-    this.rollButton = document.querySelector("#dice #roll");
-    this.rollCountLeft = document.querySelector("#dice #roll .n");
-    this.holdButton = document.querySelector("#dice #hold");
-    this.diceMaxScore.textContent = maxScore;
-    this.renderDice = (diceNumbers) => {
+class DiceUI {
+    constructor({ maxScore }) {
+        this.maxScore = maxScore;
+        this.dice = document.querySelector("#dice");
+        this.playerTurn = document.querySelector("#dice .player-turn .s");
+        this.diceMaxScore = document.querySelector("#dice .max-score .n");
+        this.diceNumbers = document.querySelectorAll("#dice .diceNumber");
+        this.restartButton = document.querySelector("#dice #restart");
+        this.restartConfirmButton = document.querySelector("#dice #confirm");
+        this.restartConfirmSpan = document.querySelector("#dice #confirm span");
+        this.rollButton = document.querySelector("#dice #roll");
+        this.rollCountLeft = document.querySelector("#dice #roll .n");
+        this.holdButton = document.querySelector("#dice #hold");
+        this.setDiceMaxScore(this.maxScore);
+    }
+    setDiceMaxScore = (s) => (this.diceMaxScore.textContent = s);
+    renderDice = (diceNumbers) => {
         this.diceNumbers.forEach((el, i) => (el.textContent = diceNumbers[i]));
     };
-    this.updatePlayerTurn = (s) => (this.playerTurn.textContent = s);
-    this.updateRollCountLeft = (n) => (this.rollCountLeft.textContent = n);
-    this.hide = () => this.dice.classList.add("hide");
-    this.show = () => this.dice.classList.remove("hide");
-    this.actionsDisable = () => {
+    updatePlayerTurn = (s) => (this.playerTurn.textContent = s);
+    updateRollCountLeft = (n) => (this.rollCountLeft.textContent = n);
+    hide = () => this.dice.classList.add("hide");
+    show = () => this.dice.classList.remove("hide");
+    actionsDisable = () => {
         this.rollButton.classList.add("wait");
         this.holdButton.classList.add("wait");
     };
-    this.holdEnable = () => this.holdButton.classList.remove("wait");
-    this.rollEnable = () => this.rollButton.classList.remove("wait");
-    this.clear = () => {
+    holdEnable = () => this.holdButton.classList.remove("wait");
+    rollEnable = () => this.rollButton.classList.remove("wait");
+    clear = () => {
         this.diceNumbers.forEach((number) => (number.textContent = ""));
     };
 }

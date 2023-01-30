@@ -17,13 +17,13 @@ let gameController;
 function prepareGameData({ playersNumber, playersAINumber, maxScore }) {
     if (playersNumber + playersAINumber > 0 && maxScore > 0) {
         gameUI = initGameUI({
-            maxScore: maxScore,
+            maxScore,
             countPlayers: playersNumber + playersAINumber,
         });
         gameData = initGame({
-            maxScore: maxScore,
-            playersNumber: playersNumber,
-            playersAINumber: playersAINumber,
+            maxScore,
+            playersNumber,
+            playersAINumber,
         });
         gameController = new GameController(gameData.game);
     }
@@ -43,14 +43,16 @@ function initGame({ maxScore, playersNumber, playersAINumber }) {
     const players = [];
     for (let id = 0; id < playersNumber; id++) {
         const name = pickFunnyUsername();
-        players.push(new Player(name));
-        gameUI.playersUI[id].updateUserName(players[id].name);
+        players.push(new Player({ name, name }));
+        gameUI.playersUI[id].setName(players[id].name);
+        gameUI.playersUI[id].setDescription(`Human ${players[id].name}`);
     }
     // AI
     for (let id = playersNumber; id < playersNumber + playersAINumber; id++) {
-        const name = pickNameAI();
-        players.push(new AIPlayer(name));
-        gameUI.playersUI[id].updateUserName(players[id].name);
+        const { name, description } = pickNameDescriptionAI();
+        players.push(new AIPlayer({ name, description }));
+        gameUI.playersUI[id].setName(players[id].name);
+        gameUI.playersUI[id].setDescription(`AI ${players[id].description}`);
     }
     gameUI.diceUI.updateRollCountLeft(DICE_ROLL_COUNT);
 
@@ -128,12 +130,13 @@ class GameController {
 // =========
 
 class Player {
-    constructor(name) {
-        this.name = name || "Ask user for name";
+    constructor({ name, description }) {
+        this.name = name;
+        this.description = description;
+        this.score = 0;
+        this.currentScore = 0;
+        this.wins = 0;
     }
-    score = 0;
-    currentScore = 0;
-    wins = 0;
     setNewName = () =>
         (this.name = escapeHTMLChars(prompt("Please enter name: ")));
     newGame = () => {
@@ -155,25 +158,24 @@ class Game {
     constructor({ players, maxScore }) {
         this.players = players;
         this.maxScore = maxScore;
+        this.winner = null;
+        this.looser = null;
+        this.rollCount = 5;
+        this.turn = 0;
+        this.diceSides = 6;
+        this.diceCount = 2;
+        this.canHold = false;
+        this.dice = [];
+        this.endGame = false;
+        this.canRoll = true;
     }
-    winner = null;
-    looser = null;
-    turn = 0;
-    rollCount = 5;
-    diceCount = 2;
-    diceSides = 6;
-    dice = [];
-    canHold = false;
-    canRoll = true;
-    endGame = false;
     start = () => {
         this.turn = 0;
         gameUI.playersUI[this.turn].makeActive();
         gameUI.diceUI.updatePlayerTurn(this.players[this.turn].name);
+        if (this.players[this.turn] instanceof AIPlayer)
+            this.players[this.turn].aiTurnOn();
     };
-    setMaxScore = (maxScore) => (this.maxScore = maxScore);
-    // setDiceSides = () =>
-    //     (this.diceSides = prompt("Choose dice (d6, d20): D"));
     clearCurrentScore = () => {
         this.players[this.turn].clearCurrentScore();
         // UI
@@ -207,7 +209,7 @@ class Game {
         console.log(`Player #${this.turn}: ${this.dice}`);
         // UI
         gameUI.diceUI.renderDice(this.dice);
-        gameUI.playersUI[this.turn].updateCurrentScore(
+        gameUI.playersUI[this.turn].setCurrentScore(
             this.players[this.turn].currentScore
         );
         gameUI.diceUI.updateRollCountLeft(this.rollCount);
@@ -266,8 +268,8 @@ class Game {
             this.newGame();
         }
         // UI Update score
-        gameUI.playersUI[this.turn].updateCurrentScore(0);
-        gameUI.playersUI[this.turn].updateScore(this.players[this.turn].score);
+        gameUI.playersUI[this.turn].setCurrentScore(0);
+        gameUI.playersUI[this.turn].setScore(this.players[this.turn].score);
         gameUI.diceUI.actionsDisable();
         gameUI.diceUI.hide();
         gameUI.diceUI.updatePlayerTurn(nextPlayerName);
@@ -333,8 +335,8 @@ class Game {
 }
 
 class AIPlayer extends Player {
-    constructor(name) {
-        super(name);
+    constructor({ name, description }) {
+        super({ name, description });
         console.log("AI player created");
     }
     aiTurnOff = () => {
@@ -454,32 +456,33 @@ function pickFunnyUsername() {
     return names[getRandomNumber(0, names.length - 1)];
 }
 
-function pickNameAI() {
+function pickNameDescriptionAI() {
     const names = [
-        "Sophia", // real life robot
-        "Rachael", // Blade Runner
-        "GERTY", // Moon (2009)
-        "Quorra", // Tron: Legacy
-        "Data", // Star Trek: First Contact
-        "TARS", // Interstellar
-        "Bishop", // Aliens
-        "David", // Prometheus + AI (Spielberg)
-        "Edward", // Edward Scissorhands
-        "Robby", // Forbidden Planet
-        "C3PO", // Star Wars
-        "R2D2", // Star Wars
-        "Maschinenmensch", // Metropolis
-        "Agent Smith", // The Matrix
-        "Ava", // Ex Machina
-        "T-800", // Terminator 2
-        "Wall-E", // Wall-E
-        "Ash", // Alien
-        "Roy Batty", // Blade Runner
-        "Samantha", // Her
-        "HAL 9000", // 2001: A Space Odyssey
-        "NS-4", // I, Robot
-        "NS-5", // I, Robot
-        "Mother", // Raised by Wolves + I Am Mother
+        ["Sophia", "from real life"],
+        ["Rachael", "from Blade Runner"],
+        ["GERTY", "from Moon (2009)"],
+        ["Quorra", "from Tron: Legacy"],
+        ["Data", "from Star Trek: First Contact"],
+        ["TARS", "from Interstellar"],
+        ["Bishop", "from Aliens"],
+        ["David", "from Prometheus + AI (Spielberg)"],
+        ["Edward", "from Edward Scissorhands"],
+        ["Robby", "from Forbidden Planet"],
+        ["C3PO", "from Star Wars"],
+        ["R2D2", "from Star Wars"],
+        ["Maschinenmensch", "from Metropolis"],
+        ["Agent Smith", "from The Matrix"],
+        ["Ava", "from Ex Machina"],
+        ["T-800", "from Terminator 2"],
+        ["Wall-E", "from Wall-E"],
+        ["Ash", "from Alien"],
+        ["Roy Batty", "from Blade Runner"],
+        ["Samantha", "from Her"],
+        ["HAL 9000", "from 2001: A Space Odyssey"],
+        ["NS-4", "from I, Robot"],
+        ["NS-5", "from I, Robot"],
+        ["Mother", "from Raised by Wolves + I Am Mother"],
     ];
-    return names[getRandomNumber(0, names.length - 1)];
+    const pick = names[getRandomNumber(0, names.length - 1)];
+    return { name: pick[0], description: pick[1] };
 }

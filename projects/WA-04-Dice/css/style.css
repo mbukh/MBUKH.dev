@@ -92,7 +92,7 @@ body {
     justify-content: center;
     align-items: center;
     align-content: center;
-    gap: min(5vh, 50px);
+    gap: min(10vh, 50px);
 }
 #modal input,
 #modal button {
@@ -213,6 +213,7 @@ body {
     background-color: #eeeeee;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
+
 .player-stats .current-score {
     flex: 1;
     padding-block: 0.5em;
