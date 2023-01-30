@@ -3,6 +3,7 @@
 const LONGER_WAIT_MILLISECONDS = 3500;
 const LONG_WAIT_MILLISECONDS = 2500;
 const SHORT_WAIT_MILLISECONDS = 300;
+const DICE_ROLL_COUNT = 5;
 
 let COUNT_PLAYERS;
 let MAX_SCORE;
@@ -134,6 +135,7 @@ function Game(players) {
     this.looser = null;
     this.maxScore = MAX_SCORE;
     this.turn = 0;
+    this.rollCount = 5;
     this.diceCount = 2;
     this.diceSides = 6;
     this.dice = [];
@@ -148,10 +150,15 @@ function Game(players) {
     this.setMaxScore = (maxScore) => (this.maxScore = maxScore);
     // this.setDiceSides = () =>
     //     (this.diceSides = prompt("Choose dice (d6, d20): D"));
+    this.clearCurrentScore = () => {
+        players[this.turn].clearCurrentScore();
+        // UI
+        gameUI.playersUI[this.turn].clearCurrentScore();
+    };
     this.rollDice = () => {
         if (!this.canRoll) return;
-        this.canRoll = false;
         this.canHold = false;
+        this.rollCount -= 1;
         this.dice = Array.from({ length: this.diceCount }, () =>
             getRandomNumber(1, this.diceSides)
         );
@@ -162,30 +169,27 @@ function Game(players) {
             // update current score
             players[this.turn].addDice(this.dice);
         }
+        this.canHold = players[this.turn].currentScore > 0;
+        this.canRoll = this.rollCount > 0;
         console.log(`Player #${this.turn}: ${this.dice}`);
         // UI
         gameUI.diceUI.renderDice(this.dice);
         gameUI.playersUI[this.turn].updateCurrentScore(
             players[this.turn].currentScore
         );
-        gameUI.diceUI.actionsDisabled();
+        gameUI.diceUI.updateRollCountLeft(this.rollCount);
+        gameUI.diceUI.actionsDisable();
         setTimeout(() => {
-            this.canHold = players[this.turn].currentScore > 0;
-            gameUI.diceUI.rollEnabled();
-            if (this.canHold) gameUI.diceUI.actionsEnabled();
-            this.canRoll = true;
+            if (this.canHold) gameUI.diceUI.holdEnable();
+            if (this.rollCount > 0) gameUI.diceUI.rollEnable();
         }, SHORT_WAIT_MILLISECONDS);
-    };
-    this.clearCurrentScore = () => {
-        players[this.turn].clearCurrentScore();
-        // UI
-        gameUI.playersUI[this.turn].clearCurrentScore();
     };
     this.holdScore = () => {
         const nextPlayerName = players[this.whoseNextTurn()].name;
         let timeout = LONG_WAIT_MILLISECONDS;
         if (!this.canHold) return;
         players[this.turn].holdScore();
+        this.resetRollCount();
         // WIN - LOSE conditions
         this.looser = players.find((pl) => pl.score > this.maxScore);
         this.winner = players.find((pl) => pl.score === this.maxScore);
@@ -227,9 +231,10 @@ function Game(players) {
         console.log(players[this.turn].currentScore);
         gameUI.playersUI[this.turn].updateCurrentScore(0);
         gameUI.playersUI[this.turn].updateScore(players[this.turn].score);
-        gameUI.diceUI.actionsDisabled();
+        gameUI.diceUI.actionsDisable();
         gameUI.diceUI.hide();
         gameUI.diceUI.updatePlayerTurn(nextPlayerName);
+        gameUI.diceUI.updateRollCountLeft(this.rollCount);
         gameUI.diceUI.clear();
         console.log(`wait for ${timeout}`);
         // Timeout Switch user: UI & GAME
@@ -237,7 +242,7 @@ function Game(players) {
             gameUI.playersUI[this.turn].makeInactive();
             gameUI.playersUI[this.whoseNextTurn()].makeActive();
             gameUI.diceUI.show();
-            gameUI.diceUI.rollEnabled();
+            gameUI.diceUI.rollEnable();
             this.nextTurn();
         }, timeout);
         this.canHold = false;
@@ -248,6 +253,10 @@ function Game(players) {
     };
     this.whoseNextTurn = () => (this.turn + 1) % players.length;
     this.allPlayersResetScore = () => players.forEach((pl) => pl.newGame());
+    this.resetRollCount = () => {
+        this.rollCount = DICE_ROLL_COUNT;
+        this.canRoll = true;
+    };
     this.newGame = () => {
         this.winner = null;
         this.looser = null;

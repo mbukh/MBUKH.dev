@@ -31,7 +31,7 @@ function initializeGame() {
 function initGameUI() {
     console.log("initGameUI");
     const playersUI = [];
-    const diceUI = new DiceUI(MAX_SCORE);
+    const diceUI = new DiceUI(MAX_SCORE, DICE_ROLL_COUNT);
     for (let id = 1; id <= COUNT_PLAYERS; id++) {
         let playerElement = createPlayerHTMLElement(id);
         playersUI.push(new PlayerUI(id, playerElement));
@@ -326,7 +326,7 @@ function restartAnimations(...elements) {
 // https://codepen.io/Pyremell/pen/eZGGXX/
 // =========
 
-function DiceUI(MAX_SCORE) {
+function DiceUI(MAX_SCORE, DICE_ROLL_COUNT) {
     this.dice = document.querySelector("#dice");
     this.playerTurn = document.querySelector("#dice .player-turn .s");
     this.diceMaxScore = document.querySelector("#dice .max-score .n");
@@ -335,23 +335,23 @@ function DiceUI(MAX_SCORE) {
     this.restartConfirmButton = document.querySelector("#dice #confirm");
     this.restartConfirmSpan = document.querySelector("#dice #confirm span");
     this.rollButton = document.querySelector("#dice #roll");
+    this.rollCountLeft = document.querySelector("#dice #roll .n");
     this.holdButton = document.querySelector("#dice #hold");
+    this.rollCountLeft.textContent = DICE_ROLL_COUNT;
     this.diceMaxScore.textContent = MAX_SCORE;
     this.renderDice = (diceNumbers) => {
         this.diceNumbers.forEach((el, i) => (el.textContent = diceNumbers[i]));
     };
     this.updatePlayerTurn = (s) => (this.playerTurn.textContent = s);
+    this.updateRollCountLeft = (n) => (this.rollCountLeft.textContent = n);
     this.hide = () => this.dice.classList.add("hide");
     this.show = () => this.dice.classList.remove("hide");
-    this.actionsEnabled = () => {
-        this.rollButton.classList.remove("wait");
-        this.holdButton.classList.remove("wait");
-    };
-    this.actionsDisabled = () => {
+    this.actionsDisable = () => {
         this.rollButton.classList.add("wait");
         this.holdButton.classList.add("wait");
     };
-    this.rollEnabled = () => this.rollButton.classList.remove("wait");
+    this.holdEnable = () => this.holdButton.classList.remove("wait");
+    this.rollEnable = () => this.rollButton.classList.remove("wait");
     this.clear = () => {
         this.diceNumbers.forEach((number) => (number.textContent = ""));
     };
