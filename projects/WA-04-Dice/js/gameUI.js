@@ -1,26 +1,6 @@
 "use strict";
 
-// ==============
-// ==============
-//  Game UI Init
-// ==============
-
-function initGameUI() {
-    const playersUI = [];
-    const diceUI = new DiceUI(MAX_SCORE);
-    for (let id = 1; id <= COUNT_PLAYERS; id++) {
-        let playerElement = addPlayerSpace(id);
-        playersUI.push(new PlayerUI(id, playerElement));
-    }
-    playersUI.forEach((player) => {
-        player.createPath();
-        player.setMotionPath();
-        player.progressAlongPath(0);
-    });
-    playersUI[0].playerDiv.classList.remove("inactive");
-    initEventListeners(playersUI, diceUI);
-    return { playersUI, diceUI };
-}
+modalWelcomeScreen();
 
 function modalWelcomeScreen() {
     // Better modal https://web.dev/is-it-modal/
@@ -29,22 +9,49 @@ function modalWelcomeScreen() {
     const maxScoreNumber = document.querySelector("#modal #max-score");
     const submit = document.querySelector("#modal #start");
 
-    modal.style.display = "block";
+    modal.style.display = "flex";
+    console.log(this);
+    
     submit.addEventListener("click", (e) => {
         COUNT_PLAYERS = Number.parseInt(playersNumber.value);
         MAX_SCORE = Number.parseInt(maxScoreNumber.value);
         if (COUNT_PLAYERS > 0 && MAX_SCORE > 0) {
-            gameUI = initGameUI() || undefined;
+            gameUI = initGameUI() || null;
             gameData = initGame();
         }
+        gameData.gameController.nextStep("startGame");
         modal.style.display = "";
     });
 }
 
 // ==============
 // ==============
+//  Game UI Init
+// ==============
+
+function initGameUI() {
+    console.log("initGameUI");
+    const playersUI = [];
+    const diceUI = new DiceUI(MAX_SCORE);
+    for (let id = 1; id <= COUNT_PLAYERS; id++) {
+        console.log("generate playerUI for player" + id);
+        let playerElement = addPlayerSpace(id);
+        playersUI.push(new PlayerUI(id, playerElement));
+    }
+    playersUI.forEach((player) => {
+        player.createPath();
+        player.setMotionPath();
+        player.progressAlongPath(0);
+    });
+    initEventListeners(playersUI, diceUI);
+    return { playersUI, diceUI };
+}
+
+// ==============
+// ==============
 //  Player Class
 // ==============
+
 function addPlayerSpace(uId) {
     const templateDiv = document.querySelector(`#player`);
     const newPlayerDiv = templateDiv.cloneNode(true);
@@ -52,13 +59,14 @@ function addPlayerSpace(uId) {
     templateDiv.parentNode.appendChild(newPlayerDiv);
     newPlayerDiv.style.width =
         newPlayerDiv.parentElement.offsetWidth / COUNT_PLAYERS + "px";
+    // newPlayerDiv.style.height =
+    //     newPlayerDiv.parentElement.offsetHeight / COUNT_PLAYERS + "px";
     newPlayerDiv.style.setProperty(
         "--player-color",
         `var(--color${getRandomNumber(1, 41)})`
     );
-    // newPlayerDiv.style.height =
-    //     newPlayerDiv.parentElement.offsetHeight / COUNT_PLAYERS + "px";
     newPlayerDiv.style.setProperty("display", "");
+    console.log("addPlayerSpace: player" + uId);
     return newPlayerDiv;
 }
 
@@ -70,7 +78,7 @@ function PlayerUI(uId, playerElement) {
     this.svgPath = this.svg.querySelector("path.line");
     this.svgFinish = this.svg.querySelector("path.finish");
     this.coasters = this.playerDiv.querySelectorAll(".coaster");
-    this.name = this.playerDiv.querySelector(".player-control .name");
+    this.name = this.playerDiv.querySelector(".player-control .name .s");
     this.currentScore = this.playerDiv.querySelector(
         ".player-control .current-score .n"
     );
@@ -91,6 +99,8 @@ function PlayerUI(uId, playerElement) {
     this.svg.style.width = this.W + "px";
     this.svg.style.height = this.H + "px";
 
+    this.makeActive = () => this.playerDiv.classList.remove("inactive");
+    this.makeInactive = () => this.playerDiv.classList.add("inactive");
     this.createPath = () => createPath(this);
     this.setMotionPath = () => setMotionPath(this);
     this.progressAlongPath = (percent, immediate) =>
@@ -104,7 +114,7 @@ function PlayerUI(uId, playerElement) {
         this.currentScore.parentElement.classList.add("clear");
         setTimeout(
             () => this.currentScore.parentElement.classList.remove("clear"),
-            2500
+            LONG_WAIT_MILLISECONDS
         );
     };
     this.loseGame = () => {
@@ -112,7 +122,7 @@ function PlayerUI(uId, playerElement) {
         pathPlayerLoose(this.svgFinish);
         setTimeout(() => {
             resetGraphics(this);
-        }, 2500);
+        }, LONG_WAIT_MILLISECONDS);
     };
     this.winGame = () => {
         this.progressAlongPath(0);
@@ -120,7 +130,7 @@ function PlayerUI(uId, playerElement) {
         setTimeout(() => {
             this.wins.parentElement.classList.remove("update");
             resetGraphics(this);
-        }, 2500);
+        }, LONG_WAIT_MILLISECONDS);
     };
     this.restartAnimations = () => {
         restartAnimations(this.svg);
@@ -320,27 +330,32 @@ function restartAnimations(...elements) {
 
 function DiceUI(MAX_SCORE) {
     this.dice = document.querySelector("#dice");
+    this.playerTurn = document.querySelector("#dice .player-turn .s");
     this.diceMaxScore = document.querySelector("#dice .max-score .n");
     this.diceNumbers = document.querySelectorAll("#dice .diceNumber");
     this.restartButton = document.querySelector("#dice #restart");
+    this.restartConfirmButton = document.querySelector("#dice #confirm");
+    this.restartConfirmSpan = document.querySelector("#dice #confirm span");
     this.rollButton = document.querySelector("#dice #roll");
     this.holdButton = document.querySelector("#dice #hold");
     this.diceMaxScore.textContent = MAX_SCORE;
     this.renderDice = (diceNumbers) => {
-        this.diceNumbers.forEach((dN, i) => (dN.textContent = diceNumbers[i]));
+        this.diceNumbers.forEach((el, i) => (el.textContent = diceNumbers[i]));
+    };
+    this.updatePlayerTurn = (s) => (this.playerTurn.textContent = s);
+    this.hide = () => this.dice.classList.add("hide");
+    this.show = () => this.dice.classList.remove("hide");
+    this.actionsEnabled = () => {
+        this.rollButton.classList.remove("wait");
+        this.holdButton.classList.remove("wait");
+    };
+    this.actionsDisabled = () => {
         this.rollButton.classList.add("wait");
         this.holdButton.classList.add("wait");
-        setTimeout(() => {
-            this.rollButton.classList.remove("wait");
-            this.holdButton.classList.remove("wait");
-        }, 500);
     };
-    this.hide = () => {
-        this.dice.classList.add("hide");
-        setTimeout(() => this.dice.classList.remove("hide"), 2500);
-    };
+    this.rollEnabled = () => this.rollButton.classList.remove("wait");
     this.clear = () => {
-        this.diceNumbers.forEach((dN, i) => (dN.textContent = ""));
+        this.diceNumbers.forEach((number) => (number.textContent = ""));
     };
 }
 
@@ -350,13 +365,67 @@ function DiceUI(MAX_SCORE) {
 // =================
 
 function initEventListeners(playersUI, diceUI) {
+    // roll
     diceUI.rollButton.addEventListener("click", () =>
         gameData.gameController.nextStep("roll")
     );
+    // hold
     diceUI.holdButton.addEventListener("click", () =>
         gameData.gameController.nextStep("hold")
     );
+    // restart confirm
     diceUI.restartButton.addEventListener("click", () =>
-        gameData.gameController.nextStep("fullReset")
+        diceUI.restartConfirmButton.classList.toggle("activated")
     );
+    diceUI.restartButton.addEventListener("mouseout", () =>
+        diceUI.restartConfirmButton.classList.remove("activated")
+    );
+    diceUI.restartConfirmSpan.addEventListener("mouseover", () =>
+        diceUI.restartConfirmButton.classList.add("activated")
+    );
+    diceUI.restartConfirmSpan.addEventListener("mouseout", () =>
+        diceUI.restartConfirmButton.classList.remove("activated")
+    );
+    diceUI.restartConfirmSpan.addEventListener("click", () => {
+        diceUI.restartConfirmButton.classList.remove("activated");
+        gameData.gameController.nextStep("fullReset");
+    });
+
+    makeElementDraggable(diceUI.dice);
+
+    function makeElementDraggable(element) {
+        // Make the DIV element draggable:
+        // https://www.w3schools.com/howto/howto_js_draggable.asp
+        let [pos1, pos2, pos3, pos4] = [0, 0, 0, 0];
+        element.addEventListener("mousedown", dragMouseDown);
+        element.style.cursor = "move";
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            element.style.top = element.offsetTop - pos2 + "px";
+            element.style.left = element.offsetLeft - pos1 + "px";
+        }
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
 }

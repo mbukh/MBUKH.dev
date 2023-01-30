@@ -2,6 +2,7 @@
 
 :root {
     /* https://lospec.com/palette-list/alexnompes-dragon-45 */
+
     --color1: #fffdf7;
     --color2: #fff6db;
     --color3: #f7e3ba;
@@ -124,6 +125,7 @@ body {
 #dice-game #players-container {
     width: 100%;
     display: flex;
+    font-size: 80%;
 }
 #dice-game #players-container .player {
     --player-color: var(--color07);
@@ -143,7 +145,6 @@ body {
     overflow: hidden;
     flex: 2;
 }
-
 #dice-game #players-container .player-control {
     font-size: min(min(5vw, 5vh), 2em);
     flex: 1;
@@ -155,13 +156,8 @@ body {
     align-content: center;
     /* gap: 0.5em; */
 }
-
 #dice-game #players-container .player-control > * {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-items: center;
-    gap: 0.5em;
+    padding-inline-end: 20px;
 }
 
 /* ================== */
@@ -171,13 +167,11 @@ body {
 
 .player-control .name {
     color: var(--color18);
-    font-size: 80%;
     flex: 1;
 }
 #dice-game #players-container .player.inactive .player-control .name {
     color: var(--color1);
 }
-
 .player-control .current-score {
     flex: 1;
     padding-block: 0.5em;
@@ -187,11 +181,9 @@ body {
     animation: blinker 0.25s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }
 .player-control .score {
-    font-size: 80%;
     flex: 1;
 }
 .player-control .wins {
-    font-size: 60%;
     flex: 1;
 }
 .player-control .wins.update {
@@ -203,18 +195,21 @@ body {
 /* ================ */
 /*       Dice       */
 /* ================ */
+
 #dice {
     position: fixed;
     z-index: 10;
     top: 50%;
     left: 50%;
-    background-color: #f4fae077;
+    background-color: #f4fae0aa;
     box-shadow: 0px 0px 10px var(--color42);
     border-radius: 0.5em;
+    backdrop-filter: blur(6px);
     transform: translate(-50%, -50%);
     text-align: center;
     opacity: 0.3;
     transition: opacity 0.2s ease-in-out;
+    color: var(--color42);
 }
 #dice.hide,
 #dice.hide:hover {
@@ -225,22 +220,19 @@ body {
 #dice:hover {
     opacity: 1;
 }
-#dice .max-score {
-    color: var(--color42);
-    font-size: 80%;
-    padding: 20px;
+#dice .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 #dice .numbers {
-    color: var(--color2);
-    padding: 40px 30px 10px;
+    padding: 10px 30px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     align-content: center;
     gap: 30px;
-}
-#dice .numbers span {
-    text-shadow: 1px 1px 5px var(--color43);
 }
 #dice .diceNumber {
     display: flex;
@@ -253,7 +245,18 @@ body {
     border: 1px solid var(--color44);
     border-radius: 10px;
     font-size: 80px;
-    text-shadow: 1px 1px 5px var(--color43);
+    color: var(--color1);
+    text-shadow: 1px 1px 2px var(--color43);
+}
+#dice .max-score,
+#dice .player-turn {
+    font-size: 80%;
+    padding: 20px;
+}
+#dice .dice-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1px;
 }
 #dice button {
     background-color: var(--color38);
@@ -267,7 +270,6 @@ body {
     cursor: pointer;
     opacity: 1;
 }
-
 #dice button:hover {
     opacity: 0.6;
 }
@@ -275,19 +277,67 @@ body {
 #dice button.wait:hover {
     opacity: 0.1;
 }
+#dice #confirm {
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    transform: translateY(-100%);
+    transition: height 0.3s cubic-bezier(0.75, 0.25, 0.25, 1);
+    font-size: 60%;
+    color: var(--color2);
+}
+#dice #confirm.activated {
+    height: 30px;
+}
+#dice #confirm span {
+    display: inline-block;
+    background-color: var(--color42);
+    width: 220px;
+    height: 30px;
+    padding-top: 10px;
+    border-radius: 6px 6px 0 0;
+}
+#dice #confirm.activated span:hover::after {
+    content: attr(data-confirm);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    z-index: 2;
+    display: inline-block;
+    background-color: var(--color42);
+    width: 220px;
+    height: 30px;
+    padding-top: 10px;
+    border-radius: 0.5em 0.5em 0 0;
+    color: var(--color7);
+    cursor: pointer;
+}
 #dice #restart {
+    padding: 0;
+    height: 20px;
     font-size: 80%;
-    color: var(--color41);
 }
 #dice #restart:hover {
+    opacity: 0.8;
+    color: var(--color2);
+    background: var(--color7);
+}
+#dice #confirm:hover ~ #restart {
+    opacity: 1;
     color: var(--color2);
     background: var(--color7);
 }
 #dice #roll {
-    border-radius: 6px 6px 0 0;
+    border-radius: 0.5em 0 0 0.5em;
+    background-color: var(--color37);
+    flex: 2;
 }
 #dice #hold {
-    border-radius: 0 0 6px 6px;
+    border-radius: 0 0.5em 0.5em 0;
+    background-color: var(--color2);
+    flex: 1;
 }
 
 /* ================== */
@@ -339,7 +389,9 @@ body {
 }
 .roller-coaster svg path.pattern {
     /* https://philiprogers.com/svgpatterns/#verticalstripes */
+
     /* http://iros.github.io/patternfills/sample_svg.html */
+
     fill: url("#patterns #fill-stripes");
 }
 .roller-coaster svg path.line {
@@ -378,6 +430,7 @@ body {
     --place: 0;
     --offset: calc(var(--place) * (var(--size) + var(--gap)));
     --old-progress: 0; /* changes inline by JS */
+
     --progress: 0; /* changes inline by JS */
 
     --animate-from: calc(var(--old-progress) - var(--offset));
@@ -385,10 +438,13 @@ body {
     position: absolute;
     /* left: 0;
     top: 0; */
+
     transform: translate(-50%, -50%);
     offset-path: path(var(--offset-path)); /* inline variable by JS; */
+
     offset-distance: calc(var(--old-progress) - var(--offset));
     /* https://cubic-bezier.com/#.6,0,.5,1.09 */
+
     animation: move 2500ms forwards cubic-bezier(0.9, 0, 0.5, 1.1);
     animation-delay: calc(var(--place) * 0.25s);
     width: var(--size);

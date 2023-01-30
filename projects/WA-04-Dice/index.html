@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/gameUI.js" defer></script>
     <script src="./js/game.js" defer></script>
+    <script src="./js/gameUI.js" defer></script>
     <title>Dice & Roll</title>
 </head>
 
@@ -34,19 +34,28 @@
         <div id="dice-game">
 
             <div id="dice">
-                <!-- https://codepen.io/Pyremell/pen/eZGGXX/ -->
-                <button id="restart">restart game</button>
-                <div class="numbers">
-                    <div class="diceNumber"></div>
-                    <span>+</span>
-                    <div class="diceNumber"></div>
+                <div class="container">
+                    <!-- https://codepen.io/Pyremell/pen/eZGGXX/ -->
+                    <div id="confirm"><span data-confirm="YES">Are you sure?</span></div>
+                    <button id="restart">restart game</button>
+                    <div class="player-turn">
+                        Turn by
+                        @<span class="s"></span>
+                    </div>
+                    <div class="numbers">
+                        <div class="diceNumber"></div>
+                        <span class="plus">+</span>
+                        <div class="diceNumber"></div>
+                    </div>
+                    <div class="max-score">
+                        Score to finish:
+                        <span class="n">0</span>
+                    </div>
+                    <div class="dice-buttons">
+                        <button id="roll">Roll Dice</button>
+                        <button id="hold" class="wait">HOLD SCORE</button>
+                    </div>
                 </div>
-                <div class="max-score">
-                    Score to reach:
-                    <span class="n">0</span>
-                </div>
-                <button id="roll">Roll Dice</button>
-                <button id="hold">HOLD SCORE</button>
             </div>
 
             <div id="players-container">
@@ -62,9 +71,9 @@
                         <img class="coaster delayed1" src="./assets/back.svg">
                     </div>
                     <div class="player-control">
-                        <div class="name">Player</div>
-                        <div class="current-score"><span>Current:</span><span class="n">0</span></div>
-                        <div class="score"><span>Total:</span><span class="n">0</span></div>
+                        <div class="name"><span>@</span><span class="s">NameHolder</span></div>
+                        <div class="score"><span>Score:</span><span class="n">0</span></div>
+                        <div class="current-score"><span>+</span><span class="n">0</span></div>
                         <div class="wins"><span>Wins:</span><span class="n">0</span></div>
                     </div>
                 </div>
