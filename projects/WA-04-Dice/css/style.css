@@ -92,7 +92,7 @@ body {
     justify-content: center;
     align-items: center;
     align-content: center;
-    gap: 50px;
+    gap: min(5vh, 50px);
 }
 #modal input,
 #modal button {
@@ -145,7 +145,7 @@ body {
     overflow: hidden;
     flex: 2;
 }
-#dice-game #players-container .player-control {
+#dice-game #players-container .player-stats {
     font-size: min(min(5vw, 5vh), 2em);
     flex: 1;
     padding-block: 0.5em;
@@ -155,8 +155,9 @@ body {
     justify-content: center;
     align-content: center;
     /* gap: 0.5em; */
+    position: relative;
 }
-#dice-game #players-container .player-control > * {
+#dice-game #players-container .player-stats > * {
     padding-inline-end: 20px;
 }
 
@@ -165,28 +166,68 @@ body {
 /*       Player       */
 /* ================== */
 
-.player-control .name {
+.player-stats .name {
     color: var(--color18);
     flex: 1;
 }
-#dice-game #players-container .player.inactive .player-control .name {
+.player.inactive .player-stats .name {
     color: var(--color1);
 }
-.player-control .current-score {
+/* http://www.menucool.com/tooltip/css-tooltip */
+.player-stats .name .description {
+    display: inline-block;
+    position: absolute;
+    z-index: 20;
+    top: -0.5em;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    font-size: 0.6em;
+    font-weight: 200;
+    color: var(--color42);
+    background: var(--color22);
+    min-width: 200px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+.player-stats .name:hover .description {
+    display: block;
+}
+.player-stats .name .description i {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -12px;
+    width: 24px;
+    height: 12px;
+    overflow: hidden;
+}
+.player-stats .name .description i::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: #eeeeee;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.player-stats .current-score {
     flex: 1;
     padding-block: 0.5em;
 }
-.player-control .current-score.clear {
+.player-stats .current-score.clear {
     opacity: 0;
     animation: blinker 0.25s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }
-.player-control .score {
+.player-stats .score {
     flex: 1;
 }
-.player-control .wins {
+.player-stats .wins {
     flex: 1;
 }
-.player-control .wins.update {
+.player-stats .wins.update {
     opacity: 0;
     animation: blinker 0.25s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }

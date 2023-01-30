@@ -4,12 +4,32 @@ const LONGER_WAIT_MILLISECONDS = 3500;
 const LONG_WAIT_MILLISECONDS = 2500;
 const SHORT_WAIT_MILLISECONDS = 300;
 const DICE_ROLL_COUNT = 5;
-const AI_PLAYERS_COUNT = 1;
 
-let COUNT_PLAYERS;
-let MAX_SCORE;
 let gameUI;
 let gameData;
+let gameController;
+
+// =====================
+// =====================
+//   Data input Handle
+// =====================
+
+function prepareGameData({ playersNumber, playersAINumber, maxScore }) {
+    if (playersNumber + playersAINumber > 0 && maxScore > 0) {
+        gameUI = initGameUI({
+            maxScore: maxScore,
+            countPlayers: playersNumber + playersAINumber,
+        });
+        gameData = initGame({
+            maxScore: maxScore,
+            playersNumber: playersNumber,
+            playersAINumber: playersAINumber,
+        });
+        gameController = new GameController(gameData.game);
+    }
+    modal.style.display = "";
+    gameController.nextStep("startGame");
+}
 
 // ==================
 // ==================
@@ -19,47 +39,25 @@ let gameData;
 // Disable text version if UI is available
 // if (!gameUI.playersUI) gameLoop(gameData);
 
-function initGame() {
+function initGame({ maxScore, playersNumber, playersAINumber }) {
     const players = [];
-    for (let id = 0; id < COUNT_PLAYERS; id++) {
-        players.push(new Player(pickFunnyUsername()));
-        if (gameUI) gameUI.playersUI[id].updateUserName(players[id].name);
+    for (let id = 0; id < playersNumber; id++) {
+        const name = pickFunnyUsername();
+        players.push(new Player(name));
+        gameUI.playersUI[id].updateUserName(players[id].name);
     }
     // AI
-    if (players.length === 1) {
-        players.push(new AIPlayer(`AI${id}`));
-        if (gameUI)
-            gameUI.playersUI[COUNT_PLAYERS].updateUserName(
-                players[COUNT_PLAYERS].name
-            );
+    for (let id = playersNumber; id < playersNumber + playersAINumber; id++) {
+        const name = pickNameAI();
+        players.push(new AIPlayer(name));
+        gameUI.playersUI[id].updateUserName(players[id].name);
     }
+    gameUI.diceUI.updateRollCountLeft(DICE_ROLL_COUNT);
 
-    const game = new Game(players);
-    const gameController = new GameController(game);
-    return { players, game, gameController };
-}
-
-function gameLoop({ game, players, gameController }) {
-    // Text version game loop
-    const letsPlay = true;
-    while (letsPlay) {
-        // NEXT GAME ROUTINE
-        gameController.nextStep("restart");
-        console.table(players);
-        console.table(game);
-        while (!game.endGame) {
-            // ONE GAME ROUTINE
-            gameController.nextStep();
-            console.table(players);
-            console.table(game);
-            game.looser = players.find((pl) => pl.score > game.maxScore);
-            game.winner = players.find((pl) => pl.score === game.maxScore);
-            game.endGame = game.looser || game.winner;
-        }
-        // UPDATE WINNER SCORE
-        if (game.looser) game.updateRoundViaLooser();
-        else if (game.winner) game.updateRoundViaWinner();
-    }
+    console.log(gameUI.playersUI);
+    console.log(players);
+    const game = new Game({ players, maxScore });
+    return { game, players };
 }
 
 // =================
@@ -67,54 +65,55 @@ function gameLoop({ game, players, gameController }) {
 //  Game Controller
 // =================
 
-function GameController(game) {
-    this.nextStep = (forceTask) => {
-        const options = [
-            "fullReset",
-            "roll",
-            "hold",
-            "renameUser",
-            "startGame",
-            "rollAI",
-            "holdAI",
-        ];
-        const task = forceTask;
-        // || prompt("Next step (" + options.join(", ") + "): ");
+class GameController {
+    constructor(game) {
+        this.game = game;
+    }
+    options = [
+        "fullReset",
+        "roll",
+        "hold",
+        "renameUser",
+        "startGame",
+        "rollAI",
+        "holdAI",
+    ];
+    nextStep = (task) => {
         switch (task) {
-            case options[0]:
+            case this.options[0]:
                 // full reset
                 console.log(task);
-                game.fullReset();
+                this.game.fullReset();
                 break;
-            case options[1]:
+            case this.options[1]:
                 // roll
                 console.log(task);
-                game.rollDice();
+                this.game.rollDice();
                 break;
-            case options[2]:
+            case this.options[2]:
                 // hold
                 console.log(task);
-                game.holdScore();
+                this.game.holdScore();
                 break;
-            case options[3]:
+            case this.options[3]:
                 // rename user
                 console.log(task);
-                game.renameUser();
+                this.game.renameUser();
                 break;
-            case options[4]:
+            case this.options[4]:
                 // start game
                 console.log(task);
-                game.start();
+                this.game.start();
                 break;
-            case options[5]:
+            case this.options[5]:
                 // rollAI
                 console.log(task);
-                game.rollDice("AI");
+                this.game.rollDice("AI");
                 break;
-            case options[6]:
+            case this.options[6]:
                 // holdAI
                 console.log(task);
-                game.holdScore("AI");
+                this.game.holdScore("AI");
                 break;
             default:
                 // roll;
@@ -128,58 +127,65 @@ function GameController(game) {
 //  Classes
 // =========
 
-function Player(name) {
-    this.name = name || "Ask user for name";
-    this.score = 0;
-    this.currentScore = 0;
-    this.wins = 0;
-    this.setNewName = () =>
+class Player {
+    constructor(name) {
+        this.name = name || "Ask user for name";
+    }
+    score = 0;
+    currentScore = 0;
+    wins = 0;
+    setNewName = () =>
         (this.name = escapeHTMLChars(prompt("Please enter name: ")));
-    this.newGame = () => {
+    newGame = () => {
         this.currentScore = 0;
         this.score = 0;
     };
-    this.addDice = (dice) => {
+    addDice = (dice) => {
         this.currentScore += dice.reduce((acc, e) => acc + e);
     };
-    this.clearCurrentScore = () => (this.currentScore = 0);
-    this.holdScore = () => {
+    clearCurrentScore = () => (this.currentScore = 0);
+    holdScore = () => {
         this.score += this.currentScore;
         this.currentScore = 0;
     };
-    this.updateGamesWon = () => (this.wins += 1);
+    updateGamesWon = () => (this.wins += 1);
 }
 
-function Game(players) {
-    this.players = players;
-    this.winner = null;
-    this.looser = null;
-    this.maxScore = MAX_SCORE;
-    this.turn = 0;
-    this.rollCount = 5;
-    this.diceCount = 2;
-    this.diceSides = 6;
-    this.dice = [];
-    this.canHold = false;
-    this.canRoll = true;
-    this.endGame = false;
-    this.start = () => {
+class Game {
+    constructor({ players, maxScore }) {
+        this.players = players;
+        this.maxScore = maxScore;
+    }
+    winner = null;
+    looser = null;
+    turn = 0;
+    rollCount = 5;
+    diceCount = 2;
+    diceSides = 6;
+    dice = [];
+    canHold = false;
+    canRoll = true;
+    endGame = false;
+    start = () => {
         this.turn = 0;
         gameUI.playersUI[this.turn].makeActive();
-        gameUI.diceUI.updatePlayerTurn(players[this.turn].name);
+        gameUI.diceUI.updatePlayerTurn(this.players[this.turn].name);
     };
-    this.setMaxScore = (maxScore) => (this.maxScore = maxScore);
-    // this.setDiceSides = () =>
+    setMaxScore = (maxScore) => (this.maxScore = maxScore);
+    // setDiceSides = () =>
     //     (this.diceSides = prompt("Choose dice (d6, d20): D"));
-    this.clearCurrentScore = () => {
-        players[this.turn].clearCurrentScore();
+    clearCurrentScore = () => {
+        this.players[this.turn].clearCurrentScore();
         // UI
         gameUI.playersUI[this.turn].clearCurrentScore();
     };
-    this.rollDice = (playerType = "human") => {
+    rollDice = (playerType = "human") => {
         // if human overrides AI disable it
-        if (players[this.turn] instanceof AIPlayer && playerType !== "AI") {
-            players[this.turn].aiTurnOff();
+        if (
+            this.players[this.turn] instanceof AIPlayer &&
+            playerType !== "AI"
+        ) {
+            this.players[this.turn].aiTurnOff();
             console.log("Human override");
         }
         if (!this.canRoll) return;
@@ -194,15 +200,15 @@ function Game(players) {
             console.log("Wow! Wow! Wow! Wow! Wow! Wow! Wow! Wow! ");
         } else {
             // update current score
-            players[this.turn].addDice(this.dice);
+            this.players[this.turn].addDice(this.dice);
         }
-        this.canHold = players[this.turn].currentScore > 0;
+        this.canHold = this.players[this.turn].currentScore > 0;
         this.canRoll = this.rollCount > 0;
         console.log(`Player #${this.turn}: ${this.dice}`);
         // UI
         gameUI.diceUI.renderDice(this.dice);
         gameUI.playersUI[this.turn].updateCurrentScore(
-            players[this.turn].currentScore
+            this.players[this.turn].currentScore
         );
         gameUI.diceUI.updateRollCountLeft(this.rollCount);
         gameUI.diceUI.actionsDisable();
@@ -211,20 +217,20 @@ function Game(players) {
             if (this.rollCount > 0) gameUI.diceUI.rollEnable();
         }, SHORT_WAIT_MILLISECONDS);
     };
-    this.holdScore = (playerType = "human") => {
+    holdScore = (playerType = "human") => {
         // if human overrides AI disable it
-        if (players[this.turn] instanceof AIPlayer) {
-            players[this.turn].aiTurnOff();
+        if (this.players[this.turn] instanceof AIPlayer) {
+            this.players[this.turn].aiTurnOff();
             if (playerType !== "AI") console.log("Human override");
         }
-        const nextPlayerName = players[this.whoseNextTurn()].name;
+        const nextPlayerName = this.players[this.whoseNextTurn()].name;
         let timeout = LONG_WAIT_MILLISECONDS;
         if (!this.canHold) return;
-        players[this.turn].holdScore();
+        this.players[this.turn].holdScore();
         this.resetRollCount();
         // WIN - LOSE conditions
-        this.looser = players.find((pl) => pl.score > this.maxScore);
-        this.winner = players.find((pl) => pl.score === this.maxScore);
+        this.looser = this.players.find((pl) => pl.score > this.maxScore);
+        this.winner = this.players.find((pl) => pl.score === this.maxScore);
         this.endGame = this.looser || this.winner;
         if (this.endGame) this.allPlayersResetScore();
         if (this.looser) {
@@ -235,31 +241,33 @@ function Game(players) {
         if (!this.endGame) {
             // normal gameplay
             gameUI.playersUI[this.turn].progressAlongPath(
-                (players[this.turn].score * 100) / (this.maxScore + 0.01)
+                (this.players[this.turn].score * 100) / (this.maxScore + 0.01)
             );
         } else {
             // loose
             if (this.looser) {
                 gameUI.playersUI[this.turn].loseGame();
-                players.forEach((pl, i) => {
+                this.players.forEach((pl, i) => {
                     if (pl !== this.looser) {
-                        gameUI.playersUI[i].MAX_TURNS += 1;
+                        gameUI.playersUI[i].maxTurns += 1;
                         gameUI.playersUI[i].winGame();
                         gameUI.playersUI[i].addCoaster();
-                        gameUI.playersUI[i].updateWins(players[i].wins);
+                        gameUI.playersUI[i].updateWins(this.players[i].wins);
                     }
                 });
             } else if (this.winner) {
-                gameUI.playersUI[this.turn].MAX_TURNS += 1;
+                gameUI.playersUI[this.turn].maxTurns += 1;
                 gameUI.playersUI[this.turn].addCoaster();
                 gameUI.playersUI[this.turn].winGame();
-                gameUI.playersUI[this.turn].updateWins(players[this.turn].wins);
+                gameUI.playersUI[this.turn].updateWins(
+                    this.players[this.turn].wins
+                );
             }
             this.newGame();
         }
         // UI Update score
         gameUI.playersUI[this.turn].updateCurrentScore(0);
-        gameUI.playersUI[this.turn].updateScore(players[this.turn].score);
+        gameUI.playersUI[this.turn].updateScore(this.players[this.turn].score);
         gameUI.diceUI.actionsDisable();
         gameUI.diceUI.hide();
         gameUI.diceUI.updatePlayerTurn(nextPlayerName);
@@ -276,41 +284,41 @@ function Game(players) {
         }, timeout);
         this.canHold = false;
     };
-    this.nextTurn = () => {
+    nextTurn = () => {
         // Switch turn
-        this.turn = (this.turn + 1) % players.length;
+        this.turn = (this.turn + 1) % this.players.length;
         console.log(`turn by player #${this.turn}`);
         // turn on AI
-        if (players[this.turn] instanceof AIPlayer)
-            players[this.turn].aiTurnOn();
+        if (this.players[this.turn] instanceof AIPlayer)
+            this.players[this.turn].aiTurnOn();
     };
-    this.whoseNextTurn = () => (this.turn + 1) % players.length;
-    this.allPlayersResetScore = () => players.forEach((pl) => pl.newGame());
-    this.resetRollCount = () => {
+    whoseNextTurn = () => (this.turn + 1) % this.players.length;
+    allPlayersResetScore = () => this.players.forEach((pl) => pl.newGame());
+    resetRollCount = () => {
         this.rollCount = DICE_ROLL_COUNT;
         this.canRoll = true;
     };
-    this.newGame = () => {
+    newGame = () => {
         this.winner = null;
         this.looser = null;
         this.endGame = false;
     };
-    this.updateRoundViaLooser = () => {
+    updateRoundViaLooser = () => {
         // i would change this behavior
         // when one looses other continue their ways
-        players.forEach((pl, i) => {
+        this.players.forEach((pl, i) => {
             if (pl !== this.looser) pl.updateGamesWon();
         });
         console.log("Looser");
     };
-    this.updateRoundViaWinner = () => {
+    updateRoundViaWinner = () => {
         this.winner.updateGamesWon();
         console.log("Looser");
     };
-    this.renameUser = () => {
-        players[this.turn].setNewName();
+    renameUser = () => {
+        this.players[this.turn].setNewName();
     };
-    this.fullReset = () => {
+    fullReset = () => {
         gameData = null;
         gameUI.playersUI.forEach((el) => {
             el.playerDiv.remove();
@@ -320,7 +328,6 @@ function Game(players) {
         // const dice = document.querySelector("#dice");
         // const newDice = dice.cloneNode(true);
         // dice.replaceWith(newDice);
-
         modalWelcomeScreen();
     };
 }
@@ -355,11 +362,11 @@ class AIPlayer extends Player {
     };
     hold = () => {
         if (!this.enable) return;
-        gameData.gameController.nextStep("holdAI");
+        gameController.nextStep("holdAI");
     };
     roll = () => {
         if (!this.enable) return;
-        gameData.gameController.nextStep("rollAI");
+        gameController.nextStep("rollAI");
     };
     shouldRoll = () => {
         if (gameData.game.rollCount <= 0) return false;
@@ -447,7 +454,7 @@ function pickFunnyUsername() {
     return names[getRandomNumber(0, names.length - 1)];
 }
 
-function pickFunnyNameAI() {
+function pickNameAI() {
     const names = [
         "Sophia", // real life robot
         "Rachael", // Blade Runner

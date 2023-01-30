@@ -2,25 +2,46 @@
 
 modalWelcomeScreen();
 
+// ===================
+// ===================
+//   User Data input
+// ===================
+
 function modalWelcomeScreen() {
     // Better modal https://web.dev/is-it-modal/
     const modal = document.querySelector("#modal");
     const submit = document.querySelector("#modal #start");
-    submit.addEventListener("click", initializeGame);
-    modal.style.display = "flex";
-}
-
-function initializeGame() {
     const playersNumber = document.querySelector("#modal #players-number");
-    const maxScoreNumber = document.querySelector("#modal #max-score");
-    COUNT_PLAYERS = Number.parseInt(playersNumber.value);
-    MAX_SCORE = Number.parseInt(maxScoreNumber.value);
-    if (COUNT_PLAYERS > 0 && MAX_SCORE > 0) {
-        gameUI = initGameUI() || null;
-        gameData = initGame();
+    const playersAINumber = document.querySelector("#modal #players-ai-number");
+    const maxScore = document.querySelector("#modal #max-score");
+    maxScore.addEventListener("keydown", (e) => checkInput(e, 50));
+    maxScore.addEventListener("change", (e) => checkInput(e, 50));
+    playersNumber.addEventListener("keydown", checkPlayersCount);
+    playersNumber.addEventListener("change", checkPlayersCount);
+    playersAINumber.addEventListener("keydown", checkPlayersCount);
+    playersAINumber.addEventListener("change", checkPlayersCount);
+    submit.addEventListener("click", handleStart);
+    modal.style.display = "flex";
+
+    function handleStart() {
+        prepareGameData({
+            playersNumber: Number(playersNumber.value),
+            playersAINumber: Number(playersAINumber.value),
+            maxScore: maxScore.value,
+        });
     }
-    modal.style.display = "";
-    gameData.gameController.nextStep("startGame");
+    function checkPlayersCount(e) {
+        const playersCount =
+            Number(playersNumber.value) + Number(playersAINumber.value);
+        if (playersCount <= 0) {
+            e.target.value = 1;
+        }
+    }
+    function checkInput(e, defaultValue) {
+        if (Number(e.target.value) <= 0) {
+            e.target.value = defaultValue;
+        }
+    }
 }
 
 // ==============
@@ -28,21 +49,23 @@ function initializeGame() {
 //  Game UI Init
 // ==============
 
-function initGameUI() {
+function initGameUI({ maxScore, diceRollCount, countPlayers }) {
     console.log("initGameUI");
     const playersUI = [];
-    const diceUI = new DiceUI(MAX_SCORE, DICE_ROLL_COUNT);
-    for (let id = 1; id <= COUNT_PLAYERS; id++) {
-        let playerHTMLElement = createPlayerHTMLElement(id);
-        playersUI.push(new PlayerUI(id, playerHTMLElement));
+    const diceUI = new DiceUI({
+        maxScore: maxScore,
+        diceRollCount: diceRollCount,
+    });
+    for (let id = 1; id <= countPlayers; id++) {
+        let playerHTMLElement = createPlayerHTMLElement({
+            uId: id,
+            countPlayers: countPlayers,
+        });
+        console.log(id);
+        playersUI.push(
+            new PlayerUI({ uId: id, playerElement: playerHTMLElement })
+        );
     }
-
-    // AI
-    if (playersUI.length === 1) {
-        let playerHTMLElement = createPlayerHTMLElement(COUNT_PLAYERS + 1);
-        playersUI.push(new PlayerUI(COUNT_PLAYERS + 1, playerHTMLElement));
-    }
-
     playersUI.forEach((player) => {
         player.createPath();
         player.setMotionPath();
@@ -57,17 +80,15 @@ function initGameUI() {
 //  Player Class
 // ==============
 
-function createPlayerHTMLElement(uId) {
+function createPlayerHTMLElement({ uId, countPlayers }) {
     const templateDiv = document.querySelector(`#player`);
     const newPlayerDiv = templateDiv.cloneNode(true);
     newPlayerDiv.setAttribute("id", `player${uId}`);
     templateDiv.parentNode.appendChild(newPlayerDiv);
     newPlayerDiv.style.width =
-        newPlayerDiv.parentElement.offsetWidth /
-            (COUNT_PLAYERS + AI_PLAYERS_COUNT) +
-        "px";
+        newPlayerDiv.parentElement.offsetWidth / countPlayers + "px";
     // newPlayerDiv.style.height =
-    //     newPlayerDiv.parentElement.offsetHeight / COUNT_PLAYERS + "px";
+    //     newPlayerDiv.parentElement.offsetHeight / countPlayers + "px";
     newPlayerDiv.style.setProperty(
         "--player-color",
         `var(--color${getRandomNumber(1, 41)})`
@@ -77,7 +98,7 @@ function createPlayerHTMLElement(uId) {
     return newPlayerDiv;
 }
 
-function PlayerUI(uId, playerElement) {
+function PlayerUI({ uId, playerElement }) {
     this.uId = uId;
     this.playerDiv = playerElement; //document.querySelector(`#player${this.uId}`);
     this.svg = this.playerDiv.querySelector("svg");
@@ -85,20 +106,23 @@ function PlayerUI(uId, playerElement) {
     this.svgPath = this.svg.querySelector("path.line");
     this.svgFinish = this.svg.querySelector("path.finish");
     this.coasters = this.playerDiv.querySelectorAll(".coaster");
-    this.name = this.playerDiv.querySelector(".player-control .name .s");
-    this.currentScore = this.playerDiv.querySelector(
-        ".player-control .current-score .n"
+    this.name = this.playerDiv.querySelector(".player-stats .name .s");
+    this.description = this.playerDiv.querySelector(
+        ".player-stats .description"
     );
-    this.score = this.playerDiv.querySelector(".player-control .score .n");
-    this.wins = this.playerDiv.querySelector(".player-control .wins .n");
+    this.currentScore = this.playerDiv.querySelector(
+        ".player-stats .current-score .n"
+    );
+    this.score = this.playerDiv.querySelector(".player-stats .score .n");
+    this.wins = this.playerDiv.querySelector(".player-stats .wins .n");
     this.W = Number.parseFloat(this.playerDiv.style.width);
     this.H = this.svg.parentElement.offsetHeight;
-    this.MIN_ANGLE = 70;
-    this.MIN_DISTANCE = Math.min(this.W, this.H) / 15;
-    this.MAX_DISTANCE = Math.min(this.W, this.H) / 3;
-    this.MAX_TURNS = 1;
-    this.MAX_RECURSIVE_COUNT = 30;
-    this.pointsLeft = (this.MAX_TURNS + 1) * 2; // compensate the first and the last stop
+    this.minAngle = 70;
+    this.minDistance = Math.min(this.W, this.H) / 15;
+    this.maxDistance = Math.min(this.W, this.H) / 3;
+    this.maxTurns = 1;
+    this.maxRecursiveCount = 30;
+    this.pointsLeft = (this.maxTurns + 1) * 2; // compensate the first and the last stop
     this.countFailedToGetPointTries = 0;
     this.lastTwoPoints = [];
     this.allPoints = [];
@@ -117,6 +141,7 @@ function PlayerUI(uId, playerElement) {
     this.updateScore = (n) => (this.score.textContent = n);
     this.updateWins = (n) => (this.wins.textContent = n);
     this.updateUserName = (s) => (this.name.textContent = s);
+    this.updateUserDescription = (s) => (this.description.textContent = s);
     this.clearCurrentScore = () => {
         this.currentScore.parentElement.classList.add("clear");
         setTimeout(
@@ -156,17 +181,17 @@ function PlayerUI(uId, playerElement) {
 // ==================
 
 function createPath(player) {
-    const { svgPath, svgPattern, svgFinish, MAX_TURNS, W, H } = player;
+    const { svgPath, svgPattern, svgFinish, maxTurns, W, H } = player;
     // prettier-ignore
-    let path_string = `M ${getPointStr(player)} ${getPointStr(player)} C ${getPointStr(player)} ${getPointStr(player)} ${getPointStr(player)} `;
-    for (let i = 0; i < MAX_TURNS - 1; i++) {
-        path_string += `S ${getPointStr(player)} ${getPointStr(player)} `;
+    let pathString = `M ${getPointStr(player)} ${getPointStr(player)} C ${getPointStr(player)} ${getPointStr(player)} ${getPointStr(player)} `;
+    for (let i = 0; i < maxTurns - 1; i++) {
+        pathString += `S ${getPointStr(player)} ${getPointStr(player)} `;
     }
-    svgPath.setAttribute("d", path_string);
-    svgFinish.setAttribute("d", `${path_string}`);
+    svgPath.setAttribute("d", pathString);
+    svgFinish.setAttribute("d", `${pathString}`);
     svgPattern.setAttribute(
         "d",
-        `${path_string} L ${W} ${H / 2} L ${W} ${H} L 0 ${H} L 0 ${H / 2} z`
+        `${pathString} L ${W} ${H / 2} L ${W} ${H} L 0 ${H} L 0 ${H / 2} z`
     );
 }
 function getPointStr(player) {
@@ -179,10 +204,10 @@ function getPoint(player) {
         H,
         lastTwoPoints,
         allPoints,
-        MAX_RECURSIVE_COUNT,
-        MIN_ANGLE,
-        MAX_DISTANCE,
-        MIN_DISTANCE,
+        maxRecursiveCount,
+        minAngle,
+        maxDistance,
+        minDistance,
     } = player;
     let x = getRandomNumber(W * 0.2, W * 0.8);
     let y = getRandomNumber(H * 0.2, H * 0.8);
@@ -199,10 +224,10 @@ function getPoint(player) {
         allPoints.push(point);
     } else {
         if (
-            player.countFailedToGetPointTries < MAX_RECURSIVE_COUNT &&
-            (getAngle(...lastTwoPoints, point) < MIN_ANGLE ||
-                getDistance(lastTwoPoints[1], point) < MIN_DISTANCE ||
-                getDistance(lastTwoPoints[1], point) > MAX_DISTANCE)
+            player.countFailedToGetPointTries < maxRecursiveCount &&
+            (getAngle(...lastTwoPoints, point) < minAngle ||
+                getDistance(lastTwoPoints[1], point) < minDistance ||
+                getDistance(lastTwoPoints[1], point) > maxDistance)
         ) {
             player.countFailedToGetPointTries += 1;
             player.pointsLeft += 1;
@@ -247,7 +272,7 @@ function setMotionPath(player) {
 function progressAlongPath(player, percent, immediate = false) {
     let nextProgress = percent;
     if (nextProgress === 0) {
-        nextProgress = (player.coasters.length * 5) / player.MAX_TURNS;
+        nextProgress = (player.coasters.length * 5) / player.maxTurns;
     }
     if (nextProgress >= 100) nextProgress = 99;
     player.coasters.forEach((c) => {
@@ -256,7 +281,6 @@ function progressAlongPath(player, percent, immediate = false) {
             immediate ? percent + "%" : c.style.getPropertyValue("--progress")
         );
         if (immediate) return;
-
         c.style.setProperty("--progress", nextProgress + "%");
         // restart animation. add a minimum pause to let DOM reset itself
         // setTimeout(() => element.classList.add("coaster"), 0);
@@ -266,6 +290,9 @@ function progressAlongPath(player, percent, immediate = false) {
         void c.offsetWidth;
         c.style.animation = ""; // removes inline, inherits css
     });
+    console.log(player);
+    console.log(percent);
+    console.log("========");
 }
 
 function coasterFreeFall(coasters) {
@@ -309,7 +336,7 @@ function pathPlayerReset(svgFinish) {
 function resetGraphics(player) {
     player.lastTwoPoints = [];
     player.allPoints = [];
-    player.pointsLeft = (player.MAX_TURNS + 1) * 2;
+    player.pointsLeft = (player.maxTurns + 1) * 2;
     player.countFailedToGetPointTries = 0;
     player.coasters.forEach((c) => {
         c.classList.remove("free-fall");
@@ -335,7 +362,7 @@ function restartAnimations(...elements) {
 // https://codepen.io/Pyremell/pen/eZGGXX/
 // =========
 
-function DiceUI(MAX_SCORE, DICE_ROLL_COUNT) {
+function DiceUI({ maxScore }) {
     this.dice = document.querySelector("#dice");
     this.playerTurn = document.querySelector("#dice .player-turn .s");
     this.diceMaxScore = document.querySelector("#dice .max-score .n");
@@ -346,8 +373,7 @@ function DiceUI(MAX_SCORE, DICE_ROLL_COUNT) {
     this.rollButton = document.querySelector("#dice #roll");
     this.rollCountLeft = document.querySelector("#dice #roll .n");
     this.holdButton = document.querySelector("#dice #hold");
-    this.rollCountLeft.textContent = DICE_ROLL_COUNT;
-    this.diceMaxScore.textContent = MAX_SCORE;
+    this.diceMaxScore.textContent = maxScore;
     this.renderDice = (diceNumbers) => {
         this.diceNumbers.forEach((el, i) => (el.textContent = diceNumbers[i]));
     };
@@ -374,11 +400,11 @@ function DiceUI(MAX_SCORE, DICE_ROLL_COUNT) {
 function initEventListeners(playersUI, diceUI) {
     // roll
     diceUI.rollButton.addEventListener("click", () =>
-        gameData.gameController.nextStep("roll")
+        gameController.nextStep("roll")
     );
     // hold
     diceUI.holdButton.addEventListener("click", () =>
-        gameData.gameController.nextStep("hold")
+        gameController.nextStep("hold")
     );
     // restart confirm
     diceUI.restartButton.addEventListener("click", () =>
@@ -395,7 +421,7 @@ function initEventListeners(playersUI, diceUI) {
     );
     diceUI.restartConfirmSpan.addEventListener("click", () => {
         diceUI.restartConfirmButton.classList.remove("activated");
-        gameData.gameController.nextStep("fullReset");
+        gameController.nextStep("fullReset");
     });
 
     makeElementDraggable(diceUI.dice);
