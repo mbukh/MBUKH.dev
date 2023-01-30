@@ -276,6 +276,7 @@ body {
 #dice button.wait,
 #dice button.wait:hover {
     opacity: 0.1;
+    cursor: not-allowed;
 }
 #dice #confirm {
     width: 100%;

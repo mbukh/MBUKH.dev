@@ -1,7 +1,8 @@
 "use strict";
 
+const LONGER_WAIT_MILLISECONDS = 4500;
 const LONG_WAIT_MILLISECONDS = 2500;
-const SHORT_WAIT_MILLISECONDS = 2000;
+const SHORT_WAIT_MILLISECONDS = 300;
 
 let COUNT_PLAYERS;
 let MAX_SCORE;
@@ -169,7 +170,7 @@ function Game(players) {
         );
         gameUI.diceUI.actionsDisabled();
         setTimeout(() => {
-            this.canHold = this.players[this.turn].currentScore > 0;
+            this.canHold = players[this.turn].currentScore > 0;
             gameUI.diceUI.rollEnabled();
             if (this.canHold) gameUI.diceUI.actionsEnabled();
             this.canRoll = true;
@@ -181,13 +182,11 @@ function Game(players) {
         gameUI.playersUI[this.turn].clearCurrentScore();
     };
     this.holdScore = () => {
-        const timeout =
-            players[this.turn].currentScore > 0
-                ? LONG_WAIT_MILLISECONDS
-                : SHORT_WAIT_MILLISECONDS;
-        const nextPlayerName = this.players[this.whoseNextTurn()].name;
+        const nextPlayerName = players[this.whoseNextTurn()].name;
+        let timeout = LONG_WAIT_MILLISECONDS;
         if (!this.canHold) return;
         players[this.turn].holdScore();
+        if (players[this.turn].score === 0) timeout = LONGER_WAIT_MILLISECONDS;
         console.log(players[this.turn].score);
         // WIN - LOSE conditions
         this.looser = players.find((pl) => pl.score > this.maxScore);
