@@ -5,23 +5,22 @@ modalWelcomeScreen();
 function modalWelcomeScreen() {
     // Better modal https://web.dev/is-it-modal/
     const modal = document.querySelector("#modal");
+    const submit = document.querySelector("#modal #start");
+    submit.addEventListener("click", initializeGame);
+    modal.style.display = "flex";
+}
+
+function initializeGame() {
     const playersNumber = document.querySelector("#modal #players-number");
     const maxScoreNumber = document.querySelector("#modal #max-score");
-    const submit = document.querySelector("#modal #start");
-
-    modal.style.display = "flex";
-    console.log(this);
-    
-    submit.addEventListener("click", (e) => {
-        COUNT_PLAYERS = Number.parseInt(playersNumber.value);
-        MAX_SCORE = Number.parseInt(maxScoreNumber.value);
-        if (COUNT_PLAYERS > 0 && MAX_SCORE > 0) {
-            gameUI = initGameUI() || null;
-            gameData = initGame();
-        }
-        gameData.gameController.nextStep("startGame");
-        modal.style.display = "";
-    });
+    COUNT_PLAYERS = Number.parseInt(playersNumber.value);
+    MAX_SCORE = Number.parseInt(maxScoreNumber.value);
+    if (COUNT_PLAYERS > 0 && MAX_SCORE > 0) {
+        gameUI = initGameUI() || null;
+        gameData = initGame();
+    }
+    modal.style.display = "";
+    gameData.gameController.nextStep("startGame");
 }
 
 // ==============

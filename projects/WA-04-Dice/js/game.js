@@ -1,7 +1,7 @@
 "use strict";
 
 const LONG_WAIT_MILLISECONDS = 2500;
-const SHORT_WAIT_MILLISECONDS = 300;
+const SHORT_WAIT_MILLISECONDS = 2000;
 
 let COUNT_PLAYERS;
 let MAX_SCORE;
@@ -136,7 +136,7 @@ function Game(players) {
     this.diceCount = 2;
     this.diceSides = 6;
     this.dice = [];
-    this.canHold = true;
+    this.canHold = false;
     this.canRoll = true;
     this.endGame = false;
     this.start = () => {
@@ -150,6 +150,7 @@ function Game(players) {
     this.rollDice = () => {
         if (!this.canRoll) return;
         this.canRoll = false;
+        this.canHold = false;
         this.dice = Array.from({ length: this.diceCount }, () =>
             getRandomNumber(1, this.diceSides)
         );
@@ -160,7 +161,6 @@ function Game(players) {
             // update current score
             players[this.turn].addDice(this.dice);
         }
-        this.canHold = this.players[this.turn].currentScore > 0;
         console.log(`Player #${this.turn}: ${this.dice}`);
         // UI
         gameUI.diceUI.renderDice(this.dice);
@@ -169,6 +169,7 @@ function Game(players) {
         );
         gameUI.diceUI.actionsDisabled();
         setTimeout(() => {
+            this.canHold = this.players[this.turn].currentScore > 0;
             gameUI.diceUI.rollEnabled();
             if (this.canHold) gameUI.diceUI.actionsEnabled();
             this.canRoll = true;
