@@ -60,7 +60,7 @@ body {
     height: 100vh;
     font-family: "Press Start 2P", cursive;
     color: var(--color2);
-    font-size: min(16px, 3vw);
+    font-size: min(16px, min(3vw,3vh));
     overflow: hidden;
 }
 .body-container {
@@ -239,12 +239,12 @@ body {
     justify-content: center;
     align-items: center;
     align-content: center;
-    height: min(100px, 15vw);
-    width: min(100px, 15vw);
+    height: min(100px, min(15vw, 15vh));
+    width: min(100px, min(15vw, 15vh));
     padding: 8px 0 0 8px;
     border: 1px solid var(--color44);
     border-radius: 10px;
-    font-size: 80px;
+    font-size: min(min(10vw,10vh), 80px);
     color: var(--color1);
     text-shadow: 1px 1px 2px var(--color43);
 }

@@ -33,8 +33,7 @@ function initGameUI() {
     const playersUI = [];
     const diceUI = new DiceUI(MAX_SCORE);
     for (let id = 1; id <= COUNT_PLAYERS; id++) {
-        console.log("generate playerUI for player" + id);
-        let playerElement = addPlayerSpace(id);
+        let playerElement = createPlayerHTMLElement(id);
         playersUI.push(new PlayerUI(id, playerElement));
     }
     playersUI.forEach((player) => {
@@ -51,7 +50,7 @@ function initGameUI() {
 //  Player Class
 // ==============
 
-function addPlayerSpace(uId) {
+function createPlayerHTMLElement(uId) {
     const templateDiv = document.querySelector(`#player`);
     const newPlayerDiv = templateDiv.cloneNode(true);
     newPlayerDiv.setAttribute("id", `player${uId}`);
@@ -65,7 +64,7 @@ function addPlayerSpace(uId) {
         `var(--color${getRandomNumber(1, 41)})`
     );
     newPlayerDiv.style.setProperty("display", "");
-    console.log("addPlayerSpace: player" + uId);
+    console.log(`Player HTML element created for player #${uId}`);
     return newPlayerDiv;
 }
 
@@ -391,40 +390,101 @@ function initEventListeners(playersUI, diceUI) {
     });
 
     makeElementDraggable(diceUI.dice);
+}
 
-    function makeElementDraggable(element) {
-        // Make the DIV element draggable:
-        // https://www.w3schools.com/howto/howto_js_draggable.asp
-        let [pos1, pos2, pos3, pos4] = [0, 0, 0, 0];
-        element.addEventListener("mousedown", dragMouseDown);
-        element.style.cursor = "move";
+// ===============
+// ===============
+//     UI UTILS
+// ===============
 
-        function dragMouseDown(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
+function makeElementDraggable(element) {
+    // Make the DIV element draggable both mouse & touch :
+    // https://www.w3schools.com/howto/howto_js_draggable.asp
+    // https://stackoverflow.com/questions/56703458/how-to-make-a-draggable-elements-for-touch-and-mousedrag-events
+    let [pos1, pos2, pos3, pos4] = [0, 0, 0, 0];
+    let x, y;
+    element.onmousedown = dragMouseDown;
+    element.ontouchstart = dragMouseDown; //added touch event
+    function dragMouseDown(e) {
+        e = e || window.event;
+        // e.preventDefault();
+        //Get touch or click position
+        //https://stackoverflow.com/a/41993300/5078983
+        if (
+            e.type == "touchstart" ||
+            e.type == "touchmove" ||
+            e.type == "touchend" ||
+            e.type == "touchcancel"
+        ) {
+            let evt =
+                typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+            let touch = evt.touches[0] || evt.changedTouches[0];
+            x = touch.pageX;
+            y = touch.pageY;
+        } else if (
+            e.type == "mousedown" ||
+            e.type == "mouseup" ||
+            e.type == "mousemove" ||
+            e.type == "mouseover" ||
+            e.type == "mouseout" ||
+            e.type == "mouseenter" ||
+            e.type == "mouseleave"
+        ) {
+            x = e.clientX;
+            y = e.clientY;
         }
-        function elementDrag(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            element.style.top = element.offsetTop - pos2 + "px";
-            element.style.left = element.offsetLeft - pos1 + "px";
+        // get the mouse cursor position at startup:
+        pos3 = x;
+        pos4 = y;
+        document.onmouseup = closeDragElement;
+        document.ontouchend = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+        document.ontouchmove = elementDrag;
+    }
+    function elementDrag(e) {
+        e = e || window.event;
+        // e.preventDefault();
+        //Get touch or click position
+        //https://stackoverflow.com/a/41993300/5078983
+        if (
+            e.type == "touchstart" ||
+            e.type == "touchmove" ||
+            e.type == "touchend" ||
+            e.type == "touchcancel"
+        ) {
+            let evt =
+                typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+            let touch = evt.touches[0] || evt.changedTouches[0];
+            x = touch.pageX;
+            y = touch.pageY;
+        } else if (
+            e.type == "mousedown" ||
+            e.type == "mouseup" ||
+            e.type == "mousemove" ||
+            e.type == "mouseover" ||
+            e.type == "mouseout" ||
+            e.type == "mouseenter" ||
+            e.type == "mouseleave"
+        ) {
+            x = e.clientX;
+            y = e.clientY;
         }
-        function closeDragElement() {
-            // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
+        // calculate the new cursor position:
+        pos1 = pos3 - x;
+        pos2 = pos4 - y;
+        pos3 = x;
+        pos4 = y;
+        // set the element's new position:
+        element.style.top = element.offsetTop - pos2 + "px";
+        element.style.left = element.offsetLeft - pos1 + "px";
+    }
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.ontouchcancel = null; //added touch event
+        document.ontouchend = null; //added touch event
+        document.onmousemove = null;
+        document.ontouchmove = null; //added touch event
     }
 }
