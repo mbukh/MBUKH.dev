@@ -127,7 +127,7 @@ p {
     background-color: var(--color43);
     color: var(--color1);
     width: 120px;
-    height: 80px;
+    height: min(15vh, 80px);
     cursor: pointer;
 }
 #modal button {
@@ -166,12 +166,12 @@ p {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    flex: 2;
+    flex: 5;
 }
 #dice-game #players-container .player-stats {
     font-size: min(min(5vw, 5vh), 2em);
-    flex: 1;
-    padding-block: 0.5em;
+    flex: 2;
+    padding-block: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -194,7 +194,19 @@ p {
 
 .player-stats .name {
     color: var(--color18);
+    text-decoration: dashed;
     flex: 1;
+    position: relative;
+}
+.player-stats .name::after {
+    content: "i";
+    position: absolute;
+    right: 0;
+    top: -0.7em;
+    display: block;
+    font-size: 60%;
+    padding: 0.1em;
+    color: var(--color2)
 }
 .player.inactive .player-stats .name {
     color: var(--color1);
@@ -204,7 +216,7 @@ p {
     display: inline-block;
     position: absolute;
     z-index: 20;
-    top: -0.5em;
+    top: -1em;
     left: 50%;
     transform: translate(-50%, -100%);
     font-size: 0.6em;

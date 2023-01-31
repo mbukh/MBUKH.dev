@@ -45,7 +45,7 @@ function initGame({ maxScore, playersNumber, playersAINumber }) {
         const name = pickFunnyUsername();
         players.push(new Player({ name, name }));
         gameUI.playersUI[id].setName(players[id].name);
-        gameUI.playersUI[id].setDescription(`Human ${players[id].name}`);
+        gameUI.playersUI[id].setDescription(`Human`);
     }
     // AI
     for (let id = playersNumber; id < playersNumber + playersAINumber; id++) {
@@ -471,7 +471,7 @@ function pickNameDescriptionAI() {
         ["Data", "from Star Trek: First Contact"],
         ["TARS", "from Interstellar"],
         ["Bishop", "from Aliens"],
-        ["David", "from Prometheus + AI (Spielberg)"],
+        ["David", "from Prometheus and Spielberg's AI movie"],
         ["Edward", "from Edward Scissorhands"],
         ["Robby", "from Forbidden Planet"],
         ["C3PO", "from Star Wars"],
@@ -487,7 +487,7 @@ function pickNameDescriptionAI() {
         ["HAL 9000", "from 2001: A Space Odyssey"],
         ["NS-4", "from I, Robot"],
         ["NS-5", "from I, Robot"],
-        ["Mother", "from Raised by Wolves + I Am Mother"],
+        ["Mother", "from Raised by Wolves amd I Am Mother"],
     ];
     const pick = names[getRandomNumber(0, names.length - 1)];
     return { name: pick[0], description: pick[1] };
