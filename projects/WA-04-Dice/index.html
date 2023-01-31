@@ -16,22 +16,30 @@
 
         <div id="modal">
             <div class="container">
-                <!-- <div id="rules">Rules of the game</div> -->
-                <!-- <div id="maxpoints">Maxpoints</div> -->
-                <!-- <div id="name">Change Name</div> -->
-                <div>
-                    How many player?
-                    <input type="number" id="players-number" min="0" value="1">
+                <div id="rules">
+                    <h1>Roll and Coaster</h1>
+                    <br /><br />
+                    <p>This game isn't about fear. Rather about luck. Engage yourself against other tycoons or
+                        against AI.</p>
+                    <p>Take care of the passengers, but don't forget to entertain them with long routes.</p>
                 </div>
-                <div>
-                    Add some AI players?
-                    <input type="number" id="players-ai-number" min="0" value="1">
+                <div id="settings">
+                    <div>
+                        <span>How many player?</span>
+                        <input type="number" id="players-number" min="0" value="1">
+                    </div>
+                    <div>
+                        <span>Add some AI players?</span>
+                        <input type="number" id="players-ai-number" min="0" value="1">
+                    </div>
+                    <div>
+                        <span>Score to reach</span>
+                        <input type="number" id="max-score" min="1" value="50">
+                    </div>
+                    <div>
+                        <button id="start">start</button>
+                    </div>
                 </div>
-                <div>
-                    Score to reach
-                    <input type="number" id="max-score" min="1" value="50">
-                </div>
-                <div><button id="start">start</button></div>
             </div>
         </div>
 
