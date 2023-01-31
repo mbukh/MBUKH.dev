@@ -179,6 +179,7 @@ p {
     align-content: center;
     position: relative;
     background: var(--color43);
+    border-radius: 1rem;
 }
 #dice-game #players-container .player.inactive .player-stats {
     background: var(--color45);
