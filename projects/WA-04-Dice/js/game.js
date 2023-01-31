@@ -3,7 +3,7 @@
 const LONGER_WAIT_MILLISECONDS = 3500;
 const LONG_WAIT_MILLISECONDS = 2500;
 const SHORT_WAIT_MILLISECONDS = 300;
-const DICE_ROLL_COUNT = 5;
+const MAX_ROLL_COUNT = 5;
 
 let gameUI;
 let gameData;
@@ -54,7 +54,7 @@ function initGame({ maxScore, playersNumber, playersAINumber }) {
         gameUI.playersUI[id].setName(players[id].name);
         gameUI.playersUI[id].setDescription(`AI ${players[id].description}`);
     }
-    gameUI.diceUI.updateRollCountLeft(DICE_ROLL_COUNT);
+    gameUI.diceUI.updateRollCountLeft(MAX_ROLL_COUNT);
 
     console.log(gameUI.playersUI);
     console.log(players);
@@ -297,7 +297,7 @@ class Game {
     whoseNextTurn = () => (this.turn + 1) % this.players.length;
     allPlayersResetScore = () => this.players.forEach((pl) => pl.newGame());
     resetRollCount = () => {
-        this.rollCount = DICE_ROLL_COUNT;
+        this.rollCount = MAX_ROLL_COUNT;
         this.canRoll = true;
     };
     newGame = () => {
@@ -364,6 +364,10 @@ class AIPlayer extends Player {
     };
     hold = () => {
         if (!this.enable) return;
+        if (gameData.game.rollCount === MAX_ROLL_COUNT) {
+            this.roll();
+            return;
+        }
         gameController.nextStep("holdAI");
     };
     roll = () => {

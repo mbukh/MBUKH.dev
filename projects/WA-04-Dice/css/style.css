@@ -154,8 +154,11 @@ body {
     align-items: center;
     justify-content: center;
     align-content: center;
-    /* gap: 0.5em; */
     position: relative;
+    background: var(--color43);
+}
+#dice-game #players-container .player.inactive .player-stats {
+    background: var(--color45);
 }
 #dice-game #players-container .player-stats > * {
     padding-inline-end: 20px;
