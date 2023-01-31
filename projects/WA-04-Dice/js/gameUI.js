@@ -451,6 +451,10 @@ function initEventListeners(playersUI, diceUI) {
 //     UI UTILS
 // ===============
 
+function removeEventListenersForElement(element) {
+    element.replaceWith(element.cloneNode(true));
+}
+
 function makeElementDraggable(element) {
     // Make the DIV element draggable both mouse & touch :
     // https://www.w3schools.com/howto/howto_js_draggable.asp

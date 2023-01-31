@@ -36,9 +36,6 @@ function prepareGameData({ playersNumber, playersAINumber, maxScore }) {
 //  Game Engine Init
 // ==================
 
-// Disable text version if UI is available
-// if (!gameUI.playersUI) gameLoop(gameData);
-
 function initGame({ maxScore, playersNumber, playersAINumber }) {
     const players = [];
     for (let id = 0; id < playersNumber; id++) {
@@ -329,8 +326,9 @@ class Game {
         gameUI = null;
         // remove event listeners from Dice
         const dice = document.querySelector("#dice");
-        const newDice = dice.cloneNode(true);
-        dice.replaceWith(newDice);
+        removeEventListenersForElement(dice);
+        const submit = document.querySelector("#modal #start");
+        removeEventListenersForElement(submit);
         // show start screen
         modalWelcomeScreen();
     };
