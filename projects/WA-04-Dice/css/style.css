@@ -206,7 +206,7 @@ p {
     display: block;
     font-size: 60%;
     padding: 0.1em;
-    color: var(--color2)
+    color: var(--color2);
 }
 .player.inactive .player-stats .name {
     color: var(--color1);
@@ -472,10 +472,9 @@ p {
 }
 .roller-coaster svg path.pattern {
     /* https://philiprogers.com/svgpatterns/#verticalstripes */
-
     /* http://iros.github.io/patternfills/sample_svg.html */
-
-    fill: url("#patterns #fill-stripes");
+    /* fill: url("#patterns #fill-stripes"); */
+    fill: var(--color2);
 }
 .roller-coaster svg path.line {
     --stroke: #00ffbfbf;
