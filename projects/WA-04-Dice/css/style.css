@@ -108,7 +108,7 @@ p {
     gap: 1em;
 }
 #modal #settings > * {
-    width: 100%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
     align-content: center;
@@ -574,6 +574,9 @@ p {
     #modal #settings {
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+    #modal #settings > * {
+        width: 100%;
     }
     #modal #settings > :last-child {
         flex-direction: row-reverse;
