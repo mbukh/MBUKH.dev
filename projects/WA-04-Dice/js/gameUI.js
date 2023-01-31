@@ -126,6 +126,7 @@ class PlayerUI {
         this.allPoints = [];
         this.svg.style.width = this.W + "px";
         this.svg.style.height = this.H + "px";
+        this.percent = 0;
     }
     makeActive = () => this.playerDiv.classList.remove("inactive");
     makeInactive = () => this.playerDiv.classList.add("inactive");
@@ -133,6 +134,7 @@ class PlayerUI {
     setMotionPath = () => setMotionPath(this);
     progressAlongPath = (percent, immediate) =>
         progressAlongPath(this, percent, immediate);
+    setPercent = (percent) => (this.percent = percent);
     addCoaster = () => addCoaster(this);
     setCurrentScore = (n) => (this.currentScore.textContent = n);
     setScore = (n) => (this.score.textContent = n);
@@ -150,7 +152,7 @@ class PlayerUI {
         coasterFreeFall(this.coasters);
         pathPlayerLoose(this.svgFinish);
         setTimeout(() => {
-            resetGraphics(this);
+            this.resetGraphics();
         }, LONG_WAIT_MILLISECONDS);
     };
     winGame = () => {
@@ -158,15 +160,23 @@ class PlayerUI {
         this.wins.parentElement.classList.add("update");
         setTimeout(() => {
             this.wins.parentElement.classList.remove("update");
-            resetGraphics(this);
+            this.resetGraphics();
         }, LONGER_WAIT_MILLISECONDS);
     };
     restartAnimations = () => {
         restartAnimations(this.svg);
         restartAnimations(this.svgFinish);
         restartAnimations(this.svgPath);
-        // restartAnimations(...this.coasters);
+        restartAnimations(...this.coasters);
     };
+    resizePlayerDiv = () => {
+        this.W = this.svg.parentElement.offsetWidth;
+        this.H = this.svg.parentElement.offsetHeight;
+        this.svg.style.width = this.W + "px";
+        this.svg.style.height = this.H + "px";
+        this.resetGraphics(true);
+    };
+    resetGraphics = (onResize = false) => resetGraphics(this, onResize);
 }
 
 // ==================
@@ -327,7 +337,7 @@ function pathPlayerReset(svgFinish) {
     svgFinish.style.animation = "none";
 }
 
-function resetGraphics(player) {
+function resetGraphics(player, onResize = false) {
     player.lastTwoPoints = [];
     player.allPoints = [];
     player.pointsLeft = (player.maxTurns + 1) * 2;
@@ -338,11 +348,12 @@ function resetGraphics(player) {
         c.style.top = "0";
         c.style.left = "0";
     });
-    player.progressAlongPath(0, "immediate");
+    if (!onResize) player.progressAlongPath(0, "immediate");
     player.createPath();
     player.setMotionPath();
     pathPlayerReset(player.svgFinish);
-    player.progressAlongPath(0);
+    if (onResize) player.progressAlongPath(player.percent);
+    else player.progressAlongPath(0);
 }
 function restartAnimations(...elements) {
     elements.forEach((el) =>
@@ -421,7 +432,17 @@ function initEventListeners(playersUI, diceUI) {
         diceUI.restartConfirmButton.classList.remove("activated");
         gameController.nextStep("fullReset");
     });
-
+    // resize windows on action end
+    // https://stackoverflow.com/questions/5489946/how-to-wait-for-the-end-of-resize-event-and-only-then-perform-an-action
+    // http://jsfiddle.net/mblase75/fq882/197/
+    let doit;
+    window.addEventListener("resize", () => {
+        clearTimeout(doit);
+        doit = setTimeout(
+            () => playersUI.forEach((player) => player.resizePlayerDiv()),
+            300
+        );
+    });
     makeElementDraggable(diceUI.dice);
 }
 

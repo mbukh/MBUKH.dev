@@ -242,9 +242,10 @@ class Game {
         // UI Update Users
         if (!this.endGame) {
             // normal gameplay
-            gameUI.playersUI[this.turn].progressAlongPath(
-                (this.players[this.turn].score * 100) / (this.maxScore + 0.01)
-            );
+            const percent =
+                (this.players[this.turn].score * 100) / (this.maxScore + 0.01);
+            gameUI.playersUI[this.turn].setPercent(percent);
+            gameUI.playersUI[this.turn].progressAlongPath(percent);
         } else {
             // loose
             if (this.looser) {
@@ -327,9 +328,10 @@ class Game {
         });
         gameUI = null;
         // remove event listeners from Dice
-        // const dice = document.querySelector("#dice");
-        // const newDice = dice.cloneNode(true);
-        // dice.replaceWith(newDice);
+        const dice = document.querySelector("#dice");
+        const newDice = dice.cloneNode(true);
+        dice.replaceWith(newDice);
+        // show start screen
         modalWelcomeScreen();
     };
 }

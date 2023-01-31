@@ -114,6 +114,9 @@ p {
     align-content: center;
     align-items: center;
 }
+#modal #settings > :last-child {
+    flex-direction: row-reverse;
+}
 #modal input,
 #modal button {
     font-family: inherit;
@@ -577,8 +580,5 @@ p {
     }
     #modal #settings > * {
         width: 100%;
-    }
-    #modal #settings > :last-child {
-        flex-direction: row-reverse;
     }
 }
