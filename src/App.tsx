@@ -9,9 +9,17 @@ const App = () => {
     <div className="mx-auto max-w-[500px] px-[0.85rem] py-28">
       <Header />
 
-      <Title />
+      <Title iconUrl="/profile.png" title="Moshe Bukhman">
+        <p className="">Software Engineer</p>
+        <p className="text-secondary">Full Stack | DevOps</p>
+      </Title>
 
-      <About />
+      <About>
+        <p className="text-balance">
+          GM, I'm Max. I enjoy building dynamic, creative products from start to finish. Focused on developing intuitive
+          experiences that constantly grow and improve based on user metrics. Always shipping.
+        </p>
+      </About>
 
       <h2 className="mb-10 mt-14 leading-snug text-white">Work Experience</h2>
 
