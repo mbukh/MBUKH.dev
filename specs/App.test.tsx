@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'bun:test';
-import App from './App';
+import App from '../src/App';
 
 describe('App', () => {
-  test('counter increments when button is clicked', async () => {
+  test('renders the app', async () => {
     render(<App />);
     expect(screen.getByText('Moshe Bukhman')).toBeInTheDocument();
     // Use waitFor to wait for the DOM to update
