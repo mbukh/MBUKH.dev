@@ -6,5 +6,3 @@ export const About = ({ children }: { children: React.ReactNode }) => {
     </div>
   );
 };
-
-export default About;

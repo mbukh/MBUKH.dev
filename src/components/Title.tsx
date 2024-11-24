@@ -13,5 +13,3 @@ export const Title = ({ title, iconUrl, children }: { title: string; iconUrl: st
     </div>
   );
 };
-
-export default Title;

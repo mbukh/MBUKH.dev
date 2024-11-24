@@ -2,7 +2,7 @@ import { cn } from '../utils/cn';
 
 type ItemProps = {
   title: string;
-  description?: string;
+  description?: React.ReactNode;
   tags?: string[];
   link?: { href: string; text: string };
   image?: { src: string; alt?: string };
@@ -29,33 +29,25 @@ export const Item = ({ title, description, tags, link, image, shortGutter = fals
   const hasLink = link && link.href.length > 0 && link.text && link.text.length > 0;
   const imageAlt = image?.alt || link?.text || title;
   const linkText = link?.text;
-  const hasDescription = description && description.length > 0;
+  const hasDescription = description && (typeof description === 'string' ? description.length > 0 : true);
   const hasTags = tags && tags.length > 0;
 
   return (
-    <div className={cn('grid max-w-xl grid-cols-4 items-start gap-item', shortGutter ? 'mb-4' : 'mb-10')}>
+    <div className={cn('grid grid-cols-4 items-start gap-item', shortGutter ? 'mb-4' : 'mb-10')}>
       <div className="col-span-full sm:col-span-1">
-        <p className="break-words text-secondary">{title}</p>
+        <p className="break-words font-bold text-secondary sm:font-normal">{title}</p>
       </div>
-      <div className="col-span-full sm:col-span-3">
-        {hasImage && <img alt={imageAlt} src={image.src} className="mb-4 w-9" />}
+      <div className="col-span-full flex flex-col gap-2 sm:col-span-3">
+        {hasImage && <img alt={imageAlt} src={image.src} className="mb-2 h-auto w-12 sm:w-9" />}
 
         {hasLink && (
-          <a
-            className="mb-2 flex items-center text-pretty text-white"
-            href={link.href}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a className="flex items-center text-pretty text-white" href={link.href} target="_blank" rel="noreferrer">
             {linkText}
-            <img alt={`link to ${linkText}`} src="/arrow-link.svg" className="ml-2 size-4" />
           </a>
         )}
-        {hasDescription && <p className="my-2 text-pretty">{description}</p>}
+        {hasDescription && <p className="text-pretty">{description}</p>}
         {hasTags && <p className="text-pretty text-secondary">{tags.join(' ∙ ')}</p>}
       </div>
     </div>
   );
 };
-
-export default Item;

@@ -4,20 +4,29 @@
 
 @layer base {
   html {
-    -webkit-font-smoothing: antialiased;
+    @screen sm {
+      -webkit-font-smoothing: antialiased;
+    }
     text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-primary;
-    @apply text-primary;
-    @apply text-base;
-    @apply font-sans;
-    @apply text-sm;
+    @apply bg-primary text-primary font-sans text-base;
   }
 
   a {
     @apply text-white hover:underline;
+
+    &[target='_blank']::after {
+      content: url('/arrow-link.svg');
+      padding-left: 0.1rem;
+      display: inline-block;
+      width: 1em;
+    }
+  }
+
+  ul > li {
+    @apply list-inside list-disc md:list-none;
   }
 }
 

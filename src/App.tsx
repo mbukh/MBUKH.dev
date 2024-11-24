@@ -1,56 +1,180 @@
-import About from './components/About';
-import Header from './components/Header';
+import { useState } from 'react';
+import { About } from './components/About';
+import { Collapse, CollapseContent, CollapseTrigger } from './components/Collapse';
+import { Header } from './components/Header';
+import { CollapseIcon } from './components/Icons/CollapseIcon';
 import { Item } from './components/Item';
-import Title from './components/Title';
+import { Title } from './components/Title';
 import './index.css';
 
 const App = () => {
+  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
+
   return (
-    <div className="mx-auto max-w-[500px] px-[0.85rem] py-28">
+    <div className="mx-auto max-w-3xl px-[0.85rem] py-28">
       <Header />
 
       <Title iconUrl="/profile.png" title="Moshe Bukhman">
-        <p className="">Software Engineer</p>
-        <p className="text-secondary">Full Stack | DevOps</p>
+        <p className="">Full Stack & DevOps Developer</p>
+        <p className="text-secondary">Results-driven software engineer with 5+ years of experience</p>
       </Title>
 
       <About>
-        <p className="text-balance">
-          GM, I'm Max. I enjoy building dynamic, creative products from start to finish. Focused on developing intuitive
-          experiences that constantly grow and improve based on user metrics. Always shipping.
+        <p className="text-pretty">
+          Hi, I'm Moshe. I am a results-driven software engineer with{' '}
+          <strong>{new Date().getFullYear() - 2019}+ years</strong> of experience delivering high-performance,{' '}
+          <strong>scalable</strong> solutions. Proven record in optimizing workflows and implementing cost-effective
+          strategies. Passionate <strong>problem-solver</strong> with expertise in{' '}
+          <strong>JavaScript/TypeScript</strong> and <strong>cloud</strong> technologies. <strong>Multilingual</strong>{' '}
+          communicator able to effectively collaborate with diverse teams.
         </p>
       </About>
 
-      <h2 className="mb-10 mt-14 leading-snug text-white">Work Experience</h2>
+      <Collapse className="text-sm" withTeaser>
+        <CollapseTrigger onChange={setIsSkillsOpen}>
+          <h2 className="my-10 mt-14 leading-snug text-white">
+            Skills
+            <CollapseIcon isOpen={isSkillsOpen} />
+          </h2>
+        </CollapseTrigger>
+        <CollapseContent>
+          <Item
+            title="Core"
+            tags={['JS', 'TS', 'Node.js', 'Python', 'Bash', 'HTML', 'CSS', 'React', 'Next.js', 'NestJS', 'Express']}
+            shortGutter
+          />
+          <Item
+            title="DevOps & Cloud"
+            tags={['AWS (EKS, Lambda)', 'Kubernetes', 'Docker', 'Terraform', 'ArgoCD', 'CI/CD pipelines']}
+            shortGutter
+          />
+          <Item
+            title="Databases & APIs"
+            tags={['MongoDB', 'Firebase', 'DynamoDB', 'MySQL', 'PostgreSQL', 'NoSQL/SQL', 'GraphQL', 'RESTful']}
+            shortGutter
+          />
+          <Item
+            title="Frontend"
+            tags={['MUI', 'Shadcn', 'DataGrids', 'Zustand', 'Context API', 'Responsive Design', 'SVG graphics']}
+            shortGutter
+          />
+          <Item
+            title="Testing & Tools"
+            tags={['Jest', 'Vitest', 'Selenium', 'Puppeteer', 'Git', 'JIRA', 'GitLab', 'GitHub actions']}
+            shortGutter
+          />
+          <Item
+            title="Methodologies"
+            tags={['TDD', 'DRY', 'SOLID', 'Agile', 'Microservices', 'Serverless']}
+            shortGutter
+          />
+        </CollapseContent>
+      </Collapse>
+
+      <h2 className="my-10 leading-snug text-white">Work Experience</h2>
 
       <Item
-        title="2022 - present"
-        link={{ href: 'https://iyk.app', text: 'Senior Frontend Engineer – IYK' }}
-        description="Building the Whole Wide World﹡"
-        tags={['Remix', 'Prisma', 'Tailwind', 'Shadcn']}
+        title="Oct 2023 - present"
+        link={{ href: 'https://github.com/delivops', text: 'Full Stack & DevOps Developer – Delivops' }}
+        description={
+          <ul className="list-inside list-none space-y-1">
+            <li>Architected scalable SAAS for deployment automation with Next.js, NestJS, K8s API.</li>
+            <li>Optimized AWS infrastructures with Terraform, reducing deployment times by 50%.</li>
+            <li>Implemented Kubernetes GPU sharing, cut costs by 30%, increased performance by x50.</li>
+            <li>
+              Developed{' '}
+              <a href="https://github.com/delivops/argocd-notifier" target="_blank" rel="noreferrer">
+                real-time deployment notifier
+              </a>{' '}
+              (NodeJS), enhancing customer satisfaction.
+            </li>
+          </ul>
+        }
+        image={{ src: '/delivops.png', alt: 'Delivops logo' }}
+        tags={['Next.js', 'NestJS', 'K8s API', 'Terraform', 'AWS']}
+      />
+      <Item
+        title="May 2023 - present"
+        link={{ href: 'https://jonni.app', text: 'Full Stack Developer – Jonni' }}
+        description="Engineered financial data imports and complex forms using AWS, Node.js, React, GraphQL."
+        image={{ src: '/jonni.svg', alt: 'Jonni logo' }}
+        tags={['AWS', 'Node.js', 'React', 'GraphQL']}
+      />
+      <Item
+        title="Apr 2021 - Oct 2023"
+        link={{ href: 'https://rubybot.co.il', text: 'Full Stack Developer – Ruby AI' }}
+        description="Developed AI bots for Telegram/WhatsApp and chat UI using Python, Docker, Next.js."
+        image={{ src: '/ruby.webp', alt: 'Rubybot logo' }}
+        tags={['Python', 'Docker', 'Next.js']}
+      />
+      <Item
+        title="Feb 2021 - Aug 2023"
+        link={{ href: 'https://yaizy.io', text: 'Developer & Leading Educator – Yaizy-Algorithmica' }}
+        description={
+          <ul className="list-inside list-none space-y-1">
+            <li>Automated student setups, reducing onboarding time by 80%.</li>
+            <li>Promoted to headmaster, innovated teaching methods.</li>
+          </ul>
+        }
+        image={{ src: '/yaizy.svg', alt: 'Yaizy logo' }}
+        tags={['Python', 'Docker', 'Next.js']}
+      />
+      <Item
+        title="Previous Experience"
+        description={
+          <ul className="list-inside list-none space-y-1">
+            <li>
+              <img
+                alt="kucherenkoalexander.com logo"
+                src="/kucherenkoalexander.jpg"
+                className="my-2 me-2 inline-block h-6 w-auto"
+              />
+              <a href="https://kucherenkoalexander.com" target="_blank" rel="noreferrer">
+                kucherenkoalexander.com
+              </a>
+              <br />
+              Automated video production, enhanced quality and speed.
+            </li>
+            <li>
+              <img alt="abp.biz logo" src="/abp.jpeg" className="my-2 me-2 inline-block h-6 w-auto" />
+              <a href="https://abp.biz" target="_blank" rel="noreferrer">
+                abp.biz
+              </a>
+              <br />
+              Managed development of 40 websites, SEO, and CMS (PHP, C# .NET).
+            </li>
+            <li>
+              <img alt="DCom logo" src="/dcom.png" className="my-2 me-2 inline-block h-6 w-auto" />
+              DCom
+              <br />
+              Designed VOIP networks, established e-commerce platform, led customer support team.
+            </li>
+          </ul>
+        }
       />
 
-      <h2 className="mb-10 leading-snug text-white">Side Projects</h2>
+      <h2 className="my-10 leading-snug text-white">Education</h2>
 
       <Item
-        title="ongoing"
-        image={{ src: '/dolenn-single.png' }}
-        link={{ href: 'https://www.instagram.com/dolenn.bzh', text: 'Dolenn - Hot Sauce' }}
-        description="Making hot sauces with a friend, made in Brittany with local ingredients."
-        tags={['Design', 'Illustration', 'Packaging', 'Cooking']}
+        title="2022 - 2023"
+        description="Full Stack Advanced Course, Appleseeds Bootcamp (completed with excellence)"
+        shortGutter
       />
+      <Item title="2006 - 2007" description="M.Sc. in Network Security" shortGutter />
+      <Item title="2002 - 2006" description="B.Sc. in Computer Science, Odessa National University" shortGutter />
       <Item
-        title="ongoing"
-        image={{ src: '/dolenn-single.png' }}
-        link={{ href: 'https://www.instagram.com/dolenn.bzh', text: 'Dolenn - Hot Sauce' }}
-        description="Making hot sauces with a friend, made in Brittany with local ingredients."
-        tags={['Design', 'Illustration', 'Packaging', 'Cooking']}
+        title="2017 - 2021"
+        description="B.A. in Photographic Communication, Hadassah Academic College"
+        shortGutter
       />
 
-      <h2 className="mb-10 leading-snug text-white">Links</h2>
+      <h2 className="my-10 leading-snug text-white">Links</h2>
 
-      <Item title="Github" link={{ href: 'https://github.com/maximebonhomme', text: '@maximebonhomme' }} shortGutter />
-      <Item title="Github" link={{ href: 'https://github.com/maximebonhomme', text: '@maximebonhomme' }} shortGutter />
+      <Item title="Phone" description="053-5310485" shortGutter />
+      <Item title="Email" link={{ href: 'mailto:mbukhman@gmail.com', text: 'mbukhman@gmail.com' }} shortGutter />
+      <Item title="Github" link={{ href: 'https://github.com/mbukh', text: '@mbukh' }} shortGutter />
+      <Item title="LinkedIn" link={{ href: 'https://linkedin.com/in/mbukhman', text: '@mbukhman' }} />
+      <Item title="Facebook" link={{ href: 'https://facebook.com/mbukhman', text: '@mbukhman' }} shortGutter />
     </div>
   );
 };

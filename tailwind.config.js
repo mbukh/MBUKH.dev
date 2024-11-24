@@ -21,12 +21,16 @@ export default {
         ],
       },
       fontSize: {
+        base: 'clamp(16px, calc(1.56px + 1.56vw), 18px)',
         title: 'clamp(18px, calc(3.71px + 3.81vw), 22px)',
       },
       gap: {
         item: 'clamp(4px, calc(-5.09px + 2.42vw), 24px)',
       },
       backgroundColor: {
+        primary: 'rgba(0, 0, 0, 1)',
+      },
+      gradientColorStops: {
         primary: 'rgba(0, 0, 0, 1)',
       },
       textColor: {
