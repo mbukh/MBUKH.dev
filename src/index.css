@@ -4,9 +4,7 @@
 
 @layer base {
   html {
-    @screen sm {
-      -webkit-font-smoothing: antialiased;
-    }
+    -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 

@@ -30,7 +30,7 @@ const App = () => {
         </p>
       </About>
 
-      <Collapse className="text-sm" withTeaser>
+      <Collapse withTeaser>
         <CollapseTrigger onChange={setIsSkillsOpen}>
           <h2 className="my-10 mt-14 leading-snug text-white">
             Skills
@@ -151,6 +151,102 @@ const App = () => {
             </li>
           </ul>
         }
+      />
+
+      <h2 className="my-10 leading-snug text-white">Personal Projects</h2>
+
+      <Item
+        title="2023 - ongoing"
+        link={{ href: 'https://sandwicheck.app', text: 'SandwiCheck App' }}
+        image={{ src: '/sandwicheck.png' }}
+        description={
+          <>
+            Full-stack MERN family meal planner
+            <ul className="list-inside list-none space-y-1">
+              <li>Implemented visual sandwich builder with dietary preferences, users management</li>
+              <li>Reduced deployment time by 90% with CI/CD using GitHub Actions and Docker</li>
+            </ul>
+          </>
+        }
+        tags={['MERN', 'Docker', 'MongoDB', 'Node.js', 'React', 'Express', 'CI/CD']}
+        bigImage
+      />
+
+      <Item
+        title="2023"
+        link={{ href: 'https://github.com/mbukh/Minecraft-2.5D', text: 'Minecraft 2.5D' }}
+        image={{ src: '/minecraft.png' }}
+        description={
+          <>
+            Interactive vanilla JS tile map editor
+            <ul className="list-inside list-none space-y-1">
+              <li>Map generation (Perlin/Simplex Noise algorithms), tile editing, adjustable zoom</li>
+              <li>Made with a custom React-inspided engine</li>
+            </ul>
+          </>
+        }
+        tags={['Vanilla JS']}
+        bigImage
+      />
+
+      <Item
+        title="2023"
+        link={{ href: 'https://github.com/mbukh/Proxy-Crawler-Checker', text: 'Proxy Crawler & Checker' }}
+        description={
+          <>
+            An open-source Python CLI tool for finding proxy servers
+            <ul className="list-inside list-none space-y-1">
+              <li>Modularized and configurable crawler (Selenium)</li>
+              <li>Anonymous proxy detector</li>
+              <li>Multithreading</li>
+            </ul>
+          </>
+        }
+        tags={['Python', 'Selenium', 'Multithreading']}
+        bigImage
+      />
+
+      <Item
+        title="2023"
+        link={{ href: 'https://mbukh.dev/projects/WA-04-Dice/', text: 'Roll and Dice Animation Game' }}
+        image={{ src: 'https://mbukh.dev/img/screens/WA-04-Dice_1.jpg' }}
+        description={
+          <>
+            A dice game built with vanilla JS/CSS
+            <ul className="list-inside list-none space-y-1">
+              <li>CSS animations, real-time generated SVG graphics.</li>
+              <li>Designed with the MVC model in mind.</li>
+            </ul>
+          </>
+        }
+        tags={['Vanilla JS', 'CSS', 'SVG', 'MVC']}
+        bigImage
+      />
+
+      <Item
+        title="2023"
+        link={{ href: 'https://mbukh.dev/projects/WA-02-Amazon/', text: 'Amazon Page Pixel-Perfecting' }}
+        image={{ src: 'https://mbukh.dev/img/screens/WA-01-Amazon.jpg' }}
+        description="A pixel-perfect recreation of the Amazon page using, HTML, CSS and a bit of JavaScript."
+        tags={['HTML', 'CSS']}
+        bigImage
+      />
+
+      <Item
+        title="2023"
+        link={{ href: 'https://github.com/mbukh/Marvel-vs-DC-Trivia-Game', text: 'Marvel vs. DC Trivia Card Game' }}
+        image={{ src: '/marvel-vs-dc.jpg' }}
+        description={
+          <>
+            A React.js Heroes matching game
+            <ul className="list-inside list-none space-y-1">
+              <li>Swipe superheroes and supervillains with mouse or keyboard</li>
+              <li>Enjoyable animations, image preloading, and event debouncing</li>
+            </ul>
+          </>
+        }
+        tags={['React.js', 'CSS', 'Animations']}
+        bigImage
       />
 
       <h2 className="my-10 leading-snug text-white">Education</h2>

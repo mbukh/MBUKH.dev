@@ -7,6 +7,7 @@ type ItemProps = {
   link?: { href: string; text: string };
   image?: { src: string; alt?: string };
   shortGutter?: boolean;
+  bigImage?: boolean;
 };
 
 /**
@@ -23,8 +24,9 @@ type ItemProps = {
  * @param {string} props.image.src - The source URL of the image.
  * @param {string} [props.image.alt] - The alt text of the image. Defaults to link text or title. Optional.
  * @param {boolean} [props.shortGutter=false] - Whether to use the short gutter. Defaults to false.
+ * @param {boolean} [props.bigImage=false] - Whether to use the big image. Defaults to false.
  */
-export const Item = ({ title, description, tags, link, image, shortGutter = false }: ItemProps) => {
+export const Item = ({ title, description, tags, link, image, shortGutter = false, bigImage = false }: ItemProps) => {
   const hasImage = image && image.src.length > 0;
   const hasLink = link && link.href.length > 0 && link.text && link.text.length > 0;
   const imageAlt = image?.alt || link?.text || title;
@@ -38,7 +40,9 @@ export const Item = ({ title, description, tags, link, image, shortGutter = fals
         <p className="break-words font-bold text-secondary sm:font-normal">{title}</p>
       </div>
       <div className="col-span-full flex flex-col gap-2 sm:col-span-3">
-        {hasImage && <img alt={imageAlt} src={image.src} className="mb-2 h-auto w-12 sm:w-9" />}
+        {hasImage && (
+          <img alt={imageAlt} src={image.src} className={cn('mb-2 h-auto w-12 sm:w-9', bigImage && 'w-2/3 sm:w-48')} />
+        )}
 
         {hasLink && (
           <a className="flex items-center text-pretty text-white" href={link.href} target="_blank" rel="noreferrer">
@@ -46,7 +50,7 @@ export const Item = ({ title, description, tags, link, image, shortGutter = fals
           </a>
         )}
         {hasDescription && <p className="text-pretty">{description}</p>}
-        {hasTags && <p className="text-pretty text-secondary">{tags.join(' ∙ ')}</p>}
+        {hasTags && <p className="text-pretty text-sm text-secondary">{tags.join(' ∙ ')}</p>}
       </div>
     </div>
   );
