@@ -1,4 +1,4 @@
-export const Title = ({ title, iconUrl, children }: { title: string; iconUrl: string; children: React.ReactNode }) => {
+export const Title = ({ title, iconUrl, children }: { title: string; iconUrl: string; children?: React.ReactNode }) => {
   return (
     <div className="mb-10 grid max-w-xl grid-cols-4 items-center gap-item">
       <div className="col-span-1">

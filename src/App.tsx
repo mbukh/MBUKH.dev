@@ -158,7 +158,7 @@ const App = () => {
       <Item
         title="2023 - ongoing"
         link={{ href: 'https://sandwicheck.app', text: 'SandwiCheck App' }}
-        image={{ src: '/sandwicheck.png' }}
+        image={{ src: '/sandwicheck.jpeg' }}
         description={
           <>
             Full-stack MERN family meal planner
@@ -175,7 +175,7 @@ const App = () => {
       <Item
         title="2023"
         link={{ href: 'https://github.com/mbukh/Minecraft-2.5D', text: 'Minecraft 2.5D' }}
-        image={{ src: '/minecraft.png' }}
+        image={{ src: '/minecraft.jpeg' }}
         description={
           <>
             Interactive vanilla JS tile map editor

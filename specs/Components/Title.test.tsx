@@ -1,11 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, test } from 'bun:test';
-
-import Title from '../../src/components/Title';
+import { Title } from '../../src/components/Title';
 
 describe('Title', () => {
   test('renders the title', async () => {
-    render(<Title />);
+    render(<Title title="Moshe Bukhman" iconUrl="/profile.png" />);
     expect(screen.getByText('Moshe Bukhman')).toBeInTheDocument();
     // Use waitFor to wait for the DOM to update
     await waitFor(() => {
