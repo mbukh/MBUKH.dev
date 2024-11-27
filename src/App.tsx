@@ -1,22 +1,32 @@
-import { useState } from 'react';
 import { About } from './components/About';
 import { Collapse, CollapseContent, CollapseTrigger } from './components/Collapse';
 import { Header } from './components/Header';
-import { CollapseIcon } from './components/Icons/CollapseIcon';
 import { Item } from './components/Item';
 import { Title } from './components/Title';
 import './index.css';
 
 const App = () => {
-  const [isSkillsOpen, setIsSkillsOpen] = useState(false);
-
   return (
-    <div className="mx-auto max-w-3xl px-[0.85rem] py-28">
+    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
       <Header />
 
       <Title iconUrl="/profile.png" title="Moshe Bukhman">
-        <p className="">Full Stack & DevOps Developer</p>
-        <p className="text-secondary">Results-driven software engineer with 5+ years of experience</p>
+        <p className="mb-2 text-xl text-secondary">Full Stack & DevOps Developer</p>
+        <p className="text-sm text-gray-400 opacity-70">Devoted father of two and husband.</p>
+        <p className="text-sm text-gray-400 opacity-40">
+          <a href="https://www.instagram.com/wheresmyfoodfrom_jerusalem/" target="_blank" rel="noreferrer">
+            Photographer
+          </a>
+          ,{' '}
+          <a href="https://vimeo.com/moshebukhman" target="_blank" rel="noreferrer">
+            videographer
+          </a>
+          , and{' '}
+          <a href="https://youtu.be/LHJWmi-sI0c" target="_blank" rel="noreferrer">
+            tap dancer
+          </a>
+          .
+        </p>
       </Title>
 
       <About>
@@ -31,11 +41,8 @@ const App = () => {
       </About>
 
       <Collapse withTeaser>
-        <CollapseTrigger onChange={setIsSkillsOpen}>
-          <h2 className="my-10 mt-14 leading-snug text-white">
-            Skills
-            <CollapseIcon isOpen={isSkillsOpen} />
-          </h2>
+        <CollapseTrigger>
+          <h2 className="my-10 mt-14 leading-snug text-white">Skills</h2>
         </CollapseTrigger>
         <CollapseContent>
           <Item
@@ -71,7 +78,7 @@ const App = () => {
         </CollapseContent>
       </Collapse>
 
-      <h2 className="my-10 leading-snug text-white">Work Experience</h2>
+      <h2 className="mb-8 mt-16">Work Experience</h2>
 
       <Item
         title="Oct 2023 - present"
@@ -153,7 +160,7 @@ const App = () => {
         }
       />
 
-      <h2 className="my-10 leading-snug text-white">Personal Projects</h2>
+      <h2 className="mb-8 mt-16">Personal Projects</h2>
 
       <Item
         title="2023 - ongoing"
@@ -174,7 +181,7 @@ const App = () => {
 
       <Item
         title="2023"
-        link={{ href: 'https://github.com/mbukh/Minecraft-2.5D', text: 'Minecraft 2.5D' }}
+        link={{ href: 'https://mbukh.github.io/Minecraft-2.5D/game.html', text: 'Minecraft 2.5D' }}
         image={{ src: '/minecraft.jpeg' }}
         description={
           <>
@@ -208,8 +215,8 @@ const App = () => {
 
       <Item
         title="2023"
-        link={{ href: 'https://mbukh.dev/projects/WA-04-Dice/', text: 'Roll and Dice Animation Game' }}
-        image={{ src: 'https://mbukh.dev/img/screens/WA-04-Dice_1.jpg' }}
+        link={{ href: 'https://mbukh.github.io/Roll-and-Dice-Animation-Game/', text: 'Roll and Dice Animation Game' }}
+        image={{ src: 'roll-and-dice.jpg' }}
         description={
           <>
             A dice game built with vanilla JS/CSS
@@ -225,8 +232,8 @@ const App = () => {
 
       <Item
         title="2023"
-        link={{ href: 'https://mbukh.dev/projects/WA-02-Amazon/', text: 'Amazon Page Pixel-Perfecting' }}
-        image={{ src: 'https://mbukh.dev/img/screens/WA-01-Amazon.jpg' }}
+        link={{ href: 'https://mbukh.github.io/Amazon-Page-Pixel-Perfecting/', text: 'Amazon Page Pixel-Perfecting' }}
+        image={{ src: 'amazon.jpg' }}
         description="A pixel-perfect recreation of the Amazon page using, HTML, CSS and a bit of JavaScript."
         tags={['HTML', 'CSS']}
         bigImage
@@ -234,7 +241,7 @@ const App = () => {
 
       <Item
         title="2023"
-        link={{ href: 'https://github.com/mbukh/Marvel-vs-DC-Trivia-Game', text: 'Marvel vs. DC Trivia Card Game' }}
+        link={{ href: 'https://marvel-vs-dc-cards.netlify.app', text: 'Marvel vs. DC Trivia Card Game' }}
         image={{ src: '/marvel-vs-dc.jpg' }}
         description={
           <>
@@ -249,7 +256,7 @@ const App = () => {
         bigImage
       />
 
-      <h2 className="my-10 leading-snug text-white">Education</h2>
+      <h2 className="mb-8 mt-16">Education</h2>
 
       <Item
         title="2022 - 2023"
@@ -264,7 +271,7 @@ const App = () => {
         shortGutter
       />
 
-      <h2 className="my-10 leading-snug text-white">Links</h2>
+      <h2 className="mb-8 mt-16">Links</h2>
 
       <Item title="Phone" description="053-5310485" shortGutter />
       <Item title="Email" link={{ href: 'mailto:mbukhman@gmail.com', text: 'mbukhman@gmail.com' }} shortGutter />

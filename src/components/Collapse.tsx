@@ -60,7 +60,7 @@ export const CollapseContent = ({ children }: { children: React.ReactNode }) => 
       className={cn(
         'overflow-hidden transition-all duration-300 ease-in-out relative',
         { 'max-h-[1000px] opacity-100': isOpen },
-        { 'max-h-16': withTeaser && !isOpen },
+        { 'max-h-24': withTeaser && !isOpen },
         { 'max-h-0': !isOpen && !withTeaser },
         className,
       )}
@@ -71,7 +71,7 @@ export const CollapseContent = ({ children }: { children: React.ReactNode }) => 
           'absolute bottom-0 h-0 w-full',
           'bg-gradient-to-b from-transparent via-transparent via-10% to-primary transition-height duration-300',
           {
-            'h-20 cursor-pointer': withTeaser && !isOpen,
+            'h-28 cursor-pointer': withTeaser && !isOpen,
           },
           className,
         )}

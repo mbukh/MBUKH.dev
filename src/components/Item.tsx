@@ -35,22 +35,34 @@ export const Item = ({ title, description, tags, link, image, shortGutter = fals
   const hasTags = tags && tags.length > 0;
 
   return (
-    <div className={cn('grid grid-cols-4 items-start gap-item', shortGutter ? 'mb-4' : 'mb-10')}>
-      <div className="col-span-full sm:col-span-1">
-        <p className="break-words font-bold text-secondary sm:font-normal">{title}</p>
+    <div className={cn('grid grid-cols-1 gap-6 sm:grid-cols-4', shortGutter ? 'mb-8' : 'mb-12')}>
+      <div className="sm:col-span-1">
+        <p className="text-lg font-semibold text-secondary sm:text-xl sm:font-normal">{title}</p>
       </div>
-      <div className="col-span-full flex flex-col gap-2 sm:col-span-3">
+      <div className="sm:col-span-3">
         {hasImage && (
-          <img alt={imageAlt} src={image.src} className={cn('mb-2 h-auto w-12 sm:w-9', bigImage && 'w-2/3 sm:w-48')} />
+          <img
+            alt={imageAlt}
+            src={image.src}
+            className={cn('mb-6 h-auto w-full max-w-xs sm:max-w-sm', bigImage && 'sm:max-w-md')}
+          />
         )}
 
         {hasLink && (
-          <a className="flex items-center text-pretty text-white" href={link.href} target="_blank" rel="noreferrer">
+          <a className="mb-4 text-lg text-white hover:underline" href={link.href} target="_blank" rel="noreferrer">
             {linkText}
           </a>
         )}
-        {hasDescription && <p className="text-pretty">{description}</p>}
-        {hasTags && <p className="text-pretty text-sm text-secondary">{tags.join(' ∙ ')}</p>}
+        {hasDescription && (
+          <div className="mb-6">
+            {typeof description === 'string' ? (
+              <p className="text-pretty text-base">{description}</p>
+            ) : (
+              <div className="space-y-2">{description}</div>
+            )}
+          </div>
+        )}
+        {hasTags && <p className="text-sm text-secondary">{tags.join(' ∙ ')}</p>}
       </div>
     </div>
   );
