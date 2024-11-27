@@ -260,14 +260,26 @@ const App = () => {
 
       <Item
         title="2022 - 2023"
-        description="Full Stack Advanced Course, Appleseeds Bootcamp (completed with excellence)"
+        link={{ href: 'https://appleseeds.org.il/en/en-home/', text: 'Appleseeds Bootcamp' }}
+        description="Full Stack Advanced Course (completed with excellence)"
         shortGutter
       />
-      <Item title="2006 - 2007" description="M.Sc. in Network Security" shortGutter />
-      <Item title="2002 - 2006" description="B.Sc. in Computer Science, Odessa National University" shortGutter />
+      <Item
+        title="2006 - 2007"
+        link={{ href: 'https://onu.edu.ua/en/', text: 'Odesa I.I.Mechnikov National University' }}
+        description="M.Sc. in Network Security."
+        shortGutter
+      />
+      <Item
+        title="2002 - 2006"
+        link={{ href: 'https://onu.edu.ua/en/', text: 'Odesa I.I.Mechnikov National University' }}
+        description="B.Sc. in Computer Science"
+        shortGutter
+      />
       <Item
         title="2017 - 2021"
-        description="B.A. in Photographic Communication, Hadassah Academic College"
+        link={{ href: 'https://www.hac.ac.il/en/', text: 'Hadassah Academic College' }}
+        description="B.A. in Photographic Communication"
         shortGutter
       />
 

@@ -37,7 +37,7 @@ export const Item = ({ title, description, tags, link, image, shortGutter = fals
   return (
     <div className={cn('grid grid-cols-1 gap-6 sm:grid-cols-4', shortGutter ? 'mb-8' : 'mb-12')}>
       <div className="sm:col-span-1">
-        <p className="text-lg font-semibold text-secondary sm:text-xl sm:font-normal">{title}</p>
+        <p className="text-lg font-semibold text-secondary sm:text-base sm:font-normal">{title}</p>
       </div>
       <div className="sm:col-span-3">
         {hasImage && (
