@@ -1,8 +1,9 @@
 name: Test App
 on:
-  push:
+  pull_request:
     branches:
       - main
+
 jobs:
   test-app:
     runs-on: ubuntu-latest
